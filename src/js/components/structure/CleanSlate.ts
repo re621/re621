@@ -29,7 +29,7 @@ export class CleanSlate {
                     $(() => { stylesheet.appendTo("head"); });
                     return Promise.resolve(stylesheet);
                 }
-                catch (error) { ErrorHandler.error("DOM", error.stack, "styles"); }
+                catch (error) { ErrorHandler.log("DOM", "styles", error); }
 
                 if (typeof GM == "undefined") {
                     $("<script>").attr("src", XM.Chrome.getResourceURL("injector.js")).appendTo("head");

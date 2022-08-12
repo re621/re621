@@ -112,3 +112,4 @@ dav/
 
 # Jetbrains IDE
 .idea
+.DS_Store

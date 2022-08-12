@@ -96,7 +96,7 @@ export class UploadUtilities extends RE6Module {
         let timer: number = null;
         $(fileContainer).on("input paste", "input", async (event) => {
             clearTimeout(timer);
-            timer = setTimeout(() => handleInput(event), 500);
+            timer = setTimeout(() => handleInput(event), 500) as any;
         });
 
         fileContainer.find("input[type=text").trigger("input");
@@ -121,7 +121,7 @@ export class UploadUtilities extends RE6Module {
                 return;
             }
 
-            dupesContainer.html(`<span class="fullspan">Checking for duplicates . . .</span>`);;
+            dupesContainer.html(`<span class="fullspan">Checking for duplicates . . .</span>`);
 
             E621.IQDBQueries.get<APIIQDBResponse>({ "url": encodeURI(value) }).then(
                 (response) => {
@@ -216,7 +216,7 @@ export class UploadUtilities extends RE6Module {
             .children("div").eq(1)
             .attr("id", "source-container");
 
-        const urlMatch = /(http(?:s)?\:\/\/)(www\.)?/;
+        const urlMatch = /(http(?:s)?:\/\/)(www\.)?/;
         const timers = {};
         $(sourceContainer).on("input re621:input", "input.upload-source-input", (event) => {
             const $input = $(event.currentTarget),
@@ -278,7 +278,7 @@ export class UploadUtilities extends RE6Module {
         $("input.upload-source-input").trigger("input");
 
         function getLinkEval(link: string): string {
-            if (!/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(link)) return "invalid";
+            if (!/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(link)) return "invalid";
             if (!link.startsWith("https")) return "http";
             return "";
         }
@@ -398,7 +398,7 @@ export class UploadUtilities extends RE6Module {
                     url: requestURL,
                     method: "HEAD",
                     headers: {
-                        referer: requestURLValidated.hostname = - "i.pximg.net" ? "https://www.pixiv.net/" : window.location.href,
+                        referer: requestURLValidated.hostname == "i.pximg.net" ? "https://www.pixiv.net/" : window.location.href,
                     },
                     onload: (event) => {
 
@@ -497,7 +497,7 @@ export class UploadUtilities extends RE6Module {
         let timer: number = null;
         $(fileContainer).on("input paste", "input", async (event) => {
             clearTimeout(timer);
-            timer = setTimeout(() => processInput(event), 200);
+            timer = setTimeout(() => processInput(event), 200) as any;
         });
 
         // Process the input URL

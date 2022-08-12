@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { FlagDefinition } from "../../modules/search/CustomFlagger";
 import { ImageZoomMode } from "../../modules/search/HoverZoom";
 import { XM } from "../api/XM";
@@ -32,7 +33,7 @@ export class Patcher {
                 case 9: counter += await this.patch10();
                 case 10: counter += await this.patch11();
             }
-        } catch (error) { ErrorHandler.error("Patcher", error.stack, "patch " + Patcher.version); }
+        } catch (error) { ErrorHandler.log("Patcher", "patch " + Patcher.version, error); }
 
         Debug.log(`Patcher: ${counter} records changed`)
         await XM.Storage.setValue("re621.patchVersion", Patcher.version);
@@ -291,7 +292,7 @@ export class Patcher {
         let counter = 0;
 
         for (const tracker of ["Tag", "Pool", "Forum", "Comment"]) {
-            const settings = await XM.Storage.getValue(`re621.${tracker}Tracker`, {});
+            const settings = await XM.Storage.getValue<any>(`re621.${tracker}Tracker`, {});
             if (!settings.data) continue;
 
             const subscriptions = Object.keys(settings.data) || [];

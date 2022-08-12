@@ -2,14 +2,29 @@
 
 @mixin form-element {
     &[labeled] {
-        &[colspan="2"] { grid-column: span 3; }
-        &[colspan="3"] { grid-column: span 5; }
+        &[colspan="2"] {
+            grid-column: span 3;
+        }
+
+        &[colspan="3"] {
+            grid-column: span 5;
+        }
     }
+
     &:not([labeled]) {
+
         &:not([colspan]),
-        &[colspan="1"] { grid-column: span 2; }
-        &[colspan="2"] { grid-column: span 4; }
-        &[colspan="3"] { grid-column: span 6; }
+        &[colspan="1"] {
+            grid-column: span 2;
+        }
+
+        &[colspan="2"] {
+            grid-column: span 4;
+        }
+
+        &[colspan="3"] {
+            grid-column: span 6;
+        }
     }
 }
 
@@ -26,37 +41,57 @@ form-section {
     @include form-element;
 
     &:not([columns]),
-    &[columns="1"] { grid-template-columns: $form-col-label $form-col-input; }
-    &[columns="2"] { grid-template-columns: $form-col-label $form-col-input $form-col-label $form-col-input; }
-    &[columns="3"] { grid-template-columns: $form-col-label $form-col-input $form-col-label $form-col-input $form-col-label $form-col-input; }
+    &[columns="1"] {
+        grid-template-columns: $form-col-label $form-col-input;
+    }
+
+    &[columns="2"] {
+        grid-template-columns: $form-col-label $form-col-input $form-col-label $form-col-input;
+    }
+
+    &[columns="3"] {
+        grid-template-columns: $form-col-label $form-col-input $form-col-label $form-col-input $form-col-label $form-col-input;
+    }
 }
 
 form.form-section {
 
     &:not([formspan]),
-    &[formspan="1"] { width: $form-col-label + $form-col-input + $form-gap; }               // 15 + 0.5 rem for 1 column gap
-    &[formspan="2"] { width: (($form-col-label + $form-col-input) * 2) + ($form-gap * 3); } // 30 + 1.5 rem for 3 column gaps
-    &[formspan="3"] { width: (($form-col-label + $form-col-input) * 3) + ($form-gap * 5); } // 45 + 2.5 rem for 5 column gaps
+    &[formspan="1"] {
+        width: $form-col-label + $form-col-input + $form-gap;
+    }
+
+    // 15 + 0.5 rem for 1 column gap
+    &[formspan="2"] {
+        width: (($form-col-label + $form-col-input) * 2) + ($form-gap * 3);
+    }
+
+    // 30 + 1.5 rem for 3 column gaps
+    &[formspan="3"] {
+        width: (($form-col-label + $form-col-input) * 3) + ($form-gap * 5);
+    }
+
+    // 45 + 2.5 rem for 5 column gaps
 }
 
-form.form-section > label,
-form-section > label {
+form.form-section>label,
+form-section>label {
     font-weight: 500;
     align-self: center;
 }
 
 
-form.form-section > form-input,
-form-section > form-input {
+form.form-section>form-input,
+form-section>form-input {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     @include form-element;
 
-    & > input,
-    & > select,
-    & > textarea {
+    &>input,
+    &>select,
+    &>textarea {
         width: 100%;
         height: 100%;
         padding: 0 0.25rem;
@@ -66,19 +101,27 @@ form-section > form-input {
         min-height: 1.25rem;
         overflow: hidden;
 
-        &:required { border-left: 5px solid grey; }
-        &:invalid { border-left: 5px solid orange; }
-        &:valid { border-left: 5px solid transparent; }
+        &:required {
+            border-left: 5px solid grey;
+        }
+
+        &:invalid {
+            border-left: 5px solid orange;
+        }
+
+        &:valid {
+            border-left: 5px solid transparent;
+        }
     }
 
-    & > button.button {
+    &>button.button {
         width: 100%;
         height: 100%;
         min-height: 1.25rem;
         padding: 0 0.25rem;
         border-radius: 4px;
     }
-    
+
     // Copybox
     &.copybox,
     &.keyinput {
@@ -96,7 +139,9 @@ form-section > form-input {
             box-shadow: none;
             transition: box-shadow 0.25s linear;
 
-            &.input-info { color: orange; }
+            &.input-info {
+                color: orange;
+            }
 
             &.highlight {
                 box-shadow: inset 0px 0px 0px 2px #ffffff60;
@@ -153,7 +198,9 @@ form-section > form-input {
 
             border: 1px dashed #666666;
 
-            &.active { background: #ffffff30; }
+            &.active {
+                background: #ffffff30;
+            }
         }
     }
 
@@ -161,7 +208,9 @@ form-section > form-input {
     &.checkbox-switch {
         justify-content: unset;
 
-        input[type=checkbox] {  display: none; }
+        input[type=checkbox] {
+            display: none;
+        }
 
         /* to hide the checkbox itself */
         input[type=checkbox]+label:before {
@@ -235,15 +284,17 @@ form-section > form-input {
     }
 
     // Spacer {
-    & > spacer {
+    &>spacer {
         display: block;
         height: 1em;
 
-        &.unmargin { height: 0; }
+        &.unmargin {
+            height: 0;
+        }
     }
 
     // HR
-    & > hr {
+    &>hr {
         width: 100%;
         border: 0;
         border-top: 1px solid #ffffff33;
@@ -252,16 +303,19 @@ form-section > form-input {
     // Disabled Inputs
     &.input-disabled {
         color: #666666 !important;
-        & > select,
-        & > input { color: #666666 !important; }
+
+        &>select,
+        &>input {
+            color: #666666 !important;
+        }
     }
 
     // End of Input Container
 }
 
 /* Collapsible section */
-form.form-section > form-collapse,
-form-section > form-collapse {
+form.form-section>form-collapse,
+form-section>form-collapse {
     display: block;
     justify-content: space-between;
     align-items: center;
@@ -271,7 +325,7 @@ form-section > form-collapse {
 
     @include form-element;
 
-    & > h3.collapse-header {
+    &>h3.collapse-header {
         border: unset !important;
         background: #ffffff08 !important;
         color: unset !important;
@@ -293,7 +347,7 @@ form-section > form-collapse {
         }
     }
 
-    & > form-section.collapse-content {
+    &>form-section.collapse-content {
         height: unset !important;
         background: #ffffff05;
         color: unset;
@@ -314,7 +368,7 @@ form-accordion {
 
     @include form-element;
 
-    & > form-header {
+    &>form-header {
         display: block;
         border: unset !important;
         border-bottom: 1px solid #ffffff11 !important;
@@ -345,7 +399,7 @@ form-accordion {
         }
     }
 
-    & > form-section.collapse-content {
+    &>form-section.collapse-content {
         height: unset !important;
         background: #ffffff05;
         border-bottom: 1px solid #ffffff11 !important;

@@ -1,7 +1,7 @@
+import { RE621 } from "../../../RE621";
 import { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { ThemeCustomizer } from "../general/ThemeCustomizer";
 
 export class PoolNavigator extends RE6Module {
 
@@ -38,7 +38,7 @@ export class PoolNavigator extends RE6Module {
         super.create();
 
         this.createStructure();
-        ThemeCustomizer.on("switch.navbar", () => {
+        RE621.modules.ThemeCustomizer.on("switch.navbar", () => {
             this.resetStructure();
             this.createStructure();
         });
@@ -98,7 +98,7 @@ export class PoolNavigator extends RE6Module {
         // Set-navbars
         for (const element of $(".set-nav:visible").first().find("ul > li").get()) {
             this.navbars.push({ type: "set", element: $(element), checkbox: undefined, });
-        };
+        }
 
         // Create checkboxes
         this.navbars.forEach((nav, index) => {

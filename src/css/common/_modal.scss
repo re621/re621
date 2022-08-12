@@ -1,18 +1,17 @@
 /* Modal Helper Styles */
 div#modal-container {
-    position: absolute;
-    height: 100%;
-    left: 0;
-    right: 0;
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    top: 30px;
+    bottom: 30px;
     z-index: 500;
     pointer-events: none;
 
     box-sizing: border-box;
-    //padding: 4rem 1rem 0;
-    margin-top: -8px;
 
     /* Modal Styling Overrides */
-    div.re621-ui-dialog {
+    div.ui-dialog {
         position: absolute !important;
         pointer-events: auto;
         border-radius: 6px;

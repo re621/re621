@@ -145,9 +145,6 @@ export class SubscriptionManager extends RE6Module {
         const modal = new Modal({
             title: "Notifications",
             triggers: [{ element: openSubscriptionsButton }],
-            escapable: false,
-            fixed: true,
-            reserveHeight: true,
             content: this.tabbed,
             position: { my: "right", at: "right" },
         });
@@ -496,7 +493,7 @@ export class SubscriptionManager extends RE6Module {
                                         .val("Pending")
                                         .attr("title", "An update has been scheduled.");
                                 }
-                            }, 0.5 * Util.Time.SECOND);
+                            }, 0.5 * Util.Time.SECOND) as any;
                             $el.data("timer", timer);
 
                             // console.log(`Sub${instance.getTrackerID()}: timer setup ${timer}`);
@@ -561,7 +558,7 @@ export class SubscriptionManager extends RE6Module {
         if (typeof SubscriptionManager.cacheValid !== "undefined")
             return SubscriptionManager.cacheValid;
 
-        const settings = await XM.Storage.getValue("re621.SubscriptionManager", {});
+        const settings = await XM.Storage.getValue<any>("re621.SubscriptionManager", {});
         SubscriptionManager.cacheValid = SubscriptionManager.cacheVersion == ((settings).cacheVersion || 0);
         if (!SubscriptionManager.cacheValid) {
             settings.cacheVersion = SubscriptionManager.cacheVersion;

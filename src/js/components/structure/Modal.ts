@@ -3,32 +3,42 @@ import { PreparedStructure } from "./PreparedStructure";
 
 export class Modal {
 
-    private id: string;
+    public static isReady = false;
 
-    private config: ModalConfig;
+    private id: string;
     private $modal: JQuery<HTMLElement>;
 
+    // private config: ModalConfig;
+
     private triggers: ModalTrigger[] = [];
-    private $activeTrigger: JQuery<HTMLElement>;
+    private activeTrigger: JQuery<HTMLElement>;
+    private triggersMulti: boolean;
+
+    public isDisabled = false;
+    public enable(): void { this.isDisabled = false; }
+    public disable(): void { this.isDisabled = true; }
+    public get isOpen() { return this.$modal.dialog("isOpen") }
+    public set isOpen(open: boolean) { this.$modal.dialog(open ? "open" : "close"); }
+    public open(): void { this.isOpen = true; }
+    public close(): void { this.isOpen = false; }
+    public toggle(): void { this.isOpen = !this.isOpen; }
 
     public constructor(config: ModalConfig) {
         this.id = Util.ID.make();
-        this.config = this.validateConfig(config);
+        config = this.validateConfig(config);
+
+        this.triggersMulti = config.triggerMulti;
+        this.isDisabled = config.disabled;
 
         // Create the DOM structure for the modal window
         this.$modal = $("<div>")
-            .addClass(config.wrapperClass)
             .attr("title", config.title)
-            .append(this.config.content)
-            .appendTo("div#modal-container")
+            .append(config.content)
             .dialog({
-                autoOpen: false,
+                autoOpen: config.autoOpen,
                 appendTo: "#modal-container",
 
-                closeOnEscape: config.escapable,
-                draggable: config.draggable,
                 resizable: false,
-                // resizable: config.resizable,
 
                 width: "auto",
                 minWidth: config.minWidth,
@@ -37,9 +47,9 @@ export class Modal {
                 position: {
                     my: config.position.my,
                     at: config.position.at,
-                    of: $("#modal-container"),
-                    within: $("#modal-container"),
-                    collision: "none",
+                    of: "#modal-container",
+                    within: "#modal-container",
+                    // collision: "none",
                 },
 
                 classes: {
@@ -49,97 +59,17 @@ export class Modal {
                 }
             });
 
-        // Initialize JQueryUI functionality
-        this.$modal.dialog("widget")
-            .addClass("re621-ui-dialog")
-            .removeClass("ui-dialog ui-widget ui-widget-content")
-            .toggleClass("modal-reserve-height", config.reserveHeight)
-            /*
-            .resizable({
-                disabled: !config.resizable,
-                containment: "parent"
-            })
-            */
-            .draggable({
-                disabled: !config.draggable,
-                containment: "parent"
-            });
+        const ui = this.$modal.closest('.ui-dialog');
+        ui.draggable('option', 'containment', '#modal-container');
 
         // Replace the modal structure on window open, if necessary
-        if (config.structure) {
-            let modalOpened = false;
-            this.$modal.on("dialogopen", () => {
-                if (modalOpened) return;
-                modalOpened = true;
+        if (config.structure)
+            this.$modal.one("dialogopen.lazyload", () => {
                 this.$modal.html("");
                 this.$modal.append(config.structure.render());
             });
-        }
 
-        // Fix resizing and dragging issue with the "position: fixed"
-        // This code is terrible, and should be fixed by a braver soul than I
-        if (config.fixed) {
-            const widget = this.$modal.dialog("widget");
-            widget.addClass("modal-fixed");
-
-            this.$modal.dialog(
-                "option",
-                "position",
-                {
-                    my: config.position.my,
-                    at: config.position.at,
-                    of: window,
-                    within: "div#modal-container",
-                    collision: "none",
-                }
-            );
-
-            widget.draggable("option", "containment", "window");
-            // widget.resizable("option", "containment", "window");
-
-            let timer = 0,
-                left = widget.css("left"),
-                top = widget.css("top");
-
-            const style = $("<style>")
-                .attr({
-                    "id": "style-" + this.id,
-                    "type": "text/css"
-                })
-                .html(`
-                    .modal-fixed-${this.id} {
-                        left: ${left} !important;
-                        top: ${top} !important;
-                    }
-                `)
-                .appendTo("head");
-
-            // This effectively clamps down the modal position while scrolling
-            // Without this, the modal gets run off the screen for some reason
-            $(window).on("scroll", () => {
-                if (timer) clearTimeout(timer);
-                else {
-                    left = widget.css("left");
-                    top = widget.css("top");
-                    style.html(`
-                        .modal-fixed-${this.id} {
-                            left: ${left} !important;
-                            top: ${top} !important;
-                        }
-                    `);
-                    widget.addClass("modal-fixed-" + this.id);
-                }
-                timer = window.setTimeout(() => {
-                    timer = 0;
-                    widget.removeClass("modal-fixed-" + this.id);
-                    widget.css("left", left);
-                    widget.css("top", top);
-                }, 500);
-            });
-        }
-
-        for (const trigger of config.triggers)
-            this.registerTrigger(trigger);
+        this.registerTrigger(config.triggers);
     }
 
     /**
@@ -147,26 +77,28 @@ export class Modal {
      * @param config Configuration to parse
      */
     private validateConfig(config: ModalConfig): ModalConfig {
-        if (config.title === undefined) config.title = "Dialog";
-        if (config.content === undefined) config.content = $("");
-        if (config.triggers === undefined) config.triggers = [];
-        if (config.triggerMulti === undefined) config.triggerMulti = false;
+        const result: ModalConfig = {};
 
-        if (config.escapable === undefined) config.escapable = true;
-        if (config.draggable === undefined) config.draggable = true;
-        // if (config.resizable === undefined) config.resizable = false;
+        result.title = typeof config.title === "undefined" ? "Dialog" : config.title;
+        result.autoOpen = typeof config.autoOpen === "undefined" ? false : config.autoOpen;
+        result.triggers = typeof config.triggers === "undefined" ? [] : config.triggers;
+        result.triggerMulti = typeof config.triggerMulti === "undefined" ? false : config.triggerMulti;
 
-        if (config.minWidth === undefined) config.minWidth = 150;
-        if (config.minHeight === undefined) config.minHeight = 150;
-        if (config.fixed === undefined) config.fixed = false;
-        if (config.reserveHeight === undefined) config.reserveHeight = false;
+        result.content = typeof config.content === "undefined" ? $("") : config.content;
+        result.structure = typeof config.structure === "undefined" ? null : config.structure;
 
-        if (config.wrapperClass === undefined) config.wrapperClass = "";
+        result.minWidth = typeof config.minWidth === "undefined" ? 150 : config.minWidth;
+        result.minHeight = typeof config.minHeight === "undefined" ? 150 : config.minHeight;
 
-        if (config.disabled === undefined) config.disabled = false;
-        if (config.position === undefined) config.position = { my: "center", at: "center" };
+        result.disabled = typeof config.disabled === "undefined" ? false : config.disabled;
+        if (typeof config.position === "undefined") result.position = { my: "center", at: "center" };
+        else
+            result.position = {
+                my: !config.position.my ? "center" : config.position.my,
+                at: !config.position.at ? "center" : config.position.at,
+            }
 
-        return config;
+        return result;
     }
 
     /**
@@ -190,41 +122,40 @@ export class Modal {
      * Listens to the specified element in order to trigger the modal
      * @param trigger Element-event pair to listen to
      */
-    public registerTrigger(trigger: ModalTrigger): void {
+    public registerTrigger(trigger: ModalTrigger | ModalTrigger[]): void {
+        if (!trigger) return;
+        else if (Array.isArray(trigger)) {
+            for (const one of trigger) this.registerTrigger(one);
+            return;
+        }
 
-        if (trigger.event === undefined) trigger.event = "click";
-        if (this.triggers.length == 0) this.$activeTrigger = trigger.element;
+        if (typeof trigger.event === "undefined") trigger.event = "click";
+        if (this.triggers.length == 0) this.activeTrigger = trigger.element;
         this.triggers.push(trigger);
 
-        trigger.element.on(trigger.event, (event) => {
-            if (this.isDisabled()) return;
+        trigger.element.on(trigger.event + ".re621.dialog-" + this.id, (event) => {
+            if (this.isDisabled) return;
+            event.preventDefault();
 
             const $target = $(event.currentTarget);
-            if (this.config.triggerMulti && !this.$activeTrigger.is($target) && this.isOpen()) {
-                this.toggle(); // Update the modal window instead of toggling
+            if (this.triggersMulti && !this.activeTrigger.is($target) && this.isOpen) {
+                this.toggle(); // TODO Update the modal window instead of toggling
             }
-            this.$activeTrigger = $target;
+            this.activeTrigger = $target;
 
-            event.preventDefault();
             this.toggle();
             return false;
         });
     }
 
+    public clearTriggers(): void {
+        for (const trigger of this.triggers)
+            trigger.element.off(trigger.event + ".re621.dialog-" + this.id);
+        this.triggers = [];
+    }
+
     public getElement(): JQuery<HTMLElement> { return this.$modal; }
 
-    /** Toggle the modal visibility */
-    public toggle(): void {
-        if (this.isOpen()) this.close();
-        else this.open();
-    }
-    public isOpen(): boolean { return this.$modal.dialog("isOpen"); }
-    public open(): JQuery<HTMLElement> { return this.$modal.dialog("open"); }
-    public close(): JQuery<HTMLElement> { return this.$modal.dialog("close"); }
-
-    public isDisabled(): boolean { return this.config.disabled; }
-    public enable(): void { this.config.disabled = false; }
-    public disable(): void { this.config.disabled = true; }
 
     /**
      * Completely and irreversibly destroys the modal window
@@ -239,7 +170,7 @@ export class Modal {
      * @returns JQuery<HTMLElement> trigger
      */
     public getActiveTrigger(): JQuery<HTMLElement> {
-        return this.$activeTrigger;
+        return this.activeTrigger;
     }
 
 }
@@ -247,6 +178,9 @@ export class Modal {
 interface ModalConfig {
     /** String displayed on top of the modal window */
     title?: string;
+
+    /** Should the modal open on initialization */
+    autoOpen?: boolean;
 
     /** Modal content, created on page load */
     content?: JQuery<HTMLElement>;
@@ -257,28 +191,14 @@ interface ModalConfig {
     structure?: PreparedStructure;
 
     /** List of JQuery object & event name pairs that trigger the modal opening */
-    triggers?: ModalTrigger[];
+    triggers?: ModalTrigger | ModalTrigger[];
     /** Refreshes the modal instead of toggling it. Special case for HeaderCustomizer */
     triggerMulti?: boolean;
-
-    /** If true, modal window is closed when the ESC key is pressed */
-    escapable?: boolean;
-    /** Users can resize the window at will. Glitchy. */
-    // resizable?: boolean;
-    /** Users can drag the window around the screen. Glitchy when used with "fixed" option. */
-    draggable?: boolean;
 
     /** Minimum modal window width, in pixels */
     minWidth?: number;
     /** Minimum modal window width, in pixels */
     minHeight?: number;
-    /** If true, the modal window has "position: fixed" style set. */
-    fixed?: boolean;
-    /** Sets the modal window to 80vh. Special case for the Settings modal */
-    reserveHeight?: boolean;
-
-    /** Additional class added to the window */
-    wrapperClass?: string;
 
     /** If true, triggers are disabled */
     disabled?: boolean;

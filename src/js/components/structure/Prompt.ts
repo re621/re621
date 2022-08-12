@@ -13,7 +13,6 @@ export class Prompt extends Modal {
     constructor(title = "Prompt") {
         super({
             title: title,
-            fixed: true,
             minHeight: 50,
         });
 

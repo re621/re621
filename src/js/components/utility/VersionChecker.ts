@@ -25,7 +25,7 @@ export class VersionChecker {
         VersionChecker.scriptBuild = emVersion ? emVersion : window["re621"]["version"];
 
         // Load settings
-        const settings: VersionSettings = await XM.Storage.getValue("re621.VersionChecker", {});
+        const settings: VersionSettings = await XM.Storage.getValue<any>("re621.VersionChecker", {});
         if (settings.latestBuild !== undefined) VersionChecker.latestBuild = settings.latestBuild;
         if (settings.cachedBuild !== undefined) VersionChecker.cachedBuild = settings.cachedBuild;
 
@@ -62,7 +62,7 @@ export class VersionChecker {
                 VersionChecker.lastUpdated = Util.Time.now();
                 VersionChecker.changesText = "Unable to fetch changelog";
 
-                ErrorHandler.error("VersionChecker", "Failed to fetch update data from GitHub.\n" + error);
+                ErrorHandler.log("VersionChecker", "Failed to fetch update data from GitHub.", error);
             }
         }
 

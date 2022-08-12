@@ -1,35 +1,16 @@
-import { RE6Module, Settings } from "../../components/RE6Module";
 import { Form } from "../../components/structure/Form";
 import { Modal } from "../../components/structure/Modal";
 import { Util } from "../../components/utility/Util";
+import Component from "../Component";
 
-/**
- * ThemeCustomizer  
- * Built upon e621 Redesign Fixes, this module adds the ability to change and adjust themes
- */
-export class ThemeCustomizer extends RE6Module {
+export class ThemeCustomizer extends Component {
 
-    /**
-     * Returns a set of default settings values
-     * @returns Default settings
-     */
-    protected getDefaultSettings(): Settings {
-        return {
-            enabled: true,
-        };
-    }
+    private $main: JQuery<HTMLElement>;
+    private $extra: JQuery<HTMLElement>;
+    private $nav: JQuery<HTMLElement>;
 
-    /**
-     * Creates the module's structure.  
-     * Should be run immediately after the constructor finishes.
-     */
-    public create(): void {
-        super.create();
+    public async create(): Promise<void> {
 
-        // === Set the saved themes
-        // Done by the site itself, as well as in the DomUtilities
-
-        // === Create a button in the header
         const openCustomizerButton = Util.DOM.addSettingsButton({
             id: "header-button-theme",
             name: `<i class="fas fa-paint-brush"></i>`,
@@ -39,7 +20,14 @@ export class ThemeCustomizer extends RE6Module {
         // === Establish the settings window contents
         const form = new Form({ name: "theme-customizer" }, [
             Form.select(
-                { label: "Theme", value: window.localStorage.getItem("theme") || "hexagon", },
+                {
+                    label: "Theme",
+                    name: "th-main",
+                    value: (element) => {
+                        this.$main = element;
+                        element.val(window.localStorage.getItem("theme") || "hexagon");
+                    },
+                },
                 {
                     "hexagon": "Hexagon",
                     "pony": "Pony",
@@ -48,31 +36,45 @@ export class ThemeCustomizer extends RE6Module {
                     "hotdog": "Hotdog",
                 },
                 (data) => {
-                    window.localStorage.setItem("theme", data);
+                    Util.LS.setItem("theme", data);
                     $("body").attr("data-th-main", data);
-                    ThemeCustomizer.trigger("switch.theme", data);
+                    this.trigger("switch.theme", data);
                 }
             ),
             Form.select(
-                { label: "Extras", value: window.localStorage.getItem("theme-extra") || "hexagons", },
+                {
+                    label: "Extras",
+                    name: "th-extra",
+                    value: (element) => {
+                        this.$extra = element;
+                        element.val(window.localStorage.getItem("theme-extra") || "hexagons");
+                    },
+                },
                 {
                     "none": "None",
-                    "autumn": "Autumn",
-                    "winter": "Winter",
-                    "spring": "Spring",
                     "aurora": "Aurora",
-                    "hexagons": "Hexagons",
+                    "autumn": "Autumn",
+                    "hexagon": "Hexagon",
                     "space": "Space",
+                    "spring": "Spring",
                     "stars": "Stars",
+                    "winter": "Winter",
                 },
                 (data) => {
-                    window.localStorage.setItem("theme-extra", data);
+                    Util.LS.setItem("theme-extra", data);
                     $("body").attr("data-th-extra", data);
-                    ThemeCustomizer.trigger("switch.extras", data);
+                    this.trigger("switch.extras", data);
                 }
             ),
             Form.select(
-                { label: "Post Navbar", value: Util.LS.getItem("re621-theme-nav") || Util.LS.getItem("theme-nav") || "top", },
+                {
+                    label: "Post Navbar",
+                    name: "th-nav",
+                    value: (element) => {
+                        this.$nav = element;
+                        element.val(Util.LS.getItem("theme-nav") || "top");
+                    },
+                },
                 {
                     "top": "Top",
                     "bottom": "Bottom",
@@ -81,14 +83,9 @@ export class ThemeCustomizer extends RE6Module {
                     "none": "None",
                 },
                 (data) => {
-                    if (data == "left") Util.LS.setItem("theme-nav", "top");
-                    else Util.LS.setItem("theme-nav", data);
-                    Util.LS.setItem("re621-theme-nav", data);
-
+                    Util.LS.setItem("theme-nav", "top");
                     $("body").attr("data-th-nav", data);
-                    $("body").attr("re621-data-th-nav", data == "left" ? "true" : "false");
-
-                    ThemeCustomizer.trigger("switch.navbar", data);
+                    this.trigger("switch.navbar", data);
                 }
             ),
         ]);
@@ -100,6 +97,31 @@ export class ThemeCustomizer extends RE6Module {
             content: Form.placeholder(),
             structure: form,
             position: { my: "right top", at: "right top" }
+        });
+
+
+        $(window).on("storage", (event) => {
+            let data = event.originalEvent["newValue"];
+            switch (event.originalEvent["key"]) {
+                case "theme": {
+                    data = data || "hexagon";
+                    $("body").attr("data-th-main", data);
+                    this.$main.val(data);
+                    break;
+                }
+                case "theme-extra": {
+                    data = data || "hexagon";
+                    $("body").attr("data-th-extra", data);
+                    this.$extra.val(data);
+                    break;
+                }
+                case "theme-nav": {
+                    data = data || "top";
+                    $("body").attr("data-th-nav", data);
+                    this.$nav.val(data);
+                    break;
+                }
+            }
         });
     }
 }

@@ -1,0 +1,41 @@
+// Restyled header, scalable and with extra button space
+
+header#top {
+    nav#nav {
+        display: grid;
+        grid-template-columns: min-content 1fr max-content;
+
+        menu.logo {
+            background: none;
+            margin-top: 0;
+        }
+
+        menu.main {
+            padding: 6px 0;
+        }
+
+        menu.extra {
+            background: none;
+            margin-top: 0;
+            padding: 6px 0 6px 0.5rem;
+
+            li a {
+                cursor: pointer;
+                padding: 6px;
+            }
+        }
+
+        menu.subnav {
+            grid-column: span 3;
+        }
+
+        @include desktop() {
+
+            menu.main,
+            menu.subnav {
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+    }
+}

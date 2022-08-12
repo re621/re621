@@ -1,25 +1,29 @@
 /* Header Customizer Styles */
 header#top nav#nav {
 
-    menu.main.custom {
+    menu.main.ui-sortable {
         padding: 0;
-        align-self: center;
-        display: inline-flex;
+
+        @include desktop() {
+            display: inline-flex; // Otherwise the right-aligned elements don't get aligned
+        }
 
         li {
-            position: relative;
-            display: inline-block;
-            padding: 0.125rem 0;
-            margin: 0 0.25rem;
-            height: auto !important;
+            padding: 6px 0;
+            margin-right: 1px;
+            display: inline-block; // Otherwise the placeholder does not show up
+            height: auto !important; // Otherwise the placeholder increases line height
 
             &>a {
-                padding: 0 0.5rem;
                 outline: 0;
             }
         }
 
         &[data-editing=true] {
+            li {
+                background-color: #ffffff40;
+            }
+
             li[align=true] {
                 background-color: #ffaf9940;
             }
@@ -29,8 +33,10 @@ header#top nav#nav {
             li:not([align=true]) {
                 order: 10;
             }
+
             li[align=true] {
                 order: 20;
+
                 &.margined {
                     margin-left: auto;
                 }
@@ -39,7 +45,7 @@ header#top nav#nav {
 
         &[data-forumdot=true] {
 
-            li > a.tab-has-updates::after {
+            li>a.tab-has-updates::after {
                 content: unicode('f111');
                 font-family: 'Font Awesome 5 Free';
                 font-weight: 900;
@@ -58,28 +64,4 @@ header#top nav#nav {
         }
     }
 
-    menu.main.custom[data-editing=true] li {
-        background-color: #ffffff40;
-    }
-
-    menu.main.custom:not([data-editing=true]) li[data-right=true] {
-        float: right;
-    }
-
-    menu:last-child li.float-right {
-        #subnav-button-increase {
-            padding-right: 0.24rem;
-        }
-
-        .resize-disabled {
-            pointer-events: none;
-            cursor: default;
-
-            i {
-                color: #666666;
-            }
-        }
-
-        &[hide-resize-buttons=true] { display: none; }
-    }
 }

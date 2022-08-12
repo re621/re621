@@ -1,3 +1,4 @@
+import Script from "../../models/Script";
 import { XMChrome } from "./XMChrome";
 import { XMConnect } from "./XMConnect";
 import { XMStorage } from "./XMStorage";
@@ -23,7 +24,7 @@ export class XM {
             return {
                 script: null,
                 scriptMetaStr: null,
-                scriptHandler: window["re621"].type,
+                scriptHandler: Script.handler.name,
                 version: "1.0",
             }
         } else return GM.info;

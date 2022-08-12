@@ -250,7 +250,7 @@ export class RE6Module {
      * @returns True if the settings were saved successfully, false otherwise
      */
     private async saveSettingsCache(): Promise<boolean> {
-        return XM.Storage.setValue("re621." + this.settingsTag, this.settings);
+        return XM.Storage.setValue("re621." + this.settingsTag, this.settings).then(() => true);
     }
 
     /**

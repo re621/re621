@@ -184,14 +184,6 @@ export class Miscellaneous extends RE6Module {
         // Reset the content headers
         this.resetContentHeaders();
 
-        // Add a mail button
-        Util.DOM.addSettingsButton({
-            id: "header-button-dmail",
-            name: `<i class="fas fa-envelope"></i>`,
-            href: "/dmails",
-            title: "DMail",
-        });
-
         // Add a "remove from set" button
         if (Page.matches(PageDefinition.post)) {
             this.addRemoveFromSetButton();

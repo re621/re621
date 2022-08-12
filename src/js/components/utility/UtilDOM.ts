@@ -49,7 +49,7 @@ export class UtilDOM {
             })
             .html(css)
             .appendTo("head");
-    };
+    }
 
     /**
      * Returns a base-64 encoded image used for placeholder during lazy loading

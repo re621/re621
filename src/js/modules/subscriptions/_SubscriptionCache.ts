@@ -49,7 +49,7 @@ export class SubscriptionCache {
     /** Saves update cache to storage */
     public async save(): Promise<boolean> {
         Util.LS.setItem(this.storageTag, JSON.stringify(this.data));
-        return XM.Storage.setValue(this.storageTag, Util.Time.now());
+        return XM.Storage.setValue(this.storageTag, Util.Time.now()).then(() => true);
     }
 
     /** Irreversibly clears the update cache */

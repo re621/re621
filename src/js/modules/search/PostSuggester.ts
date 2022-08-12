@@ -76,7 +76,6 @@ export class PostSuggester extends RE6Module {
         const modal = new Modal({
             title: "Post Recommendations",
             triggers: [{ element: button }],
-            fixed: true,
             content: modalContent,
             position: { my: "center", at: "center" }
         });

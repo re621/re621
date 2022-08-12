@@ -390,7 +390,6 @@ class Formatter {
             structure: $editButtonsForm,
             triggers: [],
             triggerMulti: true,
-            fixed: true,
             disabled: true,
         });
 
@@ -442,7 +441,6 @@ class Formatter {
             content: Form.placeholder(),
             structure: newFormatForm,
             triggers: [],
-            fixed: true,
         });
     }
 

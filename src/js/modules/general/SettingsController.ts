@@ -1,3 +1,4 @@
+/*
 import { E621 } from "../../components/api/E621";
 import { APIForumPost } from "../../components/api/responses/APIForumPost";
 import { XM } from "../../components/api/XM";
@@ -9,8 +10,6 @@ import { ModuleController } from "../../components/ModuleController";
 import { Post } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import { Form, FormElement } from "../../components/structure/Form";
-import { Modal } from "../../components/structure/Modal";
-import { Tabbed } from "../../components/structure/Tabbed";
 import { Debug } from "../../components/utility/Debug";
 import { Patcher } from "../../components/utility/Patcher";
 import { Util } from "../../components/utility/Util";
@@ -38,6 +37,9 @@ import { CommentBlacklist } from "./CommentBlacklist";
 import { HeaderCustomizer } from "./HeaderCustomizer";
 import { JanitorEnhancements } from "./JanitorEnhancements";
 import { Miscellaneous } from "./Miscellaneous";
+*/
+
+import { RE6Module, Settings } from "../../components/RE6Module";
 
 /**
  * SettingsController  
@@ -64,6 +66,7 @@ export class SettingsController extends RE6Module {
         };
     }
 
+    /*
     public create(): void {
 
         // Create a button in the header
@@ -126,6 +129,7 @@ export class SettingsController extends RE6Module {
             position: { my: "center", at: "center" },
         });
     }
+    */
 
     private pushNotificationsCount(tab: "util" | "about", count = 0): void {
         this.openSettingsButton.attr(
@@ -141,13 +145,14 @@ export class SettingsController extends RE6Module {
     }
 
     /** Creates the general settings tab */
+    /*
     private createGeneralTab(): Form {
         const titleCustomizer = ModuleController.get(TitleCustomizer),
             miscellaneous = ModuleController.get(Miscellaneous),
             postViewer = ModuleController.get(PostViewer),
             // blacklistEnhancer = ModuleController.get(BlacklistEnhancer),
             imageScaler = ModuleController.get(ImageScaler),
-            headerCustomizer = ModuleController.get(HeaderCustomizer),
+            // headerCustomizer = ModuleController.get(HeaderCustomizer),
             searchUtilities = ModuleController.get(SearchUtilities),
             betterSearch = ModuleController.get(BetterSearch),
             hoverZoom = ModuleController.get(HoverZoom);
@@ -1063,8 +1068,10 @@ export class SettingsController extends RE6Module {
 
         ]);
     }
+    */
 
     /** Creates the blacklist settings tab */
+    /*
     private createBlacklistTab(): Form {
 
         const searchUtilities = ModuleController.get(SearchUtilities),
@@ -1192,16 +1199,16 @@ export class SettingsController extends RE6Module {
                 }
             ),
             Form.div({ value: `<span id="comblacklist-confirm"></span>` }),
-            /*
             Form.div({
                 value: `<div class="float-right">[ <a href="${window["re621"]["links"]["repository"]}/wiki/CommentBlacklist">syntax help</a> ]</div>`
             }),
-            */
 
         ]);
     }
+    */
 
     /** Creates the downloads settings tab */
+    /*
     private createDownloadsTab(): Form {
         const downloadCustomizer = ModuleController.get(DownloadCustomizer),
             massDownloader = ModuleController.get(MassDownloader),
@@ -1362,8 +1369,10 @@ export class SettingsController extends RE6Module {
 
         ]);
     }
+    */
 
     /** Creates the SmartAlias settings tab */
+    /*
     private createUploadsTab(): Form {
         const smartAlias = ModuleController.get(SmartAlias),
             uploadUtilities = ModuleController.get(UploadUtilities),
@@ -1916,8 +1925,10 @@ export class SettingsController extends RE6Module {
         }
 
     }
+    */
 
     /** Creates the hotkeys tab */
+    /*
     private createHotkeysTab(): Form {
         const postViewer = ModuleController.get(PostViewer),
             poolNavigator = ModuleController.get(PoolNavigator),
@@ -1930,7 +1941,7 @@ export class SettingsController extends RE6Module {
             hoverZoom = ModuleController.get(HoverZoom),
             janitorEnhancements = ModuleController.get(JanitorEnhancements);
 
-        /** Creates and returns two keybind inputs and a label */
+        // Creates and returns two keybind inputs and a label 
         function createInputs(module: RE6Module, label: string, settingsKey: string): FormElement[] {
             const values = (module.fetchSettings(settingsKey) || "").split("|");
             const bindings: string[] = [
@@ -1957,7 +1968,7 @@ export class SettingsController extends RE6Module {
             }
         }
 
-        /** Creates and returns a label, a keybind input, and a text input */
+        // Creates and returns a label, a keybind input, and a text input
         function createCustomInputs(module: RE6Module, label: string, dataLabel: string, settingsKey: string, pattern?: string): FormElement[] {
             const values = module.fetchSettings(settingsKey).split("|"),
                 dataVal = module.fetchSettings(settingsKey + "_data");
@@ -2151,8 +2162,10 @@ export class SettingsController extends RE6Module {
             ...createInputs(miscellaneous, "Scroll Down", "hotkeyScrollDown"),
         ]);
     }
+    */
 
     /** Creates the script features tab */
+    /*
     private createFeaturesTab(): Form {
         const modules = ModuleController.getAll();
 
@@ -2193,8 +2206,10 @@ export class SettingsController extends RE6Module {
             ...createInput("SmartAlias", "Smart Alias", "A more intelligent way to quickly fill out post tags."),
         ]);
     }
+    */
 
     /** Creates the miscellaneous settings tab */
+    /*
     private createMiscTab(): Form {
         const modules = ModuleController.getAll();
 
@@ -2416,7 +2431,7 @@ export class SettingsController extends RE6Module {
             ]),
         ]);
 
-        /** Export the current module settings to file */
+        // Export the current module settings to file
         function exportToFile(): void {
 
             const promises: Promise<any>[] = [];
@@ -2443,7 +2458,7 @@ export class SettingsController extends RE6Module {
             })
         }
 
-        /** Import module settings from file */
+        // Import module settings from file 
         function importFromFile(data: any): void {
             if (!data) return;
             const $info = $("#file-import-status").html("Loading . . .");
@@ -2471,7 +2486,7 @@ export class SettingsController extends RE6Module {
             reader.onerror = function (): void { $info.html("Error loading file"); };
         }
 
-        /** Import eSix Extended Settings from File */
+        // Import eSix Extended Settings from File
         function importE6FromFile(data): void {
             if (!data) return;
             const $info = $("#file-esix-status").html("Loading . . .");
@@ -2496,7 +2511,7 @@ export class SettingsController extends RE6Module {
             };
             reader.onerror = function (): void { $info.html("Error loading file"); };
 
-            /** Import the pool data from string */
+            // Import the pool data from string 
             async function importPoolData(settings: string, $info: JQuery<HTMLElement>): Promise<void> {
                 $info.html("Processing pools . . .");
                 const poolSubs = PoolTracker.getInstance(),
@@ -2510,7 +2525,7 @@ export class SettingsController extends RE6Module {
                 poolSubs.pushSettings("data", poolData);
             }
 
-            /** Import the forum data from string */
+            // Import the forum data from string
             async function importForumData(settings: string, $info: JQuery<HTMLElement>): Promise<void> {
                 $info.html("Processing forums . . .");
                 const forumSubs = ForumTracker.getInstance(),
@@ -2528,7 +2543,7 @@ export class SettingsController extends RE6Module {
             }
         }
 
-        /** Import eSix Extended Settings from LocalStorage */
+        // Import eSix Extended Settings from LocalStorage
         async function importE6FromLocalStorage(): Promise<void> {
             const $info = $("#localstorage-esix-status").html("Loading . . .");
 
@@ -2543,8 +2558,10 @@ export class SettingsController extends RE6Module {
             $info.html("Settings imported!");
         }
     }
+    */
 
     /** Creates the about tab */
+    /*
     private createAboutTab(): Form {
 
         if (VersionChecker.hasUpdate && this.fetchSettings("checkUpdates"))
@@ -2605,6 +2622,7 @@ export class SettingsController extends RE6Module {
             Form.div({ value: `<div id="changelog-list"><h5>Version ${VersionChecker.latestBuild}</h5>${VersionChecker.changesHTML}</div>`, width: 3 })
         ]);
     }
+    */
 
     /**
      * Toggles the settings window
