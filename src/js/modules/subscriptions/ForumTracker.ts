@@ -1,12 +1,13 @@
 import { E621 } from "../../components/api/E621";
 import { APIForumTopic } from "../../components/api/responses/APIForumTopic";
-import { Page, PageDefinition } from "../../components/data/Page";
-import { User } from "../../components/data/User";
-import { Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../components/data/Page";
+import User from "../../components/data/User";
+import Util from "../../components/utility/Util";
+import { Settings } from "../Component";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";
+
 
 export class ForumTracker extends SubscriptionTracker {
 

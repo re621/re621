@@ -4,7 +4,7 @@ import { PageDefinition } from "../../components/data/Page";
 import { Post } from "../../components/post/Post";
 import { PostFilter } from "../../components/post/PostFilter";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import Util from "../../components/utility/Util";
 import { BetterSearch } from "./BetterSearch";
 
 /**
@@ -181,9 +181,9 @@ export class BlacklistEnhancer extends RE6Module {
         // This fixes a really dumb bug.
         // If there are no blacklisted posts on the page, the blacklist would just... turn back on.
         // Not the ideal solution, but that will have to wait until the blacklist rework.
-        if(BlacklistEnhancer.$wrapper.attr("count") == "0" && BlacklistEnhancer.$wrapper.attr("discount") == "0")
+        if (BlacklistEnhancer.$wrapper.attr("count") == "0" && BlacklistEnhancer.$wrapper.attr("discount") == "0")
             return;
-        
+
         if (BlacklistEnhancer.$content.find("filter[enabled=false]").length > 0) {
             BlacklistEnhancer.$toggle
                 .html("Enable All Filters")

@@ -1,9 +1,9 @@
 /* eslint-disable no-prototype-builtins */
 import { FlagDefinition } from "../../modules/search/CustomFlagger";
 import { ImageZoomMode } from "../../modules/search/HoverZoom";
-import { XM } from "../api/XM";
-import { Debug } from "./Debug";
-import { ErrorHandler } from "./ErrorHandler";
+import XM from "../api/XM";
+import Debug from "./Debug";
+import ErrorHandler from "./ErrorHandler";
 
 export class Patcher {
 

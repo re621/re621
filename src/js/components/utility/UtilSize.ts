@@ -1,5 +1,5 @@
 import { Post } from "../post/Post";
-import { Util } from "./Util";
+import Util from "./Util";
 
 export enum UtilSize {
     Byte = 1,
@@ -8,7 +8,7 @@ export enum UtilSize {
     Gigabyte = 1024 * UtilSize.Megabyte,
     Terabyte = 1024 * UtilSize.Gigabyte,
     Petabyte = 1024 * UtilSize.Terabyte,
-};
+}
 
 export namespace UtilSize {
 

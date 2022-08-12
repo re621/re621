@@ -1,4 +1,4 @@
-export class Page {
+export default class Page {
 
     private static instance: Page;
 
@@ -17,7 +17,7 @@ export class Page {
      */
     public static matches(filter: RegExp | RegExp[]): boolean {
         if (filter instanceof RegExp) filter = [filter];
-        const pathname = this.getInstance().url.pathname.replace(/[\/?]$/g, "");
+        const pathname = this.getInstance().url.pathname.replace(/[/?]$/g, "");
         let result = false;
         filter.forEach(function (constraint) {
             result = result || constraint.test(pathname);
@@ -81,7 +81,7 @@ export class Page {
      * @returns e621 or e926
      */
     public static getSiteName(): string {
-        return this.getInstance().url.hostname.replace(/\.net/g, "");;
+        return this.getInstance().url.hostname.replace(/\.net/g, "");
     }
 
     /**

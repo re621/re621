@@ -1,14 +1,14 @@
 import { E621 } from "../../components/api/E621";
 import { APIForumPost } from "../../components/api/responses/APIForumPost";
 import { APIPost } from "../../components/api/responses/APIPost";
-import { XM } from "../../components/api/XM";
-import { Page, PageDefinition } from "../../components/data/Page";
+import XM from "../../components/api/XM";
+import Page, { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post } from "../../components/post/Post";
 import { PostActions } from "../../components/post/PostActions";
 import { PostParts } from "../../components/post/PostParts";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import Util from "../../components/utility/Util";
 import { BetterSearch, ImageClickAction } from "../search/BetterSearch";
 
 /**

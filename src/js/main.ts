@@ -5,14 +5,14 @@
 
 // Load Modules
 import { Danbooru } from "./components/api/Danbooru";
-import { Page, PageDefinition } from "./components/data/Page";
-import { User } from "./components/data/User";
+import Page, { PageDefinition } from "./components/data/Page";
+import User from "./components/data/User";
 import { ModuleController } from "./components/ModuleController";
 import { CleanSlate } from "./components/structure/CleanSlate";
 import { StartupTasks } from "./components/structure/StartupTasks";
-import { Debug } from "./components/utility/Debug";
+import Debug from "./components/utility/Debug";
 import { Patcher } from "./components/utility/Patcher";
-import { Util } from "./components/utility/Util";
+import Util from "./components/utility/Util";
 import { VersionChecker } from "./components/utility/VersionChecker";
 import { FavDownloader } from "./modules/downloader/FavDownloader";
 import { MassDownloader } from "./modules/downloader/MassDownloader";
@@ -20,11 +20,9 @@ import { PoolDownloader } from "./modules/downloader/PoolDownloader";
 import { CommentBlacklist } from "./modules/general/CommentBlacklist";
 import { CompatibilityPatcher } from "./modules/general/CompatibilityPatcher";
 import { FormattingExtender } from "./modules/general/FormattingExtender";
-import { HeaderCustomizer } from "./modules/general/HeaderCustomizer";
 import { JanitorEnhancements } from "./modules/general/JanitorEnhancements";
 import { Miscellaneous } from "./modules/general/Miscellaneous";
 import { SettingsController } from "./modules/general/SettingsController";
-import { ThemeCustomizer } from "./modules/general/ThemeCustomizer";
 import { EditTracker } from "./modules/misc/EditTracker";
 import { ScriptAssistant } from "./modules/misc/ScriptAssistant";
 import { SmartAlias } from "./modules/misc/SmartAlias";
@@ -54,8 +52,6 @@ import { SubscriptionManager } from "./modules/subscriptions/_SubscriptionManage
 
 const loadOrder = [
     FormattingExtender,
-    HeaderCustomizer,
-    ThemeCustomizer,
 
     DownloadCustomizer,
     ImageScaler,

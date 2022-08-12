@@ -1,6 +1,6 @@
-import { Util } from "./Util";
+import Util from "./Util";
 
-export class UtilID {
+export default class UtilID {
 
     private static uniqueIDs: Set<string> = new Set();
 

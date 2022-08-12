@@ -5,8 +5,8 @@ import { APIPost, PostFlag, PostRating } from "../api/responses/APIPost";
 import { Blacklist } from "../data/Blacklist";
 import { Tag } from "../data/Tag";
 import { ModuleController } from "../ModuleController";
-import { Debug } from "../utility/Debug";
-import { Util } from "../utility/Util";
+import Debug from "../utility/Debug";
+import Util from "../utility/Util";
 import { PostParts } from "./PostParts";
 import { PostSet } from "./PostSet";
 

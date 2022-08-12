@@ -1,7 +1,7 @@
-import { Util } from "../utility/Util";
-import { PreparedStructure } from "./PreparedStructure";
+import Util from "../utility/Util";
+import PreparedStructure from "./PreparedStructure";
 
-export class Modal {
+export default class Modal {
 
     public static isReady = false;
 

@@ -1,5 +1,5 @@
-import { Page } from "../data/Page";
-import { Util } from "../utility/Util";
+import Page from "../data/Page";
+import Util from "../utility/Util";
 
 export default class DOMTools {
 

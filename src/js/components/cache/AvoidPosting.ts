@@ -1,6 +1,6 @@
 import { E621 } from "../api/E621";
 import { APITagImplication } from "../api/responses/APITagImplication";
-import { Util } from "../utility/Util";
+import Util from "../utility/Util";
 
 export class AvoidPosting {
 

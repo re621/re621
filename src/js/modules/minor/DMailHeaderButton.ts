@@ -1,7 +1,7 @@
-import { Util } from "../../components/utility/Util";
+import Util from "../../components/utility/Util";
 import Component from "../Component";
 
-export class DMailHeaderButton extends Component {
+export default class DMailHeaderButton extends Component {
 
     constructor() {
         super({

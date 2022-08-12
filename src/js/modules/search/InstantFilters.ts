@@ -1,9 +1,11 @@
-import { Page, PageDefinition } from "../../components/data/Page";
+import Page, { PageDefinition } from "../../components/data/Page";
 import { Post, PostData } from "../../components/post/Post";
 import { PostFilter } from "../../components/post/PostFilter";
-import { RE6Module, Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import { RE6Module } from "../../components/RE6Module";
+import Util from "../../components/utility/Util";
+import { Settings } from "../Component";
 import { BetterSearch } from "./BetterSearch";
+
 
 /**
  * Adds a extra search input below the current one where 

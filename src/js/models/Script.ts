@@ -1,8 +1,10 @@
+import XM from "../components/api/XM";
+
 export default class Script {
-    public static version = GM_info.script.version;
+    public static version = XM.Info.script.version;
     public static handler = {
-        name: GM_info.scriptHandler,
-        version: GM_info.version,
+        name: XM.Info.scriptHandler,
+        version: XM.Info.version,
     }
     public static url = {
         website: "https://re621.bitwolfy.com/",

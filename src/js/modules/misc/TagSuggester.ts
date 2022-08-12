@@ -1,8 +1,8 @@
 import { SuggestionSet, TagSuggestion, TagSuggestionsList, TagSuggestionsTools } from "../../components/cache/TagSuggestions";
 import { PageDefinition } from "../../components/data/Page";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { ErrorHandler } from "../../components/utility/ErrorHandler";
-import { Util } from "../../components/utility/Util";
+import ErrorHandler from "../../components/utility/ErrorHandler";
+import Util from "../../components/utility/Util";
 
 export class TagSuggester extends RE6Module {
 
@@ -151,7 +151,7 @@ export class TagSuggester extends RE6Module {
             .html("")
             .attr("ready", "false");
 
-        const tags = new Set(Util.getTags(this.tagInput)),
+        const tags: Set<string> = new Set(Util.getTags(this.tagInput)),
             suggestions = {};
 
         for (const element of $("button.toggle-button.active").get())

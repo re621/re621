@@ -1,10 +1,10 @@
 import { Danbooru, DTextButton } from "../../components/api/Danbooru";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import { Form } from "../../components/structure/Form";
-import { Modal } from "../../components/structure/Modal";
+import Modal from "../../components/structure/Modal";
 import { Prompt } from "../../components/structure/Prompt";
-import { Debug } from "../../components/utility/Debug";
-import { Util } from "../../components/utility/Util";
+import Debug from "../../components/utility/Debug";
+import Util from "../../components/utility/Util";
 
 // Available icons for formatting buttons
 const iconDefinitions = {

@@ -5,7 +5,7 @@ import { APICurrentUser } from "../api/responses/APIUser";
  * User  
  * Basic framework for fetching user information from the page metadata
  */
-export class User {
+export default class User {
 
     public static loggedIn: boolean;
     public static username: string;

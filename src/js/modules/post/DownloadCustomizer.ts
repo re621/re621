@@ -1,4 +1,4 @@
-import { XM } from "../../components/api/XM";
+import XM from "../../components/api/XM";
 import { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post, PostData } from "../../components/post/Post";

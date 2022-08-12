@@ -1,8 +1,8 @@
 import { RE6Module } from "./RE6Module";
 import { CleanSlate } from "./structure/CleanSlate";
-import { Debug } from "./utility/Debug";
-import { ErrorHandler } from "./utility/ErrorHandler";
-import { Util } from "./utility/Util";
+import Debug from "./utility/Debug";
+import ErrorHandler from "./utility/ErrorHandler";
+import Util from "./utility/Util";
 
 export class ModuleController {
 
@@ -51,7 +51,7 @@ export class ModuleController {
                 }
 
                 activeModules++;
-            } catch (error) { ErrorHandler.log(instance, "init", error); }
+            } catch (error) { ErrorHandler.log(instance.constructor.name, "init", error); }
             Debug.perfEnd(instance.constructor.name);
         }
 

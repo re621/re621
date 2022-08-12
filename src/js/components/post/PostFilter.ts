@@ -1,7 +1,7 @@
 import { PostFlag, PostRating } from "../api/responses/APIPost";
 import { Tag } from "../data/Tag";
-import { User } from "../data/User";
-import { Util } from "../utility/Util";
+import User from "../data/User";
+import Util from "../utility/Util";
 import { Post, PostData } from "./Post";
 
 export class PostFilter {
@@ -179,7 +179,7 @@ export class PostFilter {
         }
 
         // The post must match all normal filters, and at least one optional one
-        if(this.optionals > 0)
+        if (this.optionals > 0)
             result = ((this.entries.length - this.optionals > 0) || result) && optionalHits > 0;
 
         if (result === true) this.matchIDs.add(post.id);

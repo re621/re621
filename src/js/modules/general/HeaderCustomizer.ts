@@ -1,15 +1,15 @@
-import { Page } from "../../components/data/Page";
-import { User } from "../../components/data/User";
+import Page from "../../components/data/Page";
+import User from "../../components/data/User";
 import { Form } from "../../components/structure/Form";
-import { Modal } from "../../components/structure/Modal";
-import { Util } from "../../components/utility/Util";
+import Modal from "../../components/structure/Modal";
+import Util from "../../components/utility/Util";
 import Component, { PrimitiveMap } from "../Component";
 
 /**
  * HeaderCustomizer  
  * Add, remove, and re-arrange the tabs in the customizable navbar
  */
-export class HeaderCustomizer extends Component {
+export default class HeaderCustomizer extends Component {
 
     private $oldMenu: JQuery<HTMLElement>;
     private $menu: JQuery<HTMLElement>;

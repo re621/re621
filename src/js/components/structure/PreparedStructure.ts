@@ -2,7 +2,7 @@
 /**
  * Common interface for prepared DOM structures
  */
-export interface PreparedStructure {
+export default interface PreparedStructure {
 
     /**
      * Builds and returns the DOM element

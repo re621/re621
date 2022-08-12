@@ -2,7 +2,7 @@ import { PostFlag } from "../../components/api/responses/APIPost";
 import { ModuleController } from "../../components/ModuleController";
 import { PostData } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { Debug } from "../../components/utility/Debug";
+import Debug from "../../components/utility/Debug";
 import { BetterSearch } from "./BetterSearch";
 import { CustomFlagger } from "./CustomFlagger";
 

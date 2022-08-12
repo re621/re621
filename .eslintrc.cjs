@@ -13,6 +13,7 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-namespace": "off",
         "no-async-promise-executor": "off",
+        "no-empty": "off",
         "no-fallthrough": "off",
     }
 };

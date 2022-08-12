@@ -1,13 +1,10 @@
-import { Debug } from "../utility/Debug";
-import { XM } from "./XM";
+import Debug from "../utility/Debug";
+import XM from "./XM";
 
-declare const GM: any;
-declare const GM_getResourceText: any;
-declare const GM_getResourceURL: any;
 declare const GM_xmlhttpRequest: any;
 declare const GM_download: any;
 
-export class XMConnect {
+export default class XMConnect {
 
     /**
      * Make a cross-domain xmlHttpRequest.  
@@ -17,25 +14,8 @@ export class XMConnect {
      */
     public static xmlHttpRequest(details: XMConnectRequest): void {
         Debug.connectLog(details.url);
-        const validDetails = XMConnect.validateXHRDetails(details);
-        if (typeof GM !== "undefined" && typeof GM.xmlHttpRequest === "function") GM.xmlHttpRequest(validDetails);
-        else if (typeof GM_xmlhttpRequest === "function") GM_xmlhttpRequest(validDetails);
-        else XM.Chrome.execBackgroundConnection("XHR")
-            .then((port) => {
-                port.postMessage(validDetails);
-                port.onMessage.addListener(async (response: GMxmlHttpRequestChromeEvent) => {
-                    if (response.event === "onload") {
-                        if (details.responseType === "blob")
-                            response.response = await fetch(response.response).then(r => r.blob());
-                        else if (details.responseType === "arraybuffer")
-                            response.response = await fetch(response.response).then(r => r.arrayBuffer());
-
-                        URL.revokeObjectURL(response["responseURL"]);
-                    }
-                    details[response.event](response);
-                });
-            });
-    };
+        GM_xmlhttpRequest(XMConnect.validateXHRDetails(details));
+    }
 
     /**
      * Cross-domain xmlHttpRequest, wrapped in a Promise.  
@@ -88,76 +68,9 @@ export class XMConnect {
         if (details.ontimeout === undefined) details.ontimeout = (): void => { return; };
 
         return details;
-    };
-
-    /**
-     * Get contents of the resource as plain text.  
-     * Note that the name must be defined in a @resource tag in the script header.
-     * @param name Resource name
-     */
-    public static async getResourceText(name: string): Promise<string> {
-        // Tampermonkey
-        if (typeof GM_getResourceText === "function") return Promise.resolve(GM_getResourceText(name));
-
-        // Greasemonkey / Violentmonkey
-        if (typeof GM !== "undefined") return XMConnect.getResourceTextGM(name);
-
-        // Extensions
-        return XMConnect.xmlHttpPromise({
-            url: window["resources"][name].startsWith("http") ? window["resources"][name] : XM.Chrome.getResourceURL(window["resources"][name]),
-            method: "GET",
-        }).then(
-            (data: GMxmlHttpRequestResponse) => { return Promise.resolve(data.responseText); },
-            (error: GMxmlHttpRequestEvent) => { return Promise.reject(error.status + " " + error.statusText); }
-        );
     }
 
-    /**
-     * Gets the contents of the resource as plain text.  
-     * This function presumes Greasemonkey is used.  
-     * Note that the name must be defined in a @resource tag in the script header.
-     * @param name Resource name
-     */
-    private static async getResourceTextGM(name: string): Promise<string> {
-        const resource = (typeof GM.getResourceUrl === "function") ? await GM.getResourceUrl(name) : GM_getResourceURL(name);
-
-        if (resource.startsWith("data:")) {
-            return Promise.resolve(atob(resource.replace(/^data:(.*);base64,/g, "")));
-        } else if (resource.startsWith("blob:")) {
-            return new Promise(async (resolve, reject) => {
-                const request = await fetch(resource, {
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "User-Agent": window["re621"]["useragent"],
-                        "X-User-Agent": window["re621"]["useragent"],
-                    },
-                    method: "GET",
-                    mode: "cors"
-                });
-
-                if (request.ok) { resolve(await request.text()); }
-                else { reject(); }
-            });
-        } else { return Promise.reject(); }
-    }
-
-    /**
-     * Get contents of the resource as JSON
-     * Note that the name must be defined in a @resource tag in the script header.
-     * @param name Resource name
-     */
-    public static async getResourceJSON<T>(name: string): Promise<T> {
-        return XMConnect.getResourceText(name).then(
-            (resolved) => { return Promise.resolve(JSON.parse(resolved) as T); },
-            (rejected) => { return Promise.reject(rejected); }
-        )
-    }
-
-    /**
-     * Downloads a given URL to the local disk.  
-     * @param details Download details
-     */
+    /** Downloads a given URL to the local disk. */
     public static download(url: string, name: string): void;
     public static download(defaults: GMDownloadDetails): void;
     public static download(a: any, b?: any): void {
@@ -202,7 +115,7 @@ export class XMConnect {
                 btn[0].click();
             }
         });
-    };
+    }
 
     /**
      * Alternative to the normal download method above, using GM_download method.  
@@ -227,9 +140,8 @@ export class XMConnect {
             else throw "Error: unable to download file" + (event.error ? (` [${event.error}]`) : "");
         }
 
-        // All script managers should have a GM_download function, but the extension won't 
-        if (typeof GM_download === "function") GM_download(a);
-        else XM.Chrome.download(a, b, c);
+        // All script managers should have a GM_download function
+        GM_download(a);
     }
 
 }

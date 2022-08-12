@@ -1,8 +1,9 @@
-import { XM } from "../api/XM";
+import XM from "../api/XM";
 import { GMxmlHttpRequestResponse } from "../api/XMConnect";
-import { Debug } from "./Debug";
-import { ErrorHandler } from "./ErrorHandler";
-import { Util } from "./Util";
+import Debug from "./Debug";
+import ErrorHandler from "./ErrorHandler";
+import Util from "./Util";
+
 
 export class VersionChecker {
 

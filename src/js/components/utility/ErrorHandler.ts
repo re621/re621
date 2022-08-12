@@ -1,11 +1,10 @@
 import Script from "../../models/Script";
-import { RE6Module } from "../RE6Module";
-import { Modal } from "../structure/Modal";
-import { PageObserver } from "../structure/PageObserver";
+import Modal from "../structure/Modal";
+import PageObserver from "../structure/PageObserver";
 
-export class ErrorHandler {
+export default class ErrorHandler {
 
-    public static async log(module: "ModuleController" | "DOM" | RE6Module | string, message: string, error?: Error): Promise<void> {
+    public static async log(module: "ModuleController" | "DOM" | string, message: string, error?: Error): Promise<void> {
 
         const notice = $("<div>").html([
             `<p>RE621 had encountered an error during script execution.</p>`,

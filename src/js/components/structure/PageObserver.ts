@@ -1,5 +1,5 @@
 
-export class PageObserver {
+export default class PageObserver {
 
     private static observer: MutationObserver;
     private static pageLoaded = false;

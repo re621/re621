@@ -1,26 +1,23 @@
+export default class XMStorage {
 
-
-
-export class XMStorage {
-
-    public static async setValue(name: string, value: any): Promise<void> {
-        return GM_setValue(name, value);
+    public static setValue(name: string, value: any): void {
+        GM_setValue(name, value);
     }
 
-    public static async getValue<T>(name: string, defaultValue: T): Promise<T> {
-        return GM_getValue(name, defaultValue);
+    public static getValue<T>(name: string, defaultValue: T): T {
+        return GM_getValue<T>(name, defaultValue);
     }
 
-    public static async deleteValue(name: string): Promise<void> {
-        return GM_deleteValue(name);
+    public static deleteValue(name: string): void {
+        GM_deleteValue(name);
     }
 
-    public static async addListener<T>(name: string, callback: (name: string, oldValue: T, newValue: T, remote: boolean) => void): Promise<number> {
+    public static addListener(name: string, callback: Tampermonkey.ValueChangeListener): number {
         return GM_addValueChangeListener(name, callback);
     }
 
-    public static async removeListener(id: number): Promise<void> {
-        return GM_removeValueChangeListener(id);
+    public static removeListener(id: number): void {
+        GM_removeValueChangeListener(id);
     }
 
 }

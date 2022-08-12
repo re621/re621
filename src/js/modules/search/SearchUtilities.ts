@@ -1,8 +1,9 @@
-import { Danbooru } from "../../components/api/Danbooru";
 import { Blacklist } from "../../components/data/Blacklist";
-import { Page, PageDefinition } from "../../components/data/Page";
-import { RE6Module, Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../components/data/Page";
+import { RE6Module } from "../../components/RE6Module";
+import Util from "../../components/utility/Util";
+import { Settings } from "../Component";
+
 
 export class SearchUtilities extends RE6Module {
 

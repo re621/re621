@@ -1,11 +1,11 @@
 import { RE621 } from "../../../RE621";
 import { Danbooru } from "../../components/api/Danbooru";
-import { Page, PageDefinition } from "../../components/data/Page";
+import Page, { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post } from "../../components/post/Post";
 import { PostActions } from "../../components/post/PostActions";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import Util from "../../components/utility/Util";
 import { RISSizeLimit } from "../../components/utility/UtilSize";
 
 /**

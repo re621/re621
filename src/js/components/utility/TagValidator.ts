@@ -15,8 +15,9 @@ export class TagValidator {
         { regex: /%/, text: "Tags cannot contain percent signs ('%')" },
         { regex: /\\/, text: "Tags cannot contain back slashes ('\\')" },
         { regex: /[_\-~]{2}/, text: "Tags cannot contain consecutive underscores, hyphens or tildes" },
+        // eslint-disable-next-line no-control-regex
         { regex: /[\x00-\x1F]/, text: "Tags cannot contain non-printable characters" },
-        { regex: /^([-~+:_`(){}\[\]\/])/, text: "Tags cannot begin with %MATCHNAME% ('%MATCH%')" },
+        { regex: /^([-~+:_`(){}[\]/])/, text: "Tags cannot begin with %MATCHNAME% ('%MATCH%')" },
         { regex: /([_])$/, text: "Tags cannot end with %MATCHNAME% ('%MATCH%')" },
         { regex: /&/, text: "Tags containing ampersands ('&') should be avoided" },
         { regex: TagValidator.metatagsRegex, text: "Tags cannot begin with '%MATCH%:'" },

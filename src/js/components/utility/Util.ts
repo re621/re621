@@ -1,6 +1,6 @@
 import { UtilDOM } from "./UtilDOM";
 import { UtilEvents } from "./UtilEvents";
-import { UtilID } from "./UtilID";
+import UtilID from "./UtilID";
 import { UtilMath } from "./UtilMath";
 import { UtilNetwork } from "./UtilNetwork";
 import { UtilSize } from "./UtilSize";
@@ -9,7 +9,7 @@ import { UtilTime } from "./UtilTime";
 /**
  * Common utilities used in other modules
  */
-export class Util {
+export default class Util {
 
     public static DOM = UtilDOM;
     public static Events = UtilEvents;
@@ -106,10 +106,10 @@ export class Util {
         if (input === undefined) return "";
         return input
             .replace(/\*\*(.*?)\*\*/gm, "<strong>$1</strong>")
-            .replace(/\_(.*?\S)\_/gm, "<em>$1</em>")
+            .replace(/_(.*?\S)_/gm, "<em>$1</em>")
             .replace(/\[(.+)\]\((.*)\)/gm, `<a href="$2">$1</a>`)
             .replace(/^[-]+(.*)?/gmi, "<ul><li>$1</li></ul>")
-            .replace(/\<\/ul\>\r\n\<ul\>/gm, "")
+            .replace(/<\/ul>\r\n<ul>/gm, "")
             .replace(/\n(?!<)/gm, "<br />");
     }
 

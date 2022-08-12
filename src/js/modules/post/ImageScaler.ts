@@ -1,6 +1,6 @@
 import { Danbooru } from "../../components/api/Danbooru";
 import { PageDefinition } from "../../components/data/Page";
-import { ImageScalingMode, User } from "../../components/data/User";
+import User, { ImageScalingMode } from "../../components/data/User";
 import { Post } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 
@@ -81,9 +81,9 @@ export class ImageScaler extends RE6Module {
 
                 return;
             }
-            
+
             // Does not work with those types of files anyways
-            if(post.file.ext == "webm" || post.file.ext == "swf")
+            if (post.file.ext == "webm" || post.file.ext == "swf")
                 return;
 
             // Disable this when notes are being edited

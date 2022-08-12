@@ -6,7 +6,7 @@ export enum UtilTime {
     WEEK = 7 * UtilTime.DAY,
     MONTH = 30 * UtilTime.DAY,
     YEAR = 365 * UtilTime.DAY,
-};
+}
 
 export namespace UtilTime {
 
@@ -59,6 +59,7 @@ export namespace UtilTime {
         }
         let i = 0,
             format;
+        // eslint-disable-next-line no-cond-assign
         while (format = timeFormats[i++])
             if (seconds < format[0]) {
                 if (typeof format[2] == 'string')

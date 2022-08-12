@@ -1,4 +1,4 @@
-import { Page, PageDefinition } from "../../components/data/Page";
+import Page, { PageDefinition } from "../../components/data/Page";
 import { Post, PostData } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 

@@ -1,6 +1,6 @@
 import { E621 } from "../api/E621";
 import { APISet } from "../api/responses/APISet";
-import { Debug } from "../utility/Debug";
+import Debug from "../utility/Debug";
 
 /** Collection of API calls related to individual posts */
 export class PostActions {

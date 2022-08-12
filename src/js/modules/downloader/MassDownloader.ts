@@ -4,8 +4,8 @@ import { ModuleController } from "../../components/ModuleController";
 import { Post, PostData } from "../../components/post/Post";
 import { PostSet, PostSortType } from "../../components/post/PostSet";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { Debug } from "../../components/utility/Debug";
-import { Util } from "../../components/utility/Util";
+import Debug from "../../components/utility/Debug";
+import Util from "../../components/utility/Util";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BetterSearch } from "../search/BetterSearch";
 

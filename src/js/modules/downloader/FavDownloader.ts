@@ -1,15 +1,17 @@
 import { DownloadQueue } from "../../components/api/DownloadQueue";
 import { E621 } from "../../components/api/E621";
 import { APIPost } from "../../components/api/responses/APIPost";
-import { Page, PageDefinition } from "../../components/data/Page";
+import Page, { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post, PostData } from "../../components/post/Post";
-import { RE6Module, Settings } from "../../components/RE6Module";
-import { Debug } from "../../components/utility/Debug";
-import { Util } from "../../components/utility/Util";
+import { RE6Module } from "../../components/RE6Module";
+import Debug from "../../components/utility/Debug";
+import Util from "../../components/utility/Util";
+import { Settings } from "../Component";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BetterSearch } from "../search/BetterSearch";
 import { MassDownloader } from "./MassDownloader";
+
 
 export class FavDownloader extends RE6Module {
 
@@ -59,7 +61,7 @@ export class FavDownloader extends RE6Module {
         super.create();
 
         this.userID = parseInt(Page.getQueryParameter("user_id") || $("meta[name=current-user-id]").attr("content"));
-        if (this.userID == NaN) return;
+        if (isNaN(this.userID)) return;
 
         this.section = $("<section>")
             .attr({
@@ -173,6 +175,7 @@ export class FavDownloader extends RE6Module {
 
         // Add post data to the queue
         let queuedPost: PostData;
+        // eslint-disable-next-line no-cond-assign
         while (queuedPost = this.posts.pop()) {
 
             // Dumb workaround for a bug that I'm too lazy to fix

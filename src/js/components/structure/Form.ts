@@ -1,7 +1,7 @@
-import { XM } from "../api/XM";
-import { KeybindManager } from "../data/Keybinds";
-import { Util } from "../utility/Util";
-import { PreparedStructure } from "./PreparedStructure";
+import XM from "../api/XM";
+import KeybindManager from "../data/Keybinds";
+import Util from "../utility/Util";
+import PreparedStructure from "./PreparedStructure";
 
 /**
  * Form Engine v.2.0  

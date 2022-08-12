@@ -1,6 +1,6 @@
-import { XM } from "./api/XM";
-import { Keybind, KeybindManager, ResponseFunction } from "./data/Keybinds";
-import { Page } from "./data/Page";
+import XM from "./api/XM";
+import KeybindManager, { Keybind, ResponseFunction } from "./data/Keybinds";
+import Page from "./data/Page";
 import { ModuleController } from "./ModuleController";
 
 /**
@@ -184,16 +184,15 @@ export class RE6Module {
      * @param preserve Ensures that all other values are preserved
      * @returns True if the settings were saved successfully, false otherwise
      */
-    public async pushSettings(property: SettingsProperty): Promise<boolean>;
-    public async pushSettings(property: string, value: any): Promise<boolean>;
-    public async pushSettings(property: any, value?: any): Promise<boolean> {
-        return this.loadSettingsCache().then(() => {
-            if (typeof property === "string") this.settings[property] = value;
-            else Object.keys(property).forEach((key) => {
-                this.settings[key] = property[key];
-            });
-            return this.saveSettingsCache();
+    public async pushSettings(property: SettingsProperty): Promise<void>;
+    public async pushSettings(property: string, value: any): Promise<void>;
+    public async pushSettings(property: any, value?: any): Promise<void> {
+        this.loadSettingsCache();
+        if (typeof property === "string") this.settings[property] = value;
+        else Object.keys(property).forEach((key) => {
+            this.settings[key] = property[key];
         });
+        this.saveSettingsCache();
     }
 
     /**
@@ -201,9 +200,8 @@ export class RE6Module {
      * @returns True if the settings were cleared successfully, false otherwise
      */
     public async clearSettings(): Promise<boolean> {
-        return XM.Storage.deleteValue("re621." + this.settingsTag).then(() => {
-            return this.loadSettingsCache();
-        });
+        XM.Storage.deleteValue("re621." + this.settingsTag);
+        return this.loadSettingsCache();
     }
 
     /**
@@ -249,8 +247,8 @@ export class RE6Module {
      * Save the settings to local storage.  
      * @returns True if the settings were saved successfully, false otherwise
      */
-    private async saveSettingsCache(): Promise<boolean> {
-        return XM.Storage.setValue("re621." + this.settingsTag, this.settings).then(() => true);
+    private async saveSettingsCache(): Promise<void> {
+        XM.Storage.setValue("re621." + this.settingsTag, this.settings);
     }
 
     /**

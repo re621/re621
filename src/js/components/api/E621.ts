@@ -1,8 +1,8 @@
 // E621 API Endpoint Wrapper
 // Version 2.1
 
-import { Debug } from "../utility/Debug";
-import { Util } from "../utility/Util";
+import Debug from "../utility/Debug";
+import Util from "../utility/Util";
 import { APIResponse } from "./responses/APIResponse";
 
 // All endpoints must be registered here.
@@ -434,7 +434,7 @@ interface EndpointDefinition {
  */
 interface APIQuery {
     [prop: string]: APIQueryEntry | APIQueryEntry[] | APIQuerySubentry;
-};
+}
 
 interface FormattedAPIQuery {
     [prop: string]: string;

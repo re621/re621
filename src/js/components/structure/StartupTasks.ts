@@ -1,4 +1,4 @@
-import { Page, PageDefinition } from "../data/Page";
+import Page, { PageDefinition } from "../data/Page";
 
 /**
  * StructureUtilities  

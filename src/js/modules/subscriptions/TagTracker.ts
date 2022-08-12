@@ -1,19 +1,20 @@
 import { E621 } from "../../components/api/E621";
 import { APIPost, PostFlag } from "../../components/api/responses/APIPost";
-import { XM } from "../../components/api/XM";
+import XM from "../../components/api/XM";
 import { Blacklist } from "../../components/data/Blacklist";
 import { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { PostData } from "../../components/post/Post";
 import { PostActions } from "../../components/post/PostActions";
 import { PostParts } from "../../components/post/PostParts";
-import { Settings } from "../../components/RE6Module";
-import { Util } from "../../components/utility/Util";
+import Util from "../../components/utility/Util";
+import { Settings } from "../Component";
 import { WikiEnhancer } from "../misc/WikiEnhancer";
 import { BetterSearch, ImageClickAction } from "../search/BetterSearch";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";
+
 
 export class TagTracker extends SubscriptionTracker {
 
@@ -226,7 +227,7 @@ export class TagTracker extends SubscriptionTracker {
 
         function getPreviewLink(md5: string): string {
             if (!md5) return "https://e621.net/images/deleted-preview.png";
-            return `https://static1.e621.net/data/preview/${md5.substr(0, 2)}/${md5.substr(2, 2)}/${md5}.jpg`;;
+            return `https://static1.e621.net/data/preview/${md5.substr(0, 2)}/${md5.substr(2, 2)}/${md5}.jpg`;
         }
 
         function getSampleLink(md5: string, hasSample: boolean, ext = "jpg"): string {

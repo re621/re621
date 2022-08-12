@@ -1,7 +1,7 @@
-import { XM } from "../components/api/XM";
-import { Page } from "../components/data/Page";
-import { PageObserver } from "../components/structure/PageObserver";
-import { ErrorHandler } from "../components/utility/ErrorHandler";
+import XM from "../components/api/XM";
+import Page from "../components/data/Page";
+import PageObserver from "../components/structure/PageObserver";
+import ErrorHandler from "../components/utility/ErrorHandler";
 
 export default class Component {
 
@@ -92,7 +92,7 @@ export default class Component {
             })
 
             // Sync settings between tabs
-            XM.Storage.addListener<PrimitiveType | PrimitiveType[]>(this.name + "." + key, (settingsTag, oldValue, newValue, remote) => {
+            XM.Storage.addListener(this.name + "." + key, (settingsTag, oldValue, newValue, remote) => {
                 if (remote) this.SettingsCache[key] = newValue;
                 this.trigger("settings." + key + (remote ? ".remote" : ".local"), newValue);
             });

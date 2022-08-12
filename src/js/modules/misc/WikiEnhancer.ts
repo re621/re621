@@ -1,5 +1,5 @@
-import { XM } from "../../components/api/XM";
-import { Page, PageDefinition } from "../../components/data/Page";
+import XM from "../../components/api/XM";
+import Page, { PageDefinition } from "../../components/data/Page";
 import { RE6Module, Settings } from "../../components/RE6Module";
 
 /**

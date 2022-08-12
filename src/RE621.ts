@@ -1,14 +1,14 @@
 import css from "./css/style.module.scss";
 
-import { User } from "./js/components/data/User";
+import User from "./js/components/data/User";
 import DOMTools from "./js/components/structure/DOMTools";
-import { PageObserver } from "./js/components/structure/PageObserver";
-import { Debug } from "./js/components/utility/Debug";
-import { ErrorHandler } from "./js/components/utility/ErrorHandler";
+import PageObserver from "./js/components/structure/PageObserver";
+import Debug from "./js/components/utility/Debug";
+import ErrorHandler from "./js/components/utility/ErrorHandler";
 import { ComponentList } from "./js/modules/Component";
-import { HeaderCustomizer } from "./js/modules/general/HeaderCustomizer";
-import { ThemeCustomizer } from "./js/modules/general/ThemeCustomizer";
-import { DMailHeaderButton } from "./js/modules/minor/DMailHeaderButton";
+import HeaderCustomizer from "./js/modules/general/HeaderCustomizer";
+import ThemeCustomizer from "./js/modules/general/ThemeCustomizer";
+import DMailHeaderButton from "./js/modules/minor/DMailHeaderButton";
 
 export class RE621 {
 

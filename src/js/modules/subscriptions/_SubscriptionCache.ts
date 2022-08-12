@@ -1,5 +1,6 @@
-import { XM } from "../../components/api/XM";
-import { Util } from "../../components/utility/Util";
+
+import XM from "../../components/api/XM";
+import Util from "../../components/utility/Util";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";
 
@@ -47,16 +48,16 @@ export class SubscriptionCache {
     }
 
     /** Saves update cache to storage */
-    public async save(): Promise<boolean> {
+    public async save(): Promise<void> {
         Util.LS.setItem(this.storageTag, JSON.stringify(this.data));
-        return XM.Storage.setValue(this.storageTag, Util.Time.now()).then(() => true);
+        XM.Storage.setValue(this.storageTag, Util.Time.now());
     }
 
     /** Irreversibly clears the update cache */
-    public async clear(): Promise<boolean> {
+    public async clear(): Promise<void> {
         this.data = {};
         this.index = [];
-        return this.save();
+        this.save();
     }
 
     /**
@@ -66,7 +67,7 @@ export class SubscriptionCache {
      * @param status JQuery element to which status updates are to be appended
      * @returns True if changes have been made, false otherwise
      */
-    public async fetch(): Promise<boolean> {
+    public async fetch(): Promise<void> {
         const updates = await this.tracker.fetchUpdatedEntries();
         // console.log(`Sub${this.tracker.getTrackerID()}: ${Object.keys(updates).length} new, ${this.index.length} total`);
         if (Object.keys(updates).length == 0) Promise.resolve(false);
@@ -76,7 +77,7 @@ export class SubscriptionCache {
         });
         this.updateIndex();
         this.trim();
-        return this.save();
+        this.save();
     }
 
     /**
@@ -91,14 +92,14 @@ export class SubscriptionCache {
      * Removes an item with the provided timestamp from cache
      * @param timestamp Timestamp to look for
      */
-    public async deleteItem(timestamp: number): Promise<boolean> {
+    public async deleteItem(timestamp: number): Promise<void> {
         const el = this.index.indexOf(timestamp);
         console.log("locating", timestamp, el);
-        if (el == -1) return false;
+        if (el == -1) return;
 
         delete this.data[timestamp];
         this.updateIndex();
-        return this.save();
+        this.save();
     }
 
     /** Returns the number of items in cache */
@@ -107,10 +108,10 @@ export class SubscriptionCache {
     }
 
     /** Strips all `new` entries of that status */
-    public async purgeNew(): Promise<boolean> {
+    public async purgeNew(): Promise<void> {
         for (const timestamp of this.index)
             delete this.data[timestamp].new;
-        return this.save();
+        this.save();
     }
 
     /** Re-creates the timestamp index from the stored data */

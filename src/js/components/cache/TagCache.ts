@@ -1,6 +1,6 @@
 import { TagCategory } from "../api/responses/APITag";
-import { Debug } from "../utility/Debug";
-import { Util } from "../utility/Util";
+import Debug from "../utility/Debug";
+import Util from "../utility/Util";
 
 export class TagCache {
 

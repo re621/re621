@@ -2,12 +2,12 @@ import { BetterSearch, ImageClickAction, ImageLoadMethod } from "../../modules/s
 import { CustomFlagger } from "../../modules/search/CustomFlagger";
 import { Danbooru } from "../api/Danbooru";
 import { PostFlag } from "../api/responses/APIPost";
-import { XM } from "../api/XM";
+import XM from "../api/XM";
 import { Blacklist } from "../data/Blacklist";
-import { Page, PageDefinition } from "../data/Page";
-import { User } from "../data/User";
-import { Debug } from "../utility/Debug";
-import { Util } from "../utility/Util";
+import Page, { PageDefinition } from "../data/Page";
+import User from "../data/User";
+import Debug from "../utility/Debug";
+import Util from "../utility/Util";
 import { FileExtension, LoadedFileType, Post, PostData } from "./Post";
 import { PostActions } from "./PostActions";
 import { PostSet } from "./PostSet";
@@ -226,12 +226,12 @@ export class PostParts {
         post.$ref.on("re621:sync.ribbons", () => {
             generateRibbons(post, $ribbons, conf);
         });
-        
+
         return $ribbons;
-        
+
         function generateRibbons(post: Post, container: JQuery<HTMLElement>, conf: any): void {
             container.html("");
-        
+
             // Relationship Ribbons
             if (conf.ribbonsRel) {
                 const relRibbon = $("<ribbon>")
@@ -239,7 +239,7 @@ export class PostParts {
                     .html(`<span></span>`)
                     .appendTo(container);
                 const relRibbonText = [];
-        
+
                 if (post.has.children) {
                     relRibbon.addClass("has-children");
                     relRibbonText.push("Child posts");
@@ -248,11 +248,11 @@ export class PostParts {
                     relRibbon.addClass("has-parent");
                     relRibbonText.push("Parent posts");
                 }
-        
+
                 if (relRibbonText.length > 0) relRibbon.attr("title", relRibbonText.join("\n"));
                 else relRibbon.remove();
             }
-        
+
             // Flag Ribbons
             if (conf.ribbonsFlag) {
                 const flagRibbon = $("<ribbon>")
@@ -260,7 +260,7 @@ export class PostParts {
                     .html(`<span></span>`)
                     .appendTo(container);
                 const flagRibbonText = [];
-        
+
                 if (post.flags.has(PostFlag.Flagged)) {
                     flagRibbon.addClass("is-flagged");
                     flagRibbonText.push("Flagged");
@@ -269,11 +269,11 @@ export class PostParts {
                     flagRibbon.addClass("is-pending");
                     flagRibbonText.push("Pending");
                 }
-        
+
                 if (flagRibbonText.length > 0) flagRibbon.attr("title", flagRibbonText.join("\n"));
                 else flagRibbon.remove();
             }
-            
+
             if ($ribbons.children().length == 0) container.css("display", "none");
             else container.css("display", "");
         }

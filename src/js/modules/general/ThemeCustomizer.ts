@@ -1,9 +1,9 @@
 import { Form } from "../../components/structure/Form";
-import { Modal } from "../../components/structure/Modal";
-import { Util } from "../../components/utility/Util";
+import Modal from "../../components/structure/Modal";
+import Util from "../../components/utility/Util";
 import Component from "../Component";
 
-export class ThemeCustomizer extends Component {
+export default class ThemeCustomizer extends Component {
 
     private $main: JQuery<HTMLElement>;
     private $extra: JQuery<HTMLElement>;

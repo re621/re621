@@ -1,6 +1,6 @@
-import { XM } from "../api/XM";
+import XM from "../api/XM";
 
-export class Debug {
+export default class Debug {
 
     private static enabled: boolean;
     private static connect: boolean;
