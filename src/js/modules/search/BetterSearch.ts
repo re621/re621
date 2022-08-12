@@ -1,6 +1,5 @@
 import { E621 } from "../../components/api/E621";
 import { APIPost, PostFlag, PostRating } from "../../components/api/responses/APIPost";
-import XM from "../../components/api/XM";
 import { Blacklist } from "../../components/data/Blacklist";
 import Page, { PageDefinition } from "../../components/data/Page";
 import User from "../../components/data/User";
@@ -10,6 +9,7 @@ import { PostActions } from "../../components/post/PostActions";
 import { RE6Module } from "../../components/RE6Module";
 import Debug from "../../components/utility/Debug";
 import Util from "../../components/utility/Util";
+import XM from "../../models/XM";
 import { Settings } from "../Component";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BlacklistEnhancer } from "./BlacklistEnhancer";

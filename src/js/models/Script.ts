@@ -1,4 +1,4 @@
-import XM from "../components/api/XM";
+import XM from "./XM";
 
 export default class Script {
     public static version = XM.Info.script.version;

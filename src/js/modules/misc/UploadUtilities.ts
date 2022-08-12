@@ -1,11 +1,11 @@
 import { E621 } from "../../components/api/E621";
 import { APIIQDBResponse } from "../../components/api/responses/APIIQDBResponse";
 import { APIPost, PostFlag } from "../../components/api/responses/APIPost";
-import XM from "../../components/api/XM";
 import { PageDefinition } from "../../components/data/Page";
 import { PostData } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
+import XM from "../../models/XM";
 import { TagSuggester } from "./TagSuggester";
 
 export class UploadUtilities extends RE6Module {

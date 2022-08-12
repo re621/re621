@@ -1,5 +1,5 @@
-import XM from "../api/XM";
-import { GMxmlHttpRequestResponse } from "../api/XMConnect";
+import XM from "../../models/XM";
+import { GMxmlHttpRequestResponse } from "../../models/XMConnect";
 import Debug from "./Debug";
 import ErrorHandler from "./ErrorHandler";
 import Util from "./Util";

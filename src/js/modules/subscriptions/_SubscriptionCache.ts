@@ -1,6 +1,6 @@
 
-import XM from "../../components/api/XM";
 import Util from "../../components/utility/Util";
+import XM from "../../models/XM";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";
 

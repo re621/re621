@@ -1,5 +1,4 @@
 import { RE621 } from "../../../RE621";
-import { Danbooru } from "../../components/api/Danbooru";
 import Page, { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post } from "../../components/post/Post";
@@ -7,6 +6,7 @@ import { PostActions } from "../../components/post/PostActions";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
 import { RISSizeLimit } from "../../components/utility/UtilSize";
+import { Danbooru } from "../../models/Danbooru";
 
 /**
  * Add various symbols to the titlebar depending on the posts state

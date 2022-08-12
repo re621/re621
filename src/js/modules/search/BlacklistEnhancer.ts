@@ -1,10 +1,10 @@
-import { Danbooru } from "../../components/api/Danbooru";
 import { Blacklist } from "../../components/data/Blacklist";
 import { PageDefinition } from "../../components/data/Page";
 import { Post } from "../../components/post/Post";
 import { PostFilter } from "../../components/post/PostFilter";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
+import { Danbooru } from "../../models/Danbooru";
 import { BetterSearch } from "./BetterSearch";
 
 /**

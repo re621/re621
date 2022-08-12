@@ -1,8 +1,8 @@
+import { Danbooru } from "../../models/Danbooru";
+import XM from "../../models/XM";
 import { BetterSearch, ImageClickAction, ImageLoadMethod } from "../../modules/search/BetterSearch";
 import { CustomFlagger } from "../../modules/search/CustomFlagger";
-import { Danbooru } from "../api/Danbooru";
 import { PostFlag } from "../api/responses/APIPost";
-import XM from "../api/XM";
 import { Blacklist } from "../data/Blacklist";
 import Page, { PageDefinition } from "../data/Page";
 import User from "../data/User";

@@ -1,6 +1,5 @@
 import { E621 } from "../../components/api/E621";
 import { APIPost, PostFlag } from "../../components/api/responses/APIPost";
-import XM from "../../components/api/XM";
 import { Blacklist } from "../../components/data/Blacklist";
 import { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
@@ -8,6 +7,7 @@ import { PostData } from "../../components/post/Post";
 import { PostActions } from "../../components/post/PostActions";
 import { PostParts } from "../../components/post/PostParts";
 import Util from "../../components/utility/Util";
+import XM from "../../models/XM";
 import { Settings } from "../Component";
 import { WikiEnhancer } from "../misc/WikiEnhancer";
 import { BetterSearch, ImageClickAction } from "../search/BetterSearch";

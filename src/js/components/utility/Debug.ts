@@ -1,4 +1,4 @@
-import XM from "../api/XM";
+import XM from "../../models/XM";
 
 export default class Debug {
 

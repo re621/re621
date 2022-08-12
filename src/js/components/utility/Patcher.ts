@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
+import XM from "../../models/XM";
 import { FlagDefinition } from "../../modules/search/CustomFlagger";
 import { ImageZoomMode } from "../../modules/search/HoverZoom";
-import XM from "../api/XM";
 import Debug from "./Debug";
 import ErrorHandler from "./ErrorHandler";
 

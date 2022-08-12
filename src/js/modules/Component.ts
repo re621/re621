@@ -1,7 +1,7 @@
-import XM from "../components/api/XM";
 import Page from "../components/data/Page";
 import PageObserver from "../components/structure/PageObserver";
 import ErrorHandler from "../components/utility/ErrorHandler";
+import XM from "../models/XM";
 
 export default class Component {
 

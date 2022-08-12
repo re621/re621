@@ -1,4 +1,4 @@
-import XM from "../api/XM";
+import XM from "../../models/XM";
 import KeybindManager from "../data/Keybinds";
 import Util from "../utility/Util";
 import PreparedStructure from "./PreparedStructure";

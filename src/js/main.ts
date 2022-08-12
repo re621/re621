@@ -4,7 +4,6 @@
  */
 
 // Load Modules
-import { Danbooru } from "./components/api/Danbooru";
 import Page, { PageDefinition } from "./components/data/Page";
 import User from "./components/data/User";
 import { ModuleController } from "./components/ModuleController";
@@ -14,6 +13,7 @@ import Debug from "./components/utility/Debug";
 import { Patcher } from "./components/utility/Patcher";
 import Util from "./components/utility/Util";
 import { VersionChecker } from "./components/utility/VersionChecker";
+import { Danbooru } from "./models/Danbooru";
 import { FavDownloader } from "./modules/downloader/FavDownloader";
 import { MassDownloader } from "./modules/downloader/MassDownloader";
 import { PoolDownloader } from "./modules/downloader/PoolDownloader";
