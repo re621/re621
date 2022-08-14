@@ -7,11 +7,11 @@ export default class Script {
         version: XM.Info.version,
     }
     public static url = {
-        website: "https://re621.bitwolfy.com/",
-        repo: "https://github.com/re621/re621/",
+        website: "https://re621.bitwolfy.com",
+        repo: "https://github.com/re621/re621",
         issues: "https://github.com/re621/re621/issues",
         thread: "https://e621.net/forum_topics/25872",
         latest: "https://api.github.com/repos/re621/re621/releases/latest",
-        kofi: "https://ko-fi.com/bitWolfy/",
+        kofi: "https://ko-fi.com/bitWolfy",
     }
 }

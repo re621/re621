@@ -113,8 +113,6 @@ export default class KeybindManager {
                     const listenerExecutor = this.executors.get(key);
                     Debug.log(`[${key}]: triggered ${Object.entries(listenerExecutor).length} executors`);
                     for (const [bindMeta, keyObj] of Object.entries(listenerExecutor)) {
-
-                        // If the keybind is outright disable, skip
                         if (!keyObj.enabled) continue;
 
                         // This is a dumb solution, but it'll work for the time being
@@ -123,7 +121,6 @@ export default class KeybindManager {
                         // people to spam certain actions.
                         if (keyObj.holdable) keydown = false;
 
-                        // Execute the keybind function
                         keyObj.fnct(event, bindMeta);
                     }
                 });

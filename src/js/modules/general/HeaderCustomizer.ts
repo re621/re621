@@ -43,19 +43,6 @@ export default class HeaderCustomizer extends Component {
 
     public constructor() {
         super({ waitForDOM: "menu.extra" });
-        /*
-        this.registerHotkeys(
-            { keys: "hotkeyTab1", fnct: () => { HeaderCustomizer.openTabNum(0); } },
-            { keys: "hotkeyTab2", fnct: () => { HeaderCustomizer.openTabNum(1); } },
-            { keys: "hotkeyTab3", fnct: () => { HeaderCustomizer.openTabNum(2); } },
-            { keys: "hotkeyTab4", fnct: () => { HeaderCustomizer.openTabNum(3); } },
-            { keys: "hotkeyTab5", fnct: () => { HeaderCustomizer.openTabNum(4); } },
-            { keys: "hotkeyTab6", fnct: () => { HeaderCustomizer.openTabNum(5); } },
-            { keys: "hotkeyTab7", fnct: () => { HeaderCustomizer.openTabNum(6); } },
-            { keys: "hotkeyTab8", fnct: () => { HeaderCustomizer.openTabNum(7); } },
-            { keys: "hotkeyTab9", fnct: () => { HeaderCustomizer.openTabNum(8); } },
-        );
-        */
     }
 
     public Settings = {
@@ -89,6 +76,18 @@ export default class HeaderCustomizer extends Component {
 
         forumUpdateDot: true,
     };
+
+    public Keybinds = [
+        { keys: "hotkeyTab1", response: () => { this.openTabNum(0); } },
+        { keys: "hotkeyTab2", response: () => { this.openTabNum(1); } },
+        { keys: "hotkeyTab3", response: () => { this.openTabNum(2); } },
+        { keys: "hotkeyTab4", response: () => { this.openTabNum(3); } },
+        { keys: "hotkeyTab5", response: () => { this.openTabNum(4); } },
+        { keys: "hotkeyTab6", response: () => { this.openTabNum(5); } },
+        { keys: "hotkeyTab7", response: () => { this.openTabNum(6); } },
+        { keys: "hotkeyTab8", response: () => { this.openTabNum(7); } },
+        { keys: "hotkeyTab9", response: () => { this.openTabNum(8); } },
+    ]
 
     /**
      * Creates the module's structure.  
@@ -396,13 +395,11 @@ export default class HeaderCustomizer extends Component {
     }
 
     /** Emulates a click on the header tab with the specified index */
-    /*
-    private static openTabNum(num: number): void {
-        const tabs = ModuleController.get(HeaderCustomizer).$menu.find<HTMLElement>("li > a");
+    private openTabNum(num: number): void {
+        const tabs = this.$menu.find<HTMLElement>("li > a");
         if (num > tabs.length) return;
         tabs[num].click();
     }
-    */
 
     /** Refreshes the right-aligned tabs to have proper margins */
     private reloadTabMargins(): void {

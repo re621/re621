@@ -2,12 +2,11 @@ import { PostFlag } from "../../components/api/responses/APIPost";
 import { Blacklist } from "../../components/data/Blacklist";
 import { ModuleController } from "../../components/ModuleController";
 import { Post, PostData } from "../../components/post/Post";
-import { RE6Module } from "../../components/RE6Module";
+import { RE6Module, Settings } from "../../components/RE6Module";
 import Debug from "../../components/utility/Debug";
 import Util from "../../components/utility/Util";
 import XM from "../../models/api/XM";
 import User from "../../models/data/User";
-import { Settings } from "../Component";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 
 

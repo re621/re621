@@ -1,4 +1,6 @@
+import KeybindManager, { Keybind, ResponseFunction } from "../components/data/Keybinds";
 import ErrorHandler from "../components/utility/ErrorHandler";
+import Util from "../components/utility/Util";
 import XM from "../models/api/XM";
 import Page from "../models/data/Page";
 import PageObserver from "../models/structure/PageObserver";
@@ -11,6 +13,7 @@ export default class Component {
     private eventIndex = 0;                         // Used to provide IDs to the component event listeners
     private constraintMatches: boolean;             // Whether or not the declared page constraints match
     private DOMLoadConditions: boolean | string;    // DOM conditions that must be met for the component to load
+    private waitForFocus: boolean;                  // Wait for the window to come into focus before loading
 
     // Component settings
     // The Settings object defines default values and is used to access them via dynamic setters and getters
@@ -20,6 +23,8 @@ export default class Component {
     };
     private SettingsDefaults: Settings;
     private SettingsCache: Settings;
+
+    public Keybinds: KeybindDefinition[] = [];
 
     public constructor(options: ComponentOptions = {}) {
 
@@ -33,6 +38,7 @@ export default class Component {
 
         if (!options.waitForDOM) options.waitForDOM = false;
         this.DOMLoadConditions = options.waitForDOM;
+        this.waitForFocus = options.waitForFocus || false;
 
         // TODO options.dependencies
 
@@ -43,10 +49,12 @@ export default class Component {
     }
 
     public async init(): Promise<void> {
+        if (!this.constraintMatches) return Promise.resolve();
         return this.execPrepare()
-            .then(() => {
-                // Check if page constraints match
-                if (!this.constraintMatches) return;
+            .then(async () => {
+                // Wait for the window to come into focus
+                if (this.waitForFocus)
+                    await PageObserver.awaitFocus();
 
                 // Determine when to create the DOM structure
                 if (typeof this.DOMLoadConditions == "string") {
@@ -154,8 +162,10 @@ export default class Component {
     }
 
     /** Restarts the component. Shorthand for running `unload()` and `load()`. */
-    public async reload(): Promise<void> {
+    public async reload(delay?: number): Promise<void> {
         await this.unload();
+        if (delay)
+            await Util.sleep(delay);
         await this.load();
     }
 
@@ -216,6 +226,38 @@ export default class Component {
         this.trigger("destroy");
     }
 
+    public async resetHotkeys(): Promise<void> {
+        const keyMeta: string[] = [];
+        const keybindObj: Keybind[] = [];
+
+        const enabled = this.constraintMatches && this.Settings.enabled;
+        for (const keybind of this.Keybinds) {
+            const meta = this.getName() + "." + keybind.keys;
+
+            const keys = (this.Settings[keybind.keys] as string).split("|");
+            if (keybind.ignoreShift) {
+                // This is dumb, but it works for most cases
+                // The function will be executed even if shift is also pressed
+                for (const key of [...keys]) keys.push("shift+" + key);
+            }
+
+            keybindObj.push({
+                keys: keys,
+                fnct: keybind.response,
+                bindMeta: meta,
+                enabled: enabled && (!keybind.page || Page.matches(keybind.page)),
+                element: keybind.element,
+                selector: keybind.selector,
+                holdable: keybind.holdable,
+            });
+
+            keyMeta.push(meta);
+        }
+
+        KeybindManager.unregister(keyMeta);
+        KeybindManager.register(keybindObj);
+    }
+
     /** Execute all handlers for the specified component event */
     public trigger(event: string, data?: PrimitiveType | PrimitiveType[]): void {
         $(document).trigger(`re621.${this.name}.${event}`, data);
@@ -271,6 +313,15 @@ export interface ComponentOptions {
     waitForDOM?: string | boolean;
 
     /**
+     * Delays the component creation until the window comes into focus.  
+     * This is usually relevant for components that make extensive changes to DOM,
+     * or make requests to the API on page load.
+     * * `true`: the component will wait for the window to come into focus
+     * * `false`: the component will begin loading immediately
+     */
+    waitForFocus?: boolean;
+
+    /**
      * Other components that must finish loading (aka emit the `create` event) before this one can initialize.
      * Ideally, should be kept to a minimum. Use passive dependencies instead.
      */
@@ -286,7 +337,17 @@ export type PrimitiveMap = {
     [prop: string]: PrimitiveType | PrimitiveType[];
 }
 
-export interface Settings {
+interface Settings {
     enabled: boolean;
     [id: string]: PrimitiveType | PrimitiveType[] | PrimitiveMap | PrimitiveMap[];
+}
+
+interface KeybindDefinition {
+    keys: string;               // Key the triggers the function
+    response: ResponseFunction; // Function that is executed when the key is pressed
+    element?: string;           // Element to which the listener gets bound. Defaults to `document`
+    selector?: string;          // Selector within the element for deferred listeners. Defaults to `null`
+    page?: RegExp | RegExp[];   // Pages on which the shortcuts must work. Leave blank for all.
+    ignoreShift?: boolean;      // If true, the hotkey will work regardless if it's accompanied by a shift
+    holdable?: boolean;         // If true, the function will run repeatedly as long as the key is held
 }

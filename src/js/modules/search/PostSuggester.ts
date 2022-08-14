@@ -1,10 +1,9 @@
 import { E621 } from "../../components/api/E621";
 import { APIPost } from "../../components/api/responses/APIPost";
-import { RE6Module } from "../../components/RE6Module";
+import { RE6Module, Settings } from "../../components/RE6Module";
 import { PageDefinition } from "../../models/data/Page";
 import User from "../../models/data/User";
 import Modal from "../../models/structure/Modal";
-import { Settings } from "../Component";
 
 
 export class PostSuggester extends RE6Module {

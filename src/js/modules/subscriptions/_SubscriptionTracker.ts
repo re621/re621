@@ -1,9 +1,8 @@
 import { ModuleController } from "../../components/ModuleController";
-import { RE6Module } from "../../components/RE6Module";
+import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
 import XM from "../../models/api/XM";
 import Page from "../../models/data/Page";
-import { Settings } from "../Component";
 import { SubscriptionCache, UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionList } from "./_SubscriptionList";
 import { SubscriptionManager } from "./_SubscriptionManager";

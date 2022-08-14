@@ -1,8 +1,7 @@
 import { Blacklist } from "../../components/data/Blacklist";
-import { RE6Module } from "../../components/RE6Module";
+import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { Settings } from "../Component";
 
 
 export class SearchUtilities extends RE6Module {
