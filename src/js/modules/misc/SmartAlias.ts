@@ -3,12 +3,12 @@ import { E621 } from "../../components/api/E621";
 import { APITag, TagCategory } from "../../components/api/responses/APITag";
 import { APITagAlias } from "../../components/api/responses/APITagAlias";
 import { TagCache } from "../../components/cache/TagCache";
-import { RE6Module, Settings } from "../../components/RE6Module";
 import { TagValidator } from "../../components/utility/TagValidator";
 import Util from "../../components/utility/Util";
 import Page, { PageDefinition } from "../../models/data/Page";
+import Component from "../Component";
 
-export class SmartAlias extends RE6Module {
+export class SmartAlias extends Component {
 
     // Maximum recursion depth for aliases that contain other aliases
     private static ITERATIONS_LIMIT = 10;
@@ -37,38 +37,39 @@ export class SmartAlias extends RE6Module {
     private static postPageLockout = false;         // Used to avoid calling the API on every post page
 
     public constructor() {
-        super([PageDefinition.upload, PageDefinition.post, PageDefinition.search, PageDefinition.favorites], true);
+        super({
+            constraint: [PageDefinition.upload, PageDefinition.post, PageDefinition.search, PageDefinition.favorites],
+            waitForFocus: true,
+        });
     }
 
-    protected getDefaultSettings(): Settings {
-        return {
-            enabled: true,
+    public Settings = {
+        enabled: true,
 
-            autoLoad: true,
-            tagOrder: TagOrder.Default,
+        autoLoad: true,
+        tagOrder: TagOrder.Default,
 
-            quickTagsForm: true,
-            editTagsForm: true,
-            searchForm: true,
+        quickTagsForm: true,
+        editTagsForm: true,
+        searchForm: true,
 
-            uploadCharactersForm: true,
-            uploadSexesForm: true,
-            uploadBodyTypesForm: true,
-            uploadThemesForm: true,
-            uploadTagsForm: true,
+        uploadCharactersForm: true,
+        uploadSexesForm: true,
+        uploadBodyTypesForm: true,
+        uploadThemesForm: true,
+        uploadTagsForm: true,
 
-            replaceAliasedTags: true,
-            replaceLastTag: false,
-            fixCommonTypos: false,
-            asciiWarning: true,
-            minPostsWarning: 20,
-            compactOutput: false,
+        replaceAliasedTags: true,
+        replaceLastTag: false,
+        fixCommonTypos: false,
+        asciiWarning: true,
+        minPostsWarning: 20,
+        compactOutput: false,
 
-            minCachedTags: 1000,
+        minCachedTags: 1000,
 
-            data: "",
-        };
-    }
+        data: "",
+    };
 
     public async prepare(): Promise<void> {
         await super.prepare();
@@ -91,64 +92,30 @@ export class SmartAlias extends RE6Module {
         }
     }
 
-    /**
-     * Destroys and re-creates the entire module as a method of reloading it.  
-     * It's stupid, but it's the easiest and hassle-free method of resetting some things.
-     */
-    public async reload(): Promise<void> {
-        this.destroy();
-        if (!this.fetchSettings("enabled")) return;
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                this.create();
-                resolve();
-            }, 100);
-        })
-    }
-
-    public destroy(): void {
-        if (!this.isInitialized()) return;
-        super.destroy();
-        for (const inputElement of $("#post_tags, #post_tag_string").get()) {
-            $(inputElement)
-                .off("focus.re621.smart-alias")
-                .off("focusout.re621.smart-alias");
-        }
-        $("smart-alias").remove();
-        $("smart-tag-counter").remove();
-        $("button.smart-alias-validate").remove();
-        $("#tags").off("input.re621.smart-alias");
-
-        for (const element of this.inputElements)
-            element
-                .off("input.smartalias blur.smartalias blur.smartalias.spacefix")
-                .removeData("re621:smartalias");
-    }
-
-    public create(): void {
+    public async create(): Promise<void> {
         super.create();
 
-        if (this.fetchSettings("searchForm") && Page.matches([PageDefinition.search, PageDefinition.post, PageDefinition.favorites])) {
+        if (this.Settings.searchForm && Page.matches([PageDefinition.search, PageDefinition.post, PageDefinition.favorites])) {
             this.handleSearchForm();
         }
 
         // Abort the whole thing if the quick tags form is disabled in settings
-        if (!this.fetchSettings("quickTagsForm") && Page.matches([PageDefinition.search, PageDefinition.favorites]))
+        if (!this.Settings.quickTagsForm && Page.matches([PageDefinition.search, PageDefinition.favorites]))
             return;
 
         // Abort execution on the post page if it's disabled anyways
-        if (!this.fetchSettings("editTagsForm") && Page.matches(PageDefinition.post))
+        if (!this.Settings.quickTagsForm && Page.matches(PageDefinition.post))
             return;
 
         // Toggle the data-attribute necessary for the compact form
-        this.setCompactOutput(this.fetchSettings("compactOutput"));
+        this.setCompactOutput(this.Settings.compactOutput);
 
         // Only create the structure once the editing form is enabled
         if (SmartAlias.postPageLockout) return;
 
         // Establish the data caches
         if (typeof SmartAlias.aliasCache == "undefined") {
-            const cacheData = this.fetchSettings<string>("data");
+            const cacheData = this.Settings.data;
             SmartAlias.aliasCache = SmartAlias.getAliasData(cacheData);
             SmartAlias.aliasCacheLength = cacheData.length;
         }
@@ -158,17 +125,16 @@ export class SmartAlias extends RE6Module {
 
         // Detect enabled inputs
         const inputs = new Set(Array.from(SmartAlias.inputSelector));
-        const enabledInputs = this.fetchSettings(["uploadCharactersForm", "uploadSexesForm", "uploadBodyTypesForm", "uploadThemesForm", "uploadTagsForm"]);
-        if (!enabledInputs.uploadCharactersForm) inputs.delete("#post_characters");
-        if (!enabledInputs.uploadSexesForm) inputs.delete("#post_sexes");
-        if (!enabledInputs.uploadBodyTypesForm) inputs.delete("#post_bodyTypes");
-        if (!enabledInputs.uploadThemesForm) inputs.delete("#post_themes");
-        if (!enabledInputs.uploadTagsForm) inputs.delete("#post_tags");
+        if (!this.Settings.uploadCharactersForm) inputs.delete("#post_characters");
+        if (!this.Settings.uploadSexesForm) inputs.delete("#post_sexes");
+        if (!this.Settings.uploadBodyTypesForm) inputs.delete("#post_bodyTypes");
+        if (!this.Settings.uploadThemesForm) inputs.delete("#post_themes");
+        if (!this.Settings.uploadTagsForm) inputs.delete("#post_tags");
 
         this.inputElements = [];
 
         // Initializes SmartAlias for all appropriate inputs
-        const mode = this.fetchSettings<boolean>("autoLoad");
+        const mode = this.Settings.autoLoad;
         for (const inputElement of $([...inputs].join(", ")).get()) {
             const $textarea = $(inputElement);
 
@@ -203,6 +169,28 @@ export class SmartAlias extends RE6Module {
                 $counter.html(SmartAlias.countTagInput($textarea) + "");
             });
         }
+
+        // Listen for settings changes
+        this.on("settings", () => {
+            this.reload(100);
+        });
+    }
+
+    public async destroy(): Promise<void> {
+        for (const inputElement of $("#post_tags, #post_tag_string").get()) {
+            $(inputElement)
+                .off("focus.re621.smart-alias")
+                .off("focusout.re621.smart-alias");
+        }
+        $("smart-alias").remove();
+        $("smart-tag-counter").remove();
+        $("button.smart-alias-validate").remove();
+        $("#tags").off("input.re621.smart-alias");
+
+        for (const element of this.inputElements)
+            element
+                .off("input.smartalias blur.smartalias blur.smartalias.spacefix")
+                .removeData("re621:smartalias");
     }
 
     /**
@@ -304,7 +292,7 @@ export class SmartAlias extends RE6Module {
 
         // Fix typos
         // TODO Replace this with better error handling
-        if (this.fetchSettings<boolean>("fixCommonTypos")) {
+        if (this.Settings.fixCommonTypos) {
             $textarea.val((index, currentValue) => {
                 return (currentValue.toLowerCase());
             });
@@ -329,9 +317,9 @@ export class SmartAlias extends RE6Module {
         }
 
         // Get the settings
-        const minPostsWarning = this.fetchSettings<number>("minPostsWarning"),
-            asciiWarning = this.fetchSettings<boolean>("asciiWarning"),
-            tagOrder = this.fetchSettings<TagOrder>("tagOrder");
+        const minPostsWarning = this.Settings.minPostsWarning,
+            asciiWarning = this.Settings.asciiWarning,
+            tagOrder = this.Settings.tagOrder;
 
 
         // Step 1
@@ -403,10 +391,10 @@ export class SmartAlias extends RE6Module {
 
         // Step 4
         // Replace all known e6 aliases with their consequent versions to avoid unnecessary API calls
-        if (this.fetchSettings("replaceAliasedTags")) {
+        if (this.Settings.replaceAliasedTags) {
             // console.log(SmartAlias.tagAliases);
             $textarea.val((index, currentValue) => {
-                const lastTag = (this.fetchSettings("replaceLastTag") || currentValue.endsWith(" ") || !$textarea.is(":focus"))
+                const lastTag = (this.Settings.replaceLastTag || currentValue.endsWith(" ") || !$textarea.is(":focus"))
                     ? null
                     : Util.getTags($textarea).pop();
                 // console.log("[" + lastTag + "]", this.fetchSettings("replaceLastTag"), $textarea.is(":focus"));
@@ -497,7 +485,7 @@ export class SmartAlias extends RE6Module {
 
         // Step 5.5
         // Add data to cache
-        const minCachedTags = this.fetchSettings<number>("minCachedTags");
+        const minCachedTags = this.Settings.minCachedTags;
         if (minCachedTags > 0) {
             for (const [name, data] of Object.entries(SmartAlias.tagData)) {
                 if (TagCache.has(name) || data.count < minCachedTags) continue;
@@ -661,7 +649,7 @@ export class SmartAlias extends RE6Module {
 
     /** Loads the alias cache from the settings */
     private async loadAliasCache(): Promise<void> {
-        const aliasCacheRaw = await this.fetchSettings<string>("data", true);
+        const aliasCacheRaw = this.Settings.data;
         if (aliasCacheRaw.length !== SmartAlias.aliasCacheLength) {
             SmartAlias.aliasCache = SmartAlias.getAliasData(aliasCacheRaw);
             SmartAlias.aliasCacheLength = aliasCacheRaw.length;

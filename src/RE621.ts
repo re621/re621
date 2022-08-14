@@ -12,6 +12,7 @@ import HeaderCustomizer from "./js/modules/general/HeaderCustomizer";
 import SettingsManager from "./js/modules/general/SettingsManager";
 import ThemeCustomizer from "./js/modules/general/ThemeCustomizer";
 import HeaderButtons from "./js/modules/minor/HeaderButtons";
+import { SmartAlias } from "./js/modules/misc/SmartAlias";
 
 export class RE621 {
 
@@ -23,6 +24,9 @@ export class RE621 {
         ThemeCustomizer,
         HeaderCustomizer,
         HeaderButtons,
+
+        // Uploads
+        SmartAlias,
 
         // Must wait for all other settings to load
         SettingsManager,
@@ -84,6 +88,9 @@ interface ComponentListAnnotated extends ComponentList {
     HeaderCustomizer?: HeaderCustomizer,
     ThemeCustomizer?: ThemeCustomizer,
     DMailHeaderButton?: HeaderButtons,
+
+    // Uploads
+    SmartAlias?: SmartAlias,
 
     // Settings
     SettingsManager?: SettingsManager,

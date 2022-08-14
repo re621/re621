@@ -1,5 +1,6 @@
 import KeybindManager from "../../components/data/Keybinds";
 import Util from "../../components/utility/Util";
+import Component from "../../modules/Component";
 import XM from "../api/XM";
 import PreparedStructure from "./PreparedStructure";
 
@@ -319,6 +320,11 @@ export class Form implements PreparedStructure {
 
         if (options.pattern) $input.attr("pattern", options.pattern);
         if (options.required) $input.attr("required", '');
+
+        if (options.sync)
+            options.sync.base.on("settings." + options.sync.tag + "-remote", (_event, data) => {
+                $input.val(data as any);
+            });
 
         if (changed !== undefined) {
             let timer: number;
@@ -820,6 +826,12 @@ export class Form implements PreparedStructure {
                 .appendTo($element);
         }
 
+        if (options.sync)
+            options.sync.base.on("settings." + options.sync.tag + "-remote", (_event, data) => {
+                console.log("event", "settings." + options.sync.tag + "-remote", data);
+                $input.prop("checked", data);
+            });
+
         if (changed !== undefined)
             $input.on("change", () => { changed($input.is(":checked"), $input); });
 
@@ -877,6 +889,11 @@ export class Form implements PreparedStructure {
         }
 
         if (options.title) $input.attr("title", options.title);
+
+        if (options.sync)
+            options.sync.base.on("settings." + options.sync.tag + "-remote", (_event, data) => {
+                $input.val(data as any);
+            });
 
         if (changed !== undefined)
             $input.on("change", () => { changed($input.val().toString(), $input); });
@@ -1135,6 +1152,8 @@ interface ElementOptions {
     wrapper?: string;
     /** Whether the input should be disabled */
     disabled?: boolean;
+
+    sync?: { base: Component, tag: string };
 }
 
 interface InputElementOptions extends ElementOptions {

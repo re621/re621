@@ -33,6 +33,7 @@ export default class SettingsManager extends Component {
                 this.makeCoverSection(),
                 this.makeSearchForm(),
                 this.makeLookAndFeelSection(),
+                this.makeUploadSection(),
                 this.makeUtilitySection(),
             ]
         )
@@ -134,6 +135,180 @@ export default class SettingsManager extends Component {
                             RE621.Registry.HeaderCustomizer.Settings.forumUpdateDot = data;
                         }
                     ),
+                ]),
+            ]
+        )
+    }
+
+    private makeUploadSection(): FormElement {
+        const SmartAlias = RE621.Registry.SmartAlias;
+
+        const aliasContainer = $("<textarea>")
+            .attr("id", "alias-list-container")
+            .val(SmartAlias.Settings.data);
+        SmartAlias.on("settings.data-remote", (event, data) => {
+            aliasContainer.val(data as any);
+        });
+
+        return Form.section(
+            {
+                name: "upload",
+                columns: 1,
+                width: 3,
+            },
+            [
+                Form.header("Uploads", 3),
+                Form.section({
+                    name: "tags",
+                    columns: 3, width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "upload tags smartalias validation",
+                }, [
+                    Form.checkbox(
+                        {
+                            value: SmartAlias.Settings.autoLoad,
+                            label: `<b>Run Automatically</b><br />Either validate tag input as you type, or by pressing a button`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "autoLoad" },
+                        },
+                        async (data) => {
+                            SmartAlias.Settings.autoLoad = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: SmartAlias.Settings.replaceAliasedTags,
+                            label: `<b>Replace Aliases</b><br />Automatically replace aliased tag names with their consequent version`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "replaceAliasedTags" },
+                        },
+                        (data) => { SmartAlias.Settings.replaceAliasedTags = data }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: !SmartAlias.Settings.replaceLastTag,
+                            label: `<b>Ignore Last Tag</b><br />Don't replace the last tag with its alias, in case you are still thinking about it`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "replaceLastTag" },
+                        },
+                        (data) => { SmartAlias.Settings.replaceLastTag = !data; }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: SmartAlias.Settings.fixCommonTypos,
+                            label: `<b>Fix Common Typos</b><br />Correct several common typos in the tag fields`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "fixCommonTypos" },
+                        },
+                        (data) => { SmartAlias.Settings.fixCommonTypos = data; }
+                    ),
+                    Form.spacer(3),
+
+                    Form.subheader("Tag Display Order", "How the tags should be arranged in the display box", 2),
+                    Form.select(
+                        {
+                            value: SmartAlias.Settings.tagOrder,
+                            sync: { base: SmartAlias, tag: "tagOrder" },
+                        },
+                        {
+                            "default": "Original",
+                            "alphabetical": "Alphabetical",
+                            "grouped": "Grouped by Category",
+                        },
+                        (data) => { SmartAlias.Settings.tagOrder = data; }
+                    ),
+                    Form.spacer(3),
+
+                    Form.subheader("Minimum Posts Warning", "Highlight tags that have less than the specified number of posts", 2),
+                    Form.input(
+                        {
+                            value: SmartAlias.Settings.minPostsWarning,
+                            width: 1,
+                            pattern: "\\d+",
+                            sync: { base: SmartAlias, tag: "minPostWarning" },
+                        },
+                        (data, input) => {
+                            if (!(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                            SmartAlias.Settings.minPostsWarning = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.subheader("Cache Post Minimum", "Tags with this amount of posts will be cached to speed up lookups", 2),
+                    Form.input(
+                        {
+                            value: SmartAlias.Settings.minCachedTags,
+                            width: 1,
+                            pattern: "\\d{2,}",
+                            sync: { base: SmartAlias, tag: "minCachedTags" },
+                        },
+                        (data, input) => {
+                            if (!(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                            SmartAlias.Settings.minCachedTags = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: SmartAlias.Settings.asciiWarning,
+                            label: `<b>Flag Non-ASCII Tags</b><br />Flags that contain certain characters are invalid and should be replaced`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "asciiWarning" },
+                        },
+                        (data) => { SmartAlias.Settings.asciiWarning = data; }
+                    ),
+                    Form.hr(3),
+
+                    Form.checkbox(
+                        {
+                            value: SmartAlias.Settings.searchForm,
+                            label: `<b>Search Form Aliases</b><br />Apply custom aliases in the tag search form`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "searchForm" },
+                        },
+                        async (data) => {
+                            SmartAlias.Settings.searchForm = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: SmartAlias.Settings.compactOutput,
+                            label: `<b>Compact Display</b><br />Limit the tag information section to a set height`,
+                            width: 3,
+                            sync: { base: SmartAlias, tag: "compactOutput" },
+                        },
+                        async (data) => {
+                            SmartAlias.Settings.compactOutput = data;
+                        }
+                    ),
+                ]),
+
+                // Alias Definitions
+                Form.accordionTab({ name: "alias-defs", label: "Alias Definitions", columns: 3, width: 3 }, [
+                    Form.div({ value: aliasContainer, width: 3 }),
+
+                    Form.button(
+                        { value: "Save" },
+                        async () => {
+                            const confirmBox = $("span#defs-confirm").html("Saving . . .");
+                            SmartAlias.Settings.data = $("#alias-list-container").val().toString().trim();
+                            confirmBox.html("Settings Saved");
+                            window.setTimeout(() => { confirmBox.html(""); }, 1000);
+                        }
+                    ),
+                    Form.div({ value: `<span id="defs-confirm"></span>` }),
+                    Form.div({
+                        value: `<div class="float-right">[ <a href="${Script.url.repo}/wiki/SmartAlias" target="_blank">syntax help</a> ]</div>`
+                    })
                 ]),
             ]
         )
