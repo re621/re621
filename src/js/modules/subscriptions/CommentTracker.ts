@@ -1,11 +1,11 @@
 import { E621 } from "../../components/api/E621";
 import { APIComment } from "../../components/api/responses/APIComment";
 import { APIPost, PostFlag } from "../../components/api/responses/APIPost";
-import Page, { PageDefinition } from "../../components/data/Page";
 import { PostData } from "../../components/post/Post";
 import { PostParts } from "../../components/post/PostParts";
 import Util from "../../components/utility/Util";
-import XM from "../../models/XM";
+import XM from "../../models/api/XM";
+import Page, { PageDefinition } from "../../models/data/Page";
 import { Settings } from "../Component";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";

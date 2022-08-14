@@ -1,12 +1,12 @@
 import { DownloadQueue } from "../../components/api/DownloadQueue";
 import { E621 } from "../../components/api/E621";
 import { APIPost } from "../../components/api/responses/APIPost";
-import Page, { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post, PostData } from "../../components/post/Post";
 import { RE6Module } from "../../components/RE6Module";
 import Debug from "../../components/utility/Debug";
 import Util from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../models/data/Page";
 import { Settings } from "../Component";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BetterSearch } from "../search/BetterSearch";

@@ -1,4 +1,4 @@
-import XM from "../models/XM";
+import XM from "../models/api/XM";
 
 export class AvoidPosting {
 

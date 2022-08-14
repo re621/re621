@@ -1,8 +1,8 @@
-import Page from "../../components/data/Page";
-import User from "../../components/data/User";
-import { Form } from "../../components/structure/Form";
-import Modal from "../../components/structure/Modal";
 import Util from "../../components/utility/Util";
+import Page from "../../models/data/Page";
+import User from "../../models/data/User";
+import { Form } from "../../models/structure/Form";
+import Modal from "../../models/structure/Modal";
 import Component, { PrimitiveMap } from "../Component";
 
 /**

@@ -1,6 +1,6 @@
-import Script from "../../models/Script";
-import Modal from "../structure/Modal";
-import PageObserver from "../structure/PageObserver";
+import Script from "../../models/data/Script";
+import Modal from "../../models/structure/Modal";
+import PageObserver from "../../models/structure/PageObserver";
 
 export default class ErrorHandler {
 

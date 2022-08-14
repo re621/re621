@@ -1,5 +1,5 @@
+import Page, { PageDefinition } from "../../models/data/Page";
 import KeybindManager from "../data/Keybinds";
-import Page, { PageDefinition } from "../data/Page";
 import Debug from "../utility/Debug";
 import ErrorHandler from "../utility/ErrorHandler";
 import Util from "../utility/Util";

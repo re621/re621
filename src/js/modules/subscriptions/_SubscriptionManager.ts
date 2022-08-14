@@ -1,10 +1,10 @@
 import { ModuleController } from "../../components/ModuleController";
 import { RE6Module } from "../../components/RE6Module";
-import { Form, FormElement } from "../../components/structure/Form";
-import Modal from "../../components/structure/Modal";
 import { Tabbed, TabContent } from "../../components/structure/Tabbed";
 import Util from "../../components/utility/Util";
-import XM from "../../models/XM";
+import XM from "../../models/api/XM";
+import { Form, FormElement } from "../../models/structure/Form";
+import Modal from "../../models/structure/Modal";
 import { Settings } from "../Component";
 import { TagTracker } from "./TagTracker";
 import { SubscriptionTracker } from "./_SubscriptionTracker";

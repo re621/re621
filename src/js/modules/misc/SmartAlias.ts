@@ -3,10 +3,10 @@ import { E621 } from "../../components/api/E621";
 import { APITag, TagCategory } from "../../components/api/responses/APITag";
 import { APITagAlias } from "../../components/api/responses/APITagAlias";
 import { TagCache } from "../../components/cache/TagCache";
-import Page, { PageDefinition } from "../../components/data/Page";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import { TagValidator } from "../../components/utility/TagValidator";
 import Util from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../models/data/Page";
 
 export class SmartAlias extends RE6Module {
 

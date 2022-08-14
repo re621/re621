@@ -1,6 +1,6 @@
-import { PageDefinition } from "../../components/data/Page";
 import { RE6Module } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
+import { PageDefinition } from "../../models/data/Page";
 
 export class EditTracker extends RE6Module {
 

@@ -1,6 +1,6 @@
-import Page, { PageDefinition } from "../../components/data/Page";
 import { Post } from "../../components/post/Post";
 import { RE6Module } from "../../components/RE6Module";
+import Page, { PageDefinition } from "../../models/data/Page";
 import { Settings } from "../Component";
 import { BetterSearch } from "./BetterSearch";
 

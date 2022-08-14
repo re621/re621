@@ -1,12 +1,12 @@
 import css from "./css/style.module.scss";
 
-import User from "./js/components/data/User";
-import DOMTools from "./js/components/structure/DOMTools";
-import PageObserver from "./js/components/structure/PageObserver";
 import ErrorHandler from "./js/components/utility/ErrorHandler";
 import Util from "./js/components/utility/Util";
+import Script from "./js/models/data/Script";
+import User from "./js/models/data/User";
 import Debug from "./js/models/Debug";
-import Script from "./js/models/Script";
+import DOMTools from "./js/models/structure/DOMTools";
+import PageObserver from "./js/models/structure/PageObserver";
 import { ComponentList } from "./js/modules/Component";
 import HeaderCustomizer from "./js/modules/general/HeaderCustomizer";
 import SettingsManager from "./js/modules/general/SettingsManager";

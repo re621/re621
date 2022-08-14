@@ -1,9 +1,9 @@
 import { E621 } from "../../components/api/E621";
 import { APIPost } from "../../components/api/responses/APIPost";
-import { PageDefinition } from "../../components/data/Page";
-import User from "../../components/data/User";
 import { RE6Module } from "../../components/RE6Module";
-import Modal from "../../components/structure/Modal";
+import { PageDefinition } from "../../models/data/Page";
+import User from "../../models/data/User";
+import Modal from "../../models/structure/Modal";
 import { Settings } from "../Component";
 
 

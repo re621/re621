@@ -1,8 +1,8 @@
 import { SuggestionSet, TagSuggestion, TagSuggestionsList, TagSuggestionsTools } from "../../components/cache/TagSuggestions";
-import { PageDefinition } from "../../components/data/Page";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import ErrorHandler from "../../components/utility/ErrorHandler";
 import Util from "../../components/utility/Util";
+import { PageDefinition } from "../../models/data/Page";
 
 export class TagSuggester extends RE6Module {
 

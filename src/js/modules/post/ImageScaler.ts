@@ -1,8 +1,8 @@
-import { PageDefinition } from "../../components/data/Page";
-import User, { ImageScalingMode } from "../../components/data/User";
 import { Post } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import { Danbooru } from "../../models/Danbooru";
+import { Danbooru } from "../../models/api/Danbooru";
+import { PageDefinition } from "../../models/data/Page";
+import User, { ImageScalingMode } from "../../models/data/User";
 
 /**
  * Handles scaling post images in an intelligent way

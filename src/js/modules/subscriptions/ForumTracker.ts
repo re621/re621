@@ -1,8 +1,8 @@
 import { E621 } from "../../components/api/E621";
 import { APIForumTopic } from "../../components/api/responses/APIForumTopic";
-import Page, { PageDefinition } from "../../components/data/Page";
-import User from "../../components/data/User";
 import Util from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../models/data/Page";
+import User from "../../models/data/User";
 import { Settings } from "../Component";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";

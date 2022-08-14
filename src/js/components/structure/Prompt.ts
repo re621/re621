@@ -1,4 +1,4 @@
-import Modal from "./Modal";
+import Modal from "../../models/structure/Modal";
 
 /**
  * Creates a draggable window asking for user input

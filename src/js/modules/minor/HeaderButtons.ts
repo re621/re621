@@ -1,4 +1,4 @@
-import DOMTools from "../../components/structure/DOMTools";
+import DOMTools from "../../models/structure/DOMTools";
 import Component from "../Component";
 
 export default class HeaderButtons extends Component {

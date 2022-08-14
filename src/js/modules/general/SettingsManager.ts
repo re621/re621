@@ -1,13 +1,13 @@
 import { RE621 } from "../../../RE621";
+import Assets from "../../cache/Assets";
 import { AvoidPosting } from "../../cache/AvoidPosting";
-import { PageDefinition } from "../../components/data/Page";
-import User from "../../components/data/User";
-import { Form, FormElement } from "../../components/structure/Form";
 import Util from "../../components/utility/Util";
-import Assets from "../../models/Assets";
+import XM from "../../models/api/XM";
+import { PageDefinition } from "../../models/data/Page";
+import Script from "../../models/data/Script";
+import User from "../../models/data/User";
 import Debug from "../../models/Debug";
-import Script from "../../models/Script";
-import XM from "../../models/XM";
+import { Form, FormElement } from "../../models/structure/Form";
 import Component from "../Component";
 
 export default class SettingsManager extends Component {

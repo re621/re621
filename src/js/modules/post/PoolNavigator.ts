@@ -1,7 +1,7 @@
 import { RE621 } from "../../../RE621";
-import { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { RE6Module, Settings } from "../../components/RE6Module";
+import { PageDefinition } from "../../models/data/Page";
 
 export class PoolNavigator extends RE6Module {
 

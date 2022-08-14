@@ -1,7 +1,7 @@
 import { Blacklist } from "../../components/data/Blacklist";
-import Page, { PageDefinition } from "../../components/data/Page";
 import { RE6Module } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../models/data/Page";
 import { Settings } from "../Component";
 
 

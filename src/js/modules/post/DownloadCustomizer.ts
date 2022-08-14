@@ -1,9 +1,9 @@
-import { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { Post, PostData } from "../../components/post/Post";
 import { PostParts } from "../../components/post/PostParts";
 import { RE6Module, Settings } from "../../components/RE6Module";
-import XM from "../../models/XM";
+import XM from "../../models/api/XM";
+import { PageDefinition } from "../../models/data/Page";
 import { MassDownloader } from "../downloader/MassDownloader";
 
 /**

@@ -1,4 +1,4 @@
-import Debug from "./Debug";
+import Debug from "../Debug";
 import XM from "./XM";
 
 declare const GM_xmlhttpRequest: any;

@@ -1,6 +1,6 @@
-import XM from "../../models/XM";
-import KeybindManager from "../data/Keybinds";
-import Util from "../utility/Util";
+import KeybindManager from "../../components/data/Keybinds";
+import Util from "../../components/utility/Util";
+import XM from "../api/XM";
 import PreparedStructure from "./PreparedStructure";
 
 /**

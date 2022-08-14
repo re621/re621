@@ -1,6 +1,6 @@
+import { Tag } from "../../models/data/Tag";
+import User from "../../models/data/User";
 import { PostFlag, PostRating } from "../api/responses/APIPost";
-import { Tag } from "../data/Tag";
-import User from "../data/User";
 import Util from "../utility/Util";
 import { Post, PostData } from "./Post";
 

@@ -1,6 +1,6 @@
-import XM from "../models/XM";
+import XM from "../models/api/XM";
+import Page from "../models/data/Page";
 import KeybindManager, { Keybind, ResponseFunction } from "./data/Keybinds";
-import Page from "./data/Page";
 import { ModuleController } from "./ModuleController";
 
 /**

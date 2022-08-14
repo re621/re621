@@ -1,6 +1,6 @@
-import Page, { PageDefinition } from "../../components/data/Page";
 import { Post, PostData } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
+import Page, { PageDefinition } from "../../models/data/Page";
 
 export class JanitorEnhancements extends RE6Module {
 

@@ -3,12 +3,12 @@ import { E621 } from "../../components/api/E621";
 import { APIPool } from "../../components/api/responses/APIPool";
 import { APIPost } from "../../components/api/responses/APIPost";
 import { APIPostGroup } from "../../components/api/responses/APIPostGroup";
-import Page, { PageDefinition } from "../../components/data/Page";
 import { ModuleController } from "../../components/ModuleController";
 import { PostData } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Debug from "../../components/utility/Debug";
 import Util from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../models/data/Page";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { MassDownloader } from "./MassDownloader";
 

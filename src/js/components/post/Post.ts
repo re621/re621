@@ -1,9 +1,9 @@
+import { Tag } from "../../models/data/Tag";
 import { PostViewer } from "../../modules/post/PostViewer";
 import { BetterSearch } from "../../modules/search/BetterSearch";
 import { CustomFlagger } from "../../modules/search/CustomFlagger";
 import { APIPost, PostFlag, PostRating } from "../api/responses/APIPost";
 import { Blacklist } from "../data/Blacklist";
-import { Tag } from "../data/Tag";
 import { ModuleController } from "../ModuleController";
 import Debug from "../utility/Debug";
 import Util from "../utility/Util";

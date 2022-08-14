@@ -1,8 +1,8 @@
-import Page, { PageDefinition } from "../../components/data/Page";
 import { Post, PostData } from "../../components/post/Post";
 import { PostFilter } from "../../components/post/PostFilter";
 import { RE6Module } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
+import Page, { PageDefinition } from "../../models/data/Page";
 import { Settings } from "../Component";
 import { BetterSearch } from "./BetterSearch";
 
