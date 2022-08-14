@@ -29,6 +29,7 @@ module.exports = {
     ],
 
     resource: {
+        "images": "https://raw.githubusercontent.com/bitWolfy/re621/dynamic/assets/images.json",
         "dnpcache": "https://raw.githubusercontent.com/re621/dnpcache/main/data.json",
     },
 
