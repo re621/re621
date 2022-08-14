@@ -18,6 +18,7 @@ export default class Component {
     public Settings: Settings = {
         enabled: true,
     };
+    private SettingsDefaults: Settings;
     private SettingsCache: Settings;
 
     public constructor(options: ComponentOptions = {}) {
@@ -39,37 +40,40 @@ export default class Component {
         this.SettingsCache = {
             enabled: true,
         };
+    }
 
-        // Being component initialization
-        this.execPrepare()
-            .then(() => this.bootstrapSettings())
+    public async init(): Promise<void> {
+        return this.execPrepare()
             .then(() => {
                 // Check if page constraints match
                 if (!this.constraintMatches) return;
 
                 // Determine when to create the DOM structure
-                if (typeof options.waitForDOM == "string") {
-                    PageObserver.watch(options.waitForDOM).then((status) => {
+                if (typeof this.DOMLoadConditions == "string") {
+                    PageObserver.watch(this.DOMLoadConditions).then((status) => {
                         if (!status) {
                             // TODO Page loaded, but the element was not found
                             return;
                         }
                         this.execCreate();
                     });
-                } else if (options.waitForDOM) {
+                } else if (this.DOMLoadConditions) {
                     $(() => this.execCreate());
                 } else this.execCreate();
             });
     }
 
     /** Loads the settings from storage, and sets up listeners to sync them across tabs */
-    private async bootstrapSettings(): Promise<void> {
+    public async bootstrapSettings(settings?: Settings): Promise<void> {
+        this.SettingsDefaults = { enabled: true };
 
         // Load in the saved settings values
-        for (const [key, defaultValue] of Object.entries(this.Settings)) {
+        for (const [key, defaultValue] of Object.entries(settings || this.Settings)) {
 
-            const savedValue = await XM.Storage.getValue(this.name + "." + key, defaultValue);
+            const savedValue = XM.Storage.getValue(this.name + "." + key, defaultValue);
             this.SettingsCache[key] = savedValue;
+            this.SettingsDefaults[key] = defaultValue;
+            delete this.Settings[key];
 
             // This is a hack, but I'm not sure how else I'm supposed
             // to pass a reference to the parent object inside the
@@ -80,21 +84,33 @@ export default class Component {
             // Define custom setters and getters
             Object.defineProperty(this.Settings, key, {
                 get() {
+                    // Debug.log("- fetching", passedThis.name + "." + key);
                     return passedThis.SettingsCache[key];
                 },
                 set(newValue) {
-                    passedThis.SettingsCache[key] = newValue;
-                    console.log(JSON.stringify(newValue), JSON.stringify(defaultValue), JSON.stringify(newValue) == JSON.stringify(defaultValue));
-                    if (JSON.stringify(newValue) == JSON.stringify(defaultValue))
+                    // Debug.log("- setting", passedThis.name + "." + key, newValue);
+                    if (JSON.stringify(newValue) == JSON.stringify(defaultValue)) {
+                        passedThis.SettingsCache[key] = defaultValue;
                         XM.Storage.deleteValue(passedThis.name + "." + key);
-                    else XM.Storage.setValue(passedThis.name + "." + key, newValue);
+                    } else {
+                        passedThis.SettingsCache[key] = newValue;
+                        XM.Storage.setValue(passedThis.name + "." + key, newValue);
+                    }
                 }
             })
 
             // Sync settings between tabs
             XM.Storage.addListener(this.name + "." + key, (settingsTag, oldValue, newValue, remote) => {
+                // Reset to default
+                if (typeof newValue == "undefined") newValue = this.SettingsDefaults[key];
+
+                // Only update if the event came from another tab
+                // Otherwise, the value is already correct, and we don't need an infinite loop
                 if (remote) this.SettingsCache[key] = newValue;
-                this.trigger("settings." + key + (remote ? ".remote" : ".local"), newValue);
+                else newValue = this.SettingsCache[key];
+
+                this.trigger("settings." + key + "-" + (remote ? "remote" : "local"), newValue);
+                this.trigger("settings." + key, newValue);
             });
         }
 
@@ -104,6 +120,8 @@ export default class Component {
             if (value) this.load();
             else this.unload();
         });
+
+        this.trigger("bootstrap");
     }
 
     /**
@@ -221,6 +239,8 @@ export default class Component {
     public off(event: string, eventID?: number): void {
         $(document).off(`re621.${this.name}.${event}` + (eventID ? `.${eventID}` : ""));
     }
+
+    public getName(): string { return this.name; }
 
 }
 

@@ -1,0 +1,25 @@
+.settings-header {
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    grid-column-gap: 1rem;
+
+    .settings-header-update {
+        a.update-notice {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    .settings-header-info {
+        grid-column: span 3;
+    }
+}
+
+#settings form-section.settings-section,
+#settings #settings-search {
+    background: #00000040;
+    margin: 0 -0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+}

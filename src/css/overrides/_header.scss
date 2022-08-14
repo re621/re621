@@ -5,6 +5,11 @@ header#top {
         display: grid;
         grid-template-columns: min-content 1fr max-content;
 
+        /*
+        | logo |      main      | extra |
+        |            subnav             |
+        */
+
         menu.logo {
             background: none;
             margin-top: 0;
@@ -27,6 +32,8 @@ header#top {
 
         menu.subnav {
             grid-column: span 3;
+            height: 2rem;
+            box-sizing: border-box;
         }
 
         @include desktop() {

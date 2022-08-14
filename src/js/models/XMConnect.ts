@@ -1,4 +1,4 @@
-import Debug from "../utility/Debug";
+import Debug from "./Debug";
 import XM from "./XM";
 
 declare const GM_xmlhttpRequest: any;
@@ -126,7 +126,7 @@ export default class XMConnect {
     public static browserDownload(a: any, b?: string, c?: boolean): void {
 
         // Fallback to avoid a crash in Vivaldi
-        if (Debug.getState("vivaldi")) XM.Connect.download(a, b);
+        if (Debug.Vivaldi) XM.Connect.download(a, b);
 
         const downloadDetails: GMDownloadDetails = typeof a === "string"
             ? { url: a, name: b, saveAs: c }

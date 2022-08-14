@@ -12,6 +12,10 @@ export default class XMStorage {
         GM_deleteValue(name);
     }
 
+    public static listValues(): string[] {
+        return GM_listValues();
+    }
+
     public static addListener(name: string, callback: Tampermonkey.ValueChangeListener): number {
         return GM_addValueChangeListener(name, callback);
     }

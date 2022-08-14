@@ -139,9 +139,10 @@ export class Form implements PreparedStructure {
             .toggleClass(options.wrapper, options.wrapper)
             .attr({
                 "id": options.name,
-                "labeled": options.label !== undefined ? "" : null,
-                "columns": options.columns !== 1 ? options.columns : null,
-                "colspan": options.width !== 1 ? options.width : null,
+                "labeled": options.label !== undefined ? "" : undefined,
+                "columns": options.columns !== 1 ? options.columns : undefined,
+                "colspan": options.width !== 1 ? options.width : undefined,
+                "search": options.tags ? options.tags : undefined,
             });
 
         return new FormElement($element, undefined, $label, content);
@@ -1115,6 +1116,8 @@ interface SectionOptions {
     width?: number;
     /** Wrapper class, usually applied to <form-input> */
     wrapper?: string;
+    /** Search tags, added as an attribute */
+    tags?: string;
 }
 
 interface ElementOptions {

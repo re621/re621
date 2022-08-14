@@ -38,7 +38,7 @@ export class PoolNavigator extends RE6Module {
         super.create();
 
         this.createStructure();
-        RE621.modules.ThemeCustomizer.on("switch.navbar", () => {
+        RE621.Registry.ThemeCustomizer.on("switch.navbar", () => {
             this.resetStructure();
             this.createStructure();
         });

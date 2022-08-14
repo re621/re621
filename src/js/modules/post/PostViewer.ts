@@ -203,7 +203,7 @@ export class PostViewer extends RE6Module {
 
             if (Util.LS.getItem("re621-theme-nav") == "left") {
                 $("body").attr("re621-data-th-nav", "true");
-                RE621.modules.ThemeCustomizer.trigger("switch.navbar", "left");
+                RE621.Registry.ThemeCustomizer.trigger("switch.navbar", "left");
             } else $("body").attr("re621-data-th-nav", "false");
         }
 

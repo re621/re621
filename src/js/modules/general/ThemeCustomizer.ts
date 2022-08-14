@@ -1,3 +1,4 @@
+import DOMTools from "../../components/structure/DOMTools";
 import { Form } from "../../components/structure/Form";
 import Modal from "../../components/structure/Modal";
 import Util from "../../components/utility/Util";
@@ -9,9 +10,15 @@ export default class ThemeCustomizer extends Component {
     private $extra: JQuery<HTMLElement>;
     private $nav: JQuery<HTMLElement>;
 
+    public constructor() {
+        super({
+            waitForDOM: "menu.extra",
+        });
+    }
+
     public async create(): Promise<void> {
 
-        const openCustomizerButton = Util.DOM.addSettingsButton({
+        const openCustomizerButton = DOMTools.addSettingsButton({
             id: "header-button-theme",
             name: `<i class="fas fa-paint-brush"></i>`,
             title: "Change Theme",

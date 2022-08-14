@@ -45,6 +45,10 @@ a {
     display: block;
 }
 
+.display-flex {
+    display: flex;
+}
+
 // Visibility
 .vis-hidden {
     visibility: hidden;
@@ -60,7 +64,16 @@ a {
     border-left-width: 1px !important;
 }
 
+// Alignment
+.justify-center {
+    justify-content: center;
+}
+
 // Styling
 .text-bold {
     font-weight: bold;
+}
+
+.color-red {
+    color: red;
 }

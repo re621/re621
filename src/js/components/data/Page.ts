@@ -136,4 +136,7 @@ export const PageDefinition = {
     help: /^\/help.*/,
 
     postConfirmDelete: /^\/moderator\/post\/posts\/.+\/confirm_delete.*/,
+
+    // Custom
+    pluginSettings: /^\/settings.*/,
 };

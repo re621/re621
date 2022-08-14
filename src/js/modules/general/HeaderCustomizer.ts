@@ -130,13 +130,13 @@ export default class HeaderCustomizer extends Component {
 
 
         // Listen to settings events and update the structure
-        this.on("settings.tabs.remote", () => {
+        this.on("settings.tabs-remote", () => {
             this.isEditing = false;
             this.rebuildTabs();
             this.updateTabModal.clearTriggers();
             this.updateTabModal.registerTrigger({ element: $("menu.main li a") });
         });
-        this.on("settings.forumUpdateDot.remote", () => {
+        this.on("settings.forumUpdateDot", () => {
             this.toggleForumDot(this.Settings.forumUpdateDot);
         });
     }
