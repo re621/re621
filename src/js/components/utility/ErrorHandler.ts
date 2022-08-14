@@ -4,8 +4,7 @@ import PageObserver from "../../models/structure/PageObserver";
 
 export default class ErrorHandler {
 
-    public static async log(module: "ModuleController" | "DOM" | string, message: string, error?: Error): Promise<void> {
-
+    public static async write(message: string, error?: Error): Promise<void> {
         const notice = $("<div>").html([
             `<p>RE621 had encountered an error during script execution.</p>`,
             `<p>Please, report this message, including the error log below, through the <a href="${Script.url.issues}">issue tracker</a>, or in the <a href="${Script.url.thread}">forum thread</a>.</p>`,
@@ -42,6 +41,13 @@ export default class ErrorHandler {
             .addClass("error-handler")
             .append(notice)
             .append(textarea);
+    }
+
+    /**
+     * @deprecated
+     */
+    public static async log(_module: "ModuleController" | "DOM" | string, message: string, error?: Error): Promise<void> {
+        return this.write(message, error);
     }
 
 }

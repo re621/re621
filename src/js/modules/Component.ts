@@ -179,7 +179,8 @@ export default class Component {
     private async execPrepare(): Promise<void> {
         try { await this.prepare(); }
         catch (error) {
-            // TODO Error handling
+            ErrorHandler.write(`[${this.name}] Fatal crash during "prepare"`, error)
+            return;
         }
         this.trigger("prepare");
     }
@@ -193,13 +194,13 @@ export default class Component {
     /** Runs the component's `create()` function, sets corresponding variables and triggers events. */
     private async execCreate(): Promise<void> {
         if (this.initialized) {
-            // TODO Throw an error?
+            ErrorHandler.write(`[${this.name}] Attempted to create an initialized module`, new Error());
             return;
         }
 
         try { await this.create(); }
         catch (error) {
-            ErrorHandler.log(`[${this.name}] fatal crash during initialization`, error)
+            ErrorHandler.write(`[${this.name}] Fatal crash during "create"`, error);
             return;
         }
         this.initialized = true;
