@@ -28,6 +28,10 @@ module.exports = {
         "https://cdn.jsdelivr.net/npm/jsframe.js/lib/jsframe.min.js"
     ],
 
+    resource: {
+        "dnpcache": "https://raw.githubusercontent.com/re621/dnpcache/main/data.json",
+    },
+
     grant: [
         "GM_info",
         "GM_setValue",

@@ -20,4 +20,8 @@ export default class XMStorage {
         GM_removeValueChangeListener(id);
     }
 
+    public static getResourceText(name: string): any {
+        return GM_getResourceText(name);
+    }
+
 }
