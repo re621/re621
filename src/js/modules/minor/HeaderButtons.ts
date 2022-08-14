@@ -27,7 +27,7 @@ export default class HeaderButtons extends Component {
                 "data-updates": "0",
             },
             linkClass: "update-notification",
-            href: "/settings"
+            href: "/plugins/re621"
         });
     }
 

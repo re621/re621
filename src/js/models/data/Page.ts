@@ -138,5 +138,5 @@ export const PageDefinition = {
     postConfirmDelete: /^\/moderator\/post\/posts\/.+\/confirm_delete.*/,
 
     // Custom
-    pluginSettings: /^\/settings.*/,
+    pluginSettings: /^\/plugins\/re621.*/,
 };
