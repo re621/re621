@@ -40,9 +40,12 @@ export default class Modal {
 
                 resizable: false,
 
-                width: "auto",
+                width: config.width,
+                height: config.height,
                 minWidth: config.minWidth,
                 minHeight: config.minHeight,
+                maxWidth: config.maxWidth,
+                maxHeight: config.maxHeight,
 
                 position: {
                     my: config.position.my,
@@ -87,8 +90,12 @@ export default class Modal {
         result.content = typeof config.content === "undefined" ? $("") : config.content;
         result.structure = typeof config.structure === "undefined" ? null : config.structure;
 
+        result.width = typeof config.width === "undefined" ? "auto" : config.width;
+        result.height = typeof config.height === "undefined" ? "auto" : config.height;
         result.minWidth = typeof config.minWidth === "undefined" ? 150 : config.minWidth;
         result.minHeight = typeof config.minHeight === "undefined" ? 150 : config.minHeight;
+        result.maxWidth = typeof config.maxWidth === "undefined" ? undefined : config.maxWidth;
+        result.maxHeight = typeof config.minHeight === "undefined" ? undefined : config.maxHeight;
 
         result.disabled = typeof config.disabled === "undefined" ? false : config.disabled;
         if (typeof config.position === "undefined") result.position = { my: "center", at: "center" };
@@ -97,6 +104,8 @@ export default class Modal {
                 my: !config.position.my ? "center" : config.position.my,
                 at: !config.position.at ? "center" : config.position.at,
             }
+
+        console.log(result);
 
         return result;
     }
@@ -195,10 +204,12 @@ interface ModalConfig {
     /** Refreshes the modal instead of toggling it. Special case for HeaderCustomizer */
     triggerMulti?: boolean;
 
-    /** Minimum modal window width, in pixels */
+    width?: number | "auto";
+    height?: number | "auto";
     minWidth?: number;
-    /** Minimum modal window width, in pixels */
     minHeight?: number;
+    maxWidth?: number;
+    maxHeight?: number;
 
     /** If true, triggers are disabled */
     disabled?: boolean;

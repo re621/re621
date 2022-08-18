@@ -29,12 +29,8 @@ export default class ErrorHandler {
             title: "Error",
             autoOpen: true,
 
-            // width: window.innerWidth / 2,
-            // height: window.innerHeight / 2,
-            // minWidth: 400,
-            // minHeight: 400,
-            // maxWidth: 800,
-            // maxHeight: 600,
+            width: 650,
+            position: { my: "center", at: "center center-15%" }
 
         });
         dialog.getElement()

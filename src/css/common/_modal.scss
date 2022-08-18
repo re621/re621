@@ -99,6 +99,9 @@ div#modal-container {
             border: unset !important;
             background-color: unset !important;
             color: unset !important;
+            
+            width: inherit !important;
+            box-sizing: border-box;
 
             .ui-tabs {
                 margin-top: -1em;

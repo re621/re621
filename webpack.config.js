@@ -7,7 +7,7 @@ const metadata = require("./bin/userscript-header");
 const userscript = {
     entry: "./src/RE621.ts",
     mode: "production",
-    devtool: "source-map",
+    devtool: "inline-cheap-source-map",
     plugins: [
         new UserscriptWebpackPlugin({ metadata }),
     ],

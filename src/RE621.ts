@@ -37,18 +37,19 @@ export class RE621 {
         console.log("%c[RE621]%c v." + Script.version, "color: maroon", "color: unset");
 
         // Initialize basic functionality
+        let headLoaded: Promise<void>, bodyLoaded: Promise<void>;
         try {
             Debug.log("+ Page Observer");
             PageObserver.init();
 
             // Append the CSS to head, and make sure it overrides other styles
-            PageObserver.watch("head").then(() => {
+            headLoaded = PageObserver.watch("head").then(() => {
                 Debug.log("+ HEAD is ready");
                 const styleElement = DOMTools.addStyle(css);
                 $(() => { styleElement.appendTo("head"); });
             });
 
-            PageObserver.watch("body").then(() => {
+            bodyLoaded = PageObserver.watch("body").then(() => {
                 Debug.log("+ BODY is ready");
                 // Dialog.init();
                 DOMTools.setupDialogContainer(); // TODO Move to the dialog class
@@ -60,11 +61,13 @@ export class RE621 {
                 DOMTools.patchHeader();
             });
         } catch (error) {
-            ErrorHandler.log("An error ocurred during script initialization", error);
+            ErrorHandler.write("An error ocurred during script initialization", error);
             return;
         }
 
+
         // Start loading components
+        await Promise.all([headLoaded, bodyLoaded]);
         let loaded = 0;
         const total = Object.keys(this.loadOrder).length;
         for (const module of this.loadOrder) {
