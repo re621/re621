@@ -10,8 +10,8 @@ import PageObserver from "./js/models/structure/PageObserver";
 import { ComponentList } from "./js/modules/Component";
 import HeaderCustomizer from "./js/modules/general/HeaderCustomizer";
 import SettingsManager from "./js/modules/general/SettingsManager";
-import ThemeCustomizer from "./js/modules/general/ThemeCustomizer";
 import HeaderButtons from "./js/modules/minor/HeaderButtons";
+import ThemeCustomizer from "./js/modules/minor/ThemeCustomizer";
 import { SmartAlias } from "./js/modules/misc/SmartAlias";
 
 export class RE621 {
