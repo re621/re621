@@ -4,7 +4,7 @@ export default class PageObserver {
     private static observer: MutationObserver;
     private static pageLoaded = false;
 
-    private static targets: Map<string, (success: boolean) => void>;
+    private static targets: Map<string, CallbackFunction[]>;
 
     /**
      * Initialize the observer and start watching for DOM changes.  
@@ -16,10 +16,10 @@ export default class PageObserver {
         // Watch for the elements to load
         this.targets = new Map();
         this.observer = new MutationObserver(() => {
-            for (const [selector, callback] of Array.from(this.targets.entries())) {
+            for (const [selector, callbacks] of Array.from(this.targets.entries())) {
                 if (!document.querySelector(selector)) continue;
                 this.targets.delete(selector);
-                callback(true);
+                for (const one of callbacks) one(true);
             }
         });
         this.observer.observe(document, { childList: true, subtree: true });
@@ -29,8 +29,8 @@ export default class PageObserver {
             this.observer.disconnect();
             this.pageLoaded = true;
 
-            for (const callback of Array.from(this.targets.values()))
-                callback(false);
+            for (const callbacks of Array.from(this.targets.values()))
+                for (const one of callbacks) one(true);
             this.targets = new Map();
         })
     }
@@ -46,8 +46,11 @@ export default class PageObserver {
         if ($(selector).length > 0) return Promise.resolve(true);
         else if (this.pageLoaded) return Promise.resolve(false);
 
+        if (!this.targets.has(selector))
+            this.targets.set(selector, []);
+
         return new Promise<boolean>((resolve) => {
-            this.targets.set(selector, resolve);
+            this.targets.get(selector).push(resolve);
         });
     }
 
@@ -68,3 +71,4 @@ export default class PageObserver {
 
 }
 
+type CallbackFunction = (response: boolean) => void;
