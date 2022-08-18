@@ -1,7 +1,6 @@
+import { RE621 } from "../../../RE621";
 import { AvoidPosting } from "../../cache/AvoidPosting";
-import { E621 } from "../../components/api/E621";
-import { APITag, TagCategory } from "../../components/api/responses/APITag";
-import { APITagAlias } from "../../components/api/responses/APITagAlias";
+import { TagCategory } from "../../components/api/responses/APITag";
 import { TagCache } from "../../components/cache/TagCache";
 import { TagValidator } from "../../components/utility/TagValidator";
 import Util from "../../components/utility/Util";
@@ -356,7 +355,7 @@ export class SmartAlias extends Component {
         const invalidTags: Set<string> = new Set(),
             ambiguousTags: Set<string> = new Set();
         for (const batch of Util.chunkArray([...lookup].filter((value) => SmartAlias.tagAliases[value] == undefined), 40)) {
-            for (const result of await E621.TagAliases.get<APITagAlias>({ "search[antecedent_name]": batch, limit: 320 }, 500)) {
+            for (const result of (await RE621.API.TagAliases.find({ antecedent_name: batch as any, limit: 320 })).data) {
 
                 // Don't apply pending or inactive aliases
                 if (result.status !== "active") continue;
@@ -444,13 +443,11 @@ export class SmartAlias extends Component {
         if (lookup.size > 0) {
 
             for (const batch of Util.chunkArray(lookup, 100)) {
-                for (const result of await E621.Tags.get<APITag>({
-                    search: {
-                        name: batch.join(","),
-                        hide_empty: false,
-                    },
+                for (const result of (await RE621.API.Tags.find({
+                    name: batch,
+                    hide_empty: false,
                     limit: 100,
-                }, 500)) {
+                })).data) {
                     SmartAlias.tagData[result.name] = {
                         count: result.post_count,
                         category: result.category,

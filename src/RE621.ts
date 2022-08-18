@@ -1,3 +1,4 @@
+import ZestyAPI from "@re621/zestyapi";
 import css from "./css/style.module.scss";
 
 import ErrorHandler from "./js/components/utility/ErrorHandler";
@@ -16,8 +17,8 @@ import { SmartAlias } from "./js/modules/misc/SmartAlias";
 
 export class RE621 {
 
-    // Fill in type suggestions
     public static Registry: ComponentListAnnotated = {};
+    public static API: ZestyAPI;
 
     private loadOrder = [
         // Header
@@ -35,6 +36,13 @@ export class RE621 {
     public async run(): Promise<void> {
 
         console.log("%c[RE621]%c v." + Script.version, "color: maroon", "color: unset");
+
+        // Set up the API connection
+        // TODO Temporary instantiation method
+        RE621.API = window["ZestyAPI"].connect({
+            userAgent: Script.userAgent,
+            debug: Debug.Connect,
+        });
 
         // Initialize basic functionality
         let headLoaded: Promise<void>, bodyLoaded: Promise<void>;
@@ -56,9 +64,22 @@ export class RE621 {
                 User.init();
             });
 
-            PageObserver.watch("menu.main").then(() => {
+            PageObserver.watch("menu.main").then((result) => {
+                if (!result) {
+                    Debug.log("+ MENU missing");
+                    return;
+                }
                 Debug.log("+ MENU is ready");
                 DOMTools.patchHeader();
+            });
+
+            PageObserver.watch("head meta[name=csrf-token]").then((result) => {
+                if (!result) {
+                    Debug.log("+ API logged out");
+                    return;
+                }
+                const token = $("head meta[name=csrf-token]");
+                if (token) RE621.API.login(token.attr("content"));
             });
         } catch (error) {
             ErrorHandler.write("An error ocurred during script initialization", error);

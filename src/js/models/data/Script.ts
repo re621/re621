@@ -14,4 +14,11 @@ export default class Script {
         latest: "https://api.github.com/repos/re621/re621/releases/latest",
         kofi: "https://ko-fi.com/bitWolfy",
     }
+    public static userAgent = "re621/" + this.trimVersion(Script.version);
+
+    private static trimVersion(value: string): string {
+        const match = value.match(/(\d\.\d+)\.\d+/);
+        if (!match || !match[1]) return "0.0";
+        return match[1];
+    }
 }
