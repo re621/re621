@@ -1,13 +1,15 @@
+require('dotenv').config()
 const path = require("path");
 const UserscriptWebpackPlugin = require("./bin/UserscriptWebpackPlugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const metadata = require("./bin/userscript-header");
 
+const isDev = process.env.NODE_ENV == "development";
 
 const userscript = {
     entry: "./src/RE621.ts",
-    mode: "production",
-    devtool: "inline-cheap-source-map",
+    mode: isDev ? "development" : "production",
+    devtool: isDev ? "inline-cheap-source-map" : isDev,
     plugins: [
         new UserscriptWebpackPlugin({ metadata }),
     ],
@@ -49,6 +51,7 @@ const userscript = {
         path: path.resolve(__dirname, "dist"),
     },
     optimization: {
+        minimize: !isDev,
         minimizer: [
             (compiler) => {
                 new TerserPlugin({
@@ -90,7 +93,7 @@ const metascript = {
     },
 };
 
-module.exports = [
-    userscript,
-    metascript,
-];
+const files = [userscript];
+if (!isDev) files.push(metascript);
+
+module.exports = files;
