@@ -105,8 +105,6 @@ export default class Modal {
                 at: !config.position.at ? "center" : config.position.at,
             }
 
-        console.log(result);
-
         return result;
     }
 
