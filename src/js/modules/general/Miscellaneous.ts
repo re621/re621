@@ -9,7 +9,7 @@ import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
 import XM from "../../models/api/XM";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { BetterSearch, ImageClickAction } from "../search/BetterSearch";
+import { BetterSearch, ImageClickAction } from "../posts/BetterSearch";
 
 /**
  * Miscellaneous functionality that does not require a separate module

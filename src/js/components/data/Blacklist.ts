@@ -1,5 +1,5 @@
 import User from "../../models/data/User";
-import { BlacklistEnhancer } from "../../modules/search/BlacklistEnhancer";
+import { BlacklistEnhancer } from "../../modules/posts/BlacklistEnhancer";
 import { ModuleController } from "../ModuleController";
 import { Post, PostData } from "../post/Post";
 import { FilterOptions, PostFilter } from "../post/PostFilter";

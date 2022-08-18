@@ -7,7 +7,7 @@ import Debug from "../../components/utility/Debug";
 import Util from "../../components/utility/Util";
 import { PageDefinition } from "../../models/data/Page";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
-import { BetterSearch } from "../search/BetterSearch";
+import { BetterSearch } from "../posts/BetterSearch";
 
 export class MassDownloader extends RE6Module {
 

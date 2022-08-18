@@ -1,7 +1,7 @@
 import { Post } from "../../components/post/Post";
 import { RE6Module } from "../../components/RE6Module";
 import { PageDefinition } from "../../models/data/Page";
-import { BetterSearch } from "../search/BetterSearch";
+import { BetterSearch } from "../posts/BetterSearch";
 
 export class ScriptAssistant extends RE6Module {
 

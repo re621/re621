@@ -1,7 +1,7 @@
 import { Post } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { BetterSearch } from "./BetterSearch";
+import { BetterSearch } from "../posts/BetterSearch";
 
 
 export class ProgressTracker extends RE6Module {

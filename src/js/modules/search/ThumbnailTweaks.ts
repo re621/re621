@@ -3,8 +3,8 @@ import { ModuleController } from "../../components/ModuleController";
 import { PostData } from "../../components/post/Post";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Debug from "../../components/utility/Debug";
-import { BetterSearch } from "./BetterSearch";
-import { CustomFlagger } from "./CustomFlagger";
+import { BetterSearch } from "../posts/BetterSearch";
+import { CustomFlagger } from "../posts/CustomFlagger";
 
 export class ThumbnailTweaks extends RE6Module {
 

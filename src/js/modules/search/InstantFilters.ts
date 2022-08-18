@@ -3,7 +3,7 @@ import { PostFilter } from "../../components/post/PostFilter";
 import { RE6Module, Settings } from "../../components/RE6Module";
 import Util from "../../components/utility/Util";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { BetterSearch } from "./BetterSearch";
+import { BetterSearch } from "../posts/BetterSearch";
 
 
 /**

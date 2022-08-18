@@ -10,7 +10,7 @@ import Util from "../../components/utility/Util";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
 import { WikiEnhancer } from "../misc/WikiEnhancer";
-import { BetterSearch, ImageClickAction } from "../search/BetterSearch";
+import { BetterSearch, ImageClickAction } from "../posts/BetterSearch";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";

@@ -13,7 +13,7 @@ import HeaderCustomizer from "./js/modules/general/HeaderCustomizer";
 import SettingsManager from "./js/modules/general/SettingsManager";
 import HeaderButtons from "./js/modules/minor/HeaderButtons";
 import ThemeCustomizer from "./js/modules/minor/ThemeCustomizer";
-import { SmartAlias } from "./js/modules/misc/SmartAlias";
+import { SmartAlias } from "./js/modules/posts/SmartAlias";
 
 export class RE621 {
 
