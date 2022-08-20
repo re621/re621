@@ -23,3 +23,10 @@
     padding: 0.5rem;
     border-radius: 0.25rem;
 }
+
+div.thumb-preview {
+    display: flex;
+    padding-left: 1rem;
+    box-sizing: border-box;
+    max-height: 14rem;
+}

@@ -43,14 +43,17 @@ form-section {
     &:not([columns]),
     &[columns="1"] {
         grid-template-columns: $form-col-label $form-col-input;
+        width: $form-col-label + $form-col-input + $form-gap;
     }
 
     &[columns="2"] {
         grid-template-columns: $form-col-label $form-col-input $form-col-label $form-col-input;
+        width: (($form-col-label + $form-col-input) * 2) + ($form-gap * 3);
     }
 
     &[columns="3"] {
         grid-template-columns: $form-col-label $form-col-input $form-col-label $form-col-input $form-col-label $form-col-input;
+        width: (($form-col-label + $form-col-input) * 3) + ($form-gap * 5);
     }
 }
 

@@ -1,67 +1,34 @@
-/* Animated loading spinner, from https://loading.io/css/ */
-.lds-ellipsis {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
+@mixin spinner() {
 
-    div {
-        position: absolute;
-        top: 33px;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: #fff;
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    border: 0.5rem solid #ffffff30;
+    border-top-color: #152f56;
+    -webkit-animation: load8 2s infinite linear;
+    animation: load8 2s infinite linear;
+    border-radius: 2rem;
+    width: 2rem;
+    height: 2rem;
 
-        &:nth-child(1) {
-            left: 8px;
-            animation: lds-ellipsis1 0.6s infinite;
+    @-webkit-keyframes load8 {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
         }
 
-        &:nth-child(2) {
-            left: 8px;
-            animation: lds-ellipsis2 0.6s infinite;
-        }
-
-        &:nth-child(3) {
-            left: 32px;
-            animation: lds-ellipsis2 0.6s infinite;
-        }
-
-        &:nth-child(4) {
-            left: 56px;
-            animation: lds-ellipsis3 0.6s infinite;
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
         }
     }
-}
 
-@keyframes lds-ellipsis1 {
-    0% {
-        transform: scale(0);
-    }
+    @keyframes load8 {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
 
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes lds-ellipsis3 {
-    0% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(0);
-    }
-}
-
-@keyframes lds-ellipsis2 {
-    0% {
-        transform: translate(0, 0);
-    }
-
-    100% {
-        transform: translate(24px, 0);
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
     }
 }

@@ -4,10 +4,12 @@ import { AvoidPosting } from "../../cache/AvoidPosting";
 import Util from "../../components/utility/Util";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
+import Post from "../../models/data/Post";
 import Script from "../../models/data/Script";
 import User from "../../models/data/User";
 import Debug from "../../models/Debug";
 import { Form, FormElement } from "../../models/structure/Form";
+import Thumbnail from "../../models/structure/Thumbnail";
 import Component from "../Component";
 
 export default class SettingsManager extends Component {
@@ -32,7 +34,10 @@ export default class SettingsManager extends Component {
             [
                 this.makeCoverSection(),
                 this.makeSearchForm(),
+
+                this.makeThumbnailSection(),
                 this.makeLookAndFeelSection(),
+
                 this.makeUploadSection(),
                 this.makeUtilitySection(),
             ]
@@ -48,7 +53,7 @@ export default class SettingsManager extends Component {
             lsSize = Util.getLocalStorageSize();
 
         return Form.section(
-            { name: "cover", width: 3, },
+            { name: "cover", columns: 3, width: 3, },
             [
                 Form.div({
                     value: [
@@ -105,18 +110,149 @@ export default class SettingsManager extends Component {
         );
     }
 
+    private makeThumbnailSection(): FormElement {
+        const ThumbnailEngine = RE621.Registry.ThumbnailEngine;
+
+        const preview = $("<div>").addClass("thumb-preview");
+        RE621.API.Posts.get(12345).then((response) => {
+            if (response.status.code !== 200) return;
+            const post = Post.fromAPI(response.data[0]);
+            const thumb = new Thumbnail(post);
+            thumb.getElement().appendTo(preview);
+            ThumbnailEngine.register(thumb);
+        });
+
+        return Form.section(
+            {
+                name: "thumbnail",
+                columns: 1,
+                width: 3,
+            },
+            [
+                Form.header("Thumbnails", 3),
+                Form.section({
+                    name: "adjust",
+                    columns: 2,
+                    width: 2,
+                    wrapper: "settings-section searchable-section",
+                    tags: "thumbnail image post size aspect ratio"
+                }, [
+                    Form.subheader("Hi-Res Thumbnails", "Replaces 150x150 thumbnails", 1),
+                    Form.select(
+                        {
+                            value: ThumbnailEngine.Settings.loadMethod,
+                            width: 1,
+                            sync: { base: ThumbnailEngine, tag: "loadMethod" },
+                        },
+                        {
+                            "preview": "Disabled",
+                            "hover": "On Hover",
+                            "sample": "Always",
+                        },
+                        async (data) => {
+                            ThumbnailEngine.Settings.loadMethod = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+
+                    Form.subheader("Thumbnail Size", "Thumbnail card width, in pixels", 1),
+                    Form.input(
+                        {
+                            name: "thumbsize",
+                            value: ThumbnailEngine.Settings.imageWidth,
+                            title: "Number between 150 and 999",
+                            required: true,
+                            width: 1,
+                            pattern: "^(1[5-9][0-9]|[2-9][0-9][0-9])$",
+                            sync: { base: ThumbnailEngine, tag: "imageWidth" },
+                        },
+                        (data, input) => {
+                            if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                            ThumbnailEngine.Settings.imageWidth = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+                    // ---------- ---------- ----------
+
+                    Form.subheader("Aspect Ratio", "Height to width image ratio"),
+                    Form.input(
+                        {
+                            name: "cropratio",
+                            value: ThumbnailEngine.Settings.imageRatio,
+                            title: "Number between 0.1 and 1.9",
+                            required: true,
+                            width: 1,
+                            pattern: "^1|([01]\\.[1-9]|1\\.0)$",
+                            sync: { base: ThumbnailEngine, tag: "imageRatio" },
+                        },
+                        async (data, input) => {
+                            if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                            ThumbnailEngine.Settings.imageRatio = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+                    // ---------- ---------- ----------
+
+                    Form.checkbox(
+                        {
+                            name: "cropimages",
+                            value: ThumbnailEngine.Settings.crop,
+                            label: "<b>Crop to Fit</b><br />Restrict image size to the specified ratio",
+                            width: 2,
+                            sync: { base: ThumbnailEngine, tag: "crop" },
+                        },
+                        (data) => {
+                            ThumbnailEngine.Settings.crop = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+                    // ---------- ---------- ----------
+
+                    Form.subheader(
+                        "Maximum Playing GIFs",
+                        "Set to -1 to disable.",
+                        1,
+                    ),
+                    Form.input(
+                        {
+                            name: "maxPlayingGIFs",
+                            value: ThumbnailEngine.Settings.maxPlayingGIFs,
+                            title: "Number between 1 and 320",
+                            required: true,
+                            width: 1,
+                            pattern: "^(-1|0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|250)$",
+                        },
+                        async (data, input) => {
+                            if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                            ThumbnailEngine.Settings.maxPlayingGIFs = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+                ]),
+
+                Form.section({
+                    name: "thumb-preview",
+                    columns: 1,
+                    width: 1,
+                }, [
+                    Form.div({ value: preview }),
+                ]),
+            ]
+        )
+    }
+
     private makeLookAndFeelSection(): FormElement {
         return Form.section(
             {
                 name: "look",
-                columns: 1,
+                columns: 3,
                 width: 3,
             },
             [
                 Form.header("General", 3),
                 Form.section({
                     name: "header",
-                    columns: 1, width: 3,
+                    columns: 3, width: 3,
                     wrapper: "settings-section searchable-section",
                     tags: "header forum"
                 }, [
@@ -318,14 +454,15 @@ export default class SettingsManager extends Component {
         return Form.section(
             {
                 name: "utility",
-                columns: 1,
+                columns: 3,
                 width: 3,
             },
             [
                 Form.header("Utilities", 3),
                 Form.section({
                     name: "debug",
-                    columns: 1, width: 3,
+                    columns: 3,
+                    width: 3,
                     wrapper: "settings-section searchable-section",
                     tags: "utility debugging connections performance compatibility",
                 }, [
@@ -386,9 +523,9 @@ export default class SettingsManager extends Component {
                     wrapper: "settings-section searchable-section",
                     tags: "import export file data script",
                 }, [
-                    Form.header("Import and Export Data"),
+                    Form.header("Import and Export Data", 3),
 
-                    Form.div({ value: `<div class="notice float-right">Import script data from file</div>`, width: 2 }),
+                    Form.div({ value: `<div class="notice float-right">Import script data from file</div>`, width: 3 }),
 
                     Form.text("Export to File"),
                     Form.button(
@@ -402,7 +539,7 @@ export default class SettingsManager extends Component {
                         (data) => { importFromFile(data); }
                     ),
 
-                    Form.spacer(),
+                    Form.spacer(3),
                     Form.div({ value: `<div id="file-import-status" class="unmargin"></div>`, label: " ", width: 3 }),
                 ]),
             ]

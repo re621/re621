@@ -269,7 +269,9 @@ export default class Component {
      * @returns Event ID, unique to this component, that can be used to unbind this handler
      */
     public on(event: string, handler: (event: JQuery.TriggeredEvent, data?: PrimitiveType | PrimitiveType[]) => void): number {
-        $(document).on(`re621.${this.name}.${event}.${this.eventIndex}`, handler);
+        const eventList = event.split(" ");
+        for (const one of eventList)
+            $(document).on(`re621.${this.name}.${one}.${this.eventIndex}`, handler);
         return this.eventIndex++;
     }
 

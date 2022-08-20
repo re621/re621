@@ -64,6 +64,9 @@ const userscript = {
             }
         ]
     },
+    externals: [
+        "../../ZestyAPI/dist/ZestyAPI",
+    ],
     cache: true,
 };
 
