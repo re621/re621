@@ -16,7 +16,6 @@ export default class User {
 
     public static isMember: boolean;
     public static isPrivileged: boolean;
-    public static isContributor: boolean;
     public static isJanitor: boolean;
     public static isModerator: boolean;
     public static isAdmin: boolean;
@@ -43,7 +42,7 @@ export default class User {
     public static defaultImageSize: ImageScalingMode;
 
     public static init(): void {
-        const data = $("body").data();
+        const data = $("body").data() as BodyParams;
 
         User.loggedIn = data.userIsAnonymous == false;
         User.username = data.userName || "Anonymous";
@@ -52,9 +51,8 @@ export default class User {
         User.level = data.userLevel || 0;
         User.levelString = data.userLevelString || "Anonymous";
 
-        User.isMember = data.userIsMemeber == true;
+        User.isMember = data.userIsMember == true;
         User.isPrivileged = data.userIsPrivileged == true;
-        User.isContributor = data.userIsContributor == true;
         User.isJanitor = data.userIsJanitor == true;
         User.isModerator = data.userIsModerator == true;
         User.isAdmin = data.userIsAdmin == true;
@@ -121,4 +119,41 @@ export namespace ImageScalingMode {
         }
         return ImageScalingMode.Sample;
     }
+}
+
+interface BodyParams {
+
+    // Theme settings
+    thMain: string,
+    thExtra: string,
+    thNav: string,
+
+    // User levels
+    userIsAnonymous: boolean,
+    userIsBlocked: boolean,
+    userIsMember: boolean,
+    userIsPrivileged: boolean,
+    userIsFormerStaff: boolean,
+    userIsJanitor: boolean,
+    userIsModerator: boolean,
+    userIsAdmin: boolean,
+
+    // User info
+    userName: string,
+    userId: number,
+    userLevel: number,
+    userLevelString: string,
+    userPerPage: number,
+
+    // Permissions
+    userIsBanned: boolean,
+    userIsVoter: boolean,
+    userIsVerified: boolean,
+    userIsApprover: boolean,
+    userCanApprovePosts: boolean,
+    userCanUploadFree: boolean,
+
+    // Location
+    action: string,
+    controller: string,
 }
