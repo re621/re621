@@ -1,6 +1,15 @@
 $image-width: var(--img-width, 150px);
 $image-height: calc(var(--img-width, 150px) * var(--img-ratio, 1));
 
+#posts-container {
+
+    // TODO Temporary solution
+    // Should hide the posts everywhere, not just on the search page
+    article.post-preview {
+        display: none;
+    }
+}
+
 div.thumbnail-engine {
     display: grid;
     grid-template-columns: repeat(auto-fill, $image-width);
