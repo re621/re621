@@ -1,4 +1,4 @@
-import { Post } from "../post/Post";
+import Post from "../models/data/Post";
 import Util from "./Util";
 
 export enum UtilSize {

@@ -1,4 +1,3 @@
-
 /**
  * Common interface for prepared DOM structures
  */

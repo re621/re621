@@ -5,8 +5,8 @@ import { ModuleController } from "../../old.components/ModuleController";
 import { Post } from "../../old.components/post/Post";
 import { PostActions } from "../../old.components/post/PostActions";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
-import { RISSizeLimit } from "../../old.components/utility/UtilSize";
 import Util from "../../utilities/Util";
+import { RISSizeLimit } from "../../utilities/UtilSize";
 
 /**
  * Add various symbols to the titlebar depending on the posts state
@@ -260,7 +260,7 @@ export class PostViewer extends RE6Module {
 
     private getSourceLink(limit: RISSizeLimit, useSample: boolean): string {
         // console.log(limit.toString());
-        return (useSample || !limit.test(this.post))
+        return (useSample || !limit.test(this.post as any))
             ? this.post.file.sample
             : this.post.file.original;
     }

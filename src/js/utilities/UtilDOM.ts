@@ -86,6 +86,10 @@ export class UtilDOM {
         return $link;
     }
 
+    static getPlaceholderImage(): string {
+        return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+    }
+
 }
 
 interface SettingsButton {

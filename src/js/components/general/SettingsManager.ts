@@ -158,7 +158,7 @@ export default class SettingsManager extends Component {
                     Form.subheader("Thumbnail Size", "Thumbnail card width, in pixels", 1),
                     Form.input(
                         {
-                            name: "thumbsize",
+                            name: "image-width",
                             value: ThumbnailEngine.Settings.imageWidth,
                             title: "Number between 150 and 999",
                             required: true,
@@ -177,7 +177,7 @@ export default class SettingsManager extends Component {
                     Form.subheader("Aspect Ratio", "Height to width image ratio"),
                     Form.input(
                         {
-                            name: "cropratio",
+                            name: "image-ratio",
                             value: ThumbnailEngine.Settings.imageRatio,
                             title: "Number between 0.1 and 1.9",
                             required: true,
@@ -195,7 +195,7 @@ export default class SettingsManager extends Component {
 
                     Form.checkbox(
                         {
-                            name: "cropimages",
+                            name: "image-crop",
                             value: ThumbnailEngine.Settings.crop,
                             label: "<b>Crop to Fit</b><br />Restrict image size to the specified ratio",
                             width: 2,
