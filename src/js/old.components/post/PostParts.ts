@@ -1,12 +1,12 @@
 import { Danbooru } from "../../models/api/Danbooru";
 import XM from "../../models/api/XM";
+import { Blacklist } from "../../models/data/Blacklist";
 import Page, { PageDefinition } from "../../models/data/Page";
 import User from "../../models/data/User";
 import { BetterSearch, ImageClickAction, ImageLoadMethod } from "../../old.modules/posts/BetterSearch";
 import { CustomFlagger } from "../../old.modules/posts/CustomFlagger";
 import Util from "../../utilities/Util";
 import { PostFlag } from "../api/responses/APIPost";
-import { Blacklist } from "../data/Blacklist";
 import Debug from "../utility/Debug";
 import { FileExtension, LoadedFileType, Post, PostData } from "./Post";
 import { PostActions } from "./PostActions";

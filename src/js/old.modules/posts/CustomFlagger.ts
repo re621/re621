@@ -1,7 +1,7 @@
 import { PageDefinition } from "../../models/data/Page";
+import { PostFilter } from "../../models/data/PostFilter";
 import { ModuleController } from "../../old.components/ModuleController";
 import { Post, PostData } from "../../old.components/post/Post";
-import { PostFilter } from "../../old.components/post/PostFilter";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 
 export class CustomFlagger extends RE6Module {

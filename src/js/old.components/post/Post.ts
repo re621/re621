@@ -1,10 +1,10 @@
+import { Blacklist } from "../../models/data/Blacklist";
 import { Tag } from "../../models/data/Tag";
 import { PostViewer } from "../../old.modules/post/PostViewer";
 import { BetterSearch } from "../../old.modules/posts/BetterSearch";
 import { CustomFlagger } from "../../old.modules/posts/CustomFlagger";
 import Util from "../../utilities/Util";
 import { APIPost, PostFlag, PostRating } from "../api/responses/APIPost";
-import { Blacklist } from "../data/Blacklist";
 import { ModuleController } from "../ModuleController";
 import Debug from "../utility/Debug";
 import { PostParts } from "./PostParts";

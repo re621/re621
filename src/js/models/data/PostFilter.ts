@@ -1,8 +1,8 @@
-import { Tag } from "../../models/data/Tag";
-import User from "../../models/data/User";
+import { PostFlag, PostRating } from "../../old.components/api/responses/APIPost";
+import { Post, PostData } from "../../old.components/post/Post";
 import Util from "../../utilities/Util";
-import { PostFlag, PostRating } from "../api/responses/APIPost";
-import { Post, PostData } from "./Post";
+import { Tag } from "./Tag";
+import User from "./User";
 
 export class PostFilter {
 

@@ -1,7 +1,7 @@
 import XM from "../../models/api/XM";
+import { Blacklist } from "../../models/data/Blacklist";
 import User from "../../models/data/User";
 import { PostFlag } from "../../old.components/api/responses/APIPost";
-import { Blacklist } from "../../old.components/data/Blacklist";
 import { ModuleController } from "../../old.components/ModuleController";
 import { Post, PostData } from "../../old.components/post/Post";
 import { RE6Module, Settings } from "../../old.components/RE6Module";

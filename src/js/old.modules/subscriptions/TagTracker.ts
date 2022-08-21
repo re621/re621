@@ -1,8 +1,8 @@
 import XM from "../../models/api/XM";
+import { Blacklist } from "../../models/data/Blacklist";
 import { PageDefinition } from "../../models/data/Page";
 import { E621 } from "../../old.components/api/E621";
 import { APIPost, PostFlag } from "../../old.components/api/responses/APIPost";
-import { Blacklist } from "../../old.components/data/Blacklist";
 import { ModuleController } from "../../old.components/ModuleController";
 import { PostData } from "../../old.components/post/Post";
 import { PostActions } from "../../old.components/post/PostActions";

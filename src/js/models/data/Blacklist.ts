@@ -1,9 +1,9 @@
-import User from "../../models/data/User";
-import { BlacklistEnhancer } from "../../old.modules/posts/BlacklistEnhancer";
+import { BlacklistEnhancer } from "../../components/posts/BlacklistEnhancer";
+import { ModuleController } from "../../old.components/ModuleController";
+import { Post, PostData } from "../../old.components/post/Post";
 import Util from "../../utilities/Util";
-import { ModuleController } from "../ModuleController";
-import { Post, PostData } from "../post/Post";
-import { FilterOptions, PostFilter } from "../post/PostFilter";
+import { FilterOptions, PostFilter } from "./PostFilter";
+import User from "./User";
 
 export class Blacklist {
 

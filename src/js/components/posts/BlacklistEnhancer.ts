@@ -1,11 +1,11 @@
 import { Danbooru } from "../../models/api/Danbooru";
+import { Blacklist } from "../../models/data/Blacklist";
 import { PageDefinition } from "../../models/data/Page";
-import { Blacklist } from "../../old.components/data/Blacklist";
+import { PostFilter } from "../../models/data/PostFilter";
 import { Post } from "../../old.components/post/Post";
-import { PostFilter } from "../../old.components/post/PostFilter";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
+import { BetterSearch } from "../../old.modules/posts/BetterSearch";
 import Util from "../../utilities/Util";
-import { BetterSearch } from "./BetterSearch";
 
 /**
  * Blacklist Enhancer  

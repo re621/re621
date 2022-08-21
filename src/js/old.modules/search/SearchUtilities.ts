@@ -1,5 +1,5 @@
+import { Blacklist } from "../../models/data/Blacklist";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { Blacklist } from "../../old.components/data/Blacklist";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Util from "../../utilities/Util";
 
