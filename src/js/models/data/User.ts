@@ -1,5 +1,5 @@
-import { E621 } from "../../components/api/E621";
-import { APICurrentUser } from "../../components/api/responses/APIUser";
+import { E621 } from "../../old.components/api/E621";
+import { APICurrentUser } from "../../old.components/api/responses/APIUser";
 
 /**
  * User  

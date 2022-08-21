@@ -1,5 +1,5 @@
 import APIPost from "@re621/zestyapi/dist/responses/APIPost";
-import Util from "../../components/utility/Util";
+import Util from "../../old.components/utility/Util";
 import Thumbnail from "../structure/Thumbnail";
 import { Tag } from "./Tag";
 

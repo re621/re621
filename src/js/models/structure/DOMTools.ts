@@ -1,4 +1,4 @@
-import Util from "../../components/utility/Util";
+import Util from "../../old.components/utility/Util";
 import Page from "../data/Page";
 
 export default class DOMTools {

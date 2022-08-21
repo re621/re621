@@ -1,20 +1,20 @@
 import ZestyAPI from "@re621/zestyapi";
 import css from "./css/style.module.scss";
 
-import ErrorHandler from "./js/components/utility/ErrorHandler";
-import Util from "./js/components/utility/Util";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
 import Debug from "./js/models/Debug";
 import DOMTools from "./js/models/structure/DOMTools";
 import PageObserver from "./js/models/structure/PageObserver";
-import { ComponentList } from "./js/modules/Component";
-import HeaderCustomizer from "./js/modules/general/HeaderCustomizer";
-import SettingsManager from "./js/modules/general/SettingsManager";
-import HeaderButtons from "./js/modules/minor/HeaderButtons";
-import ThemeCustomizer from "./js/modules/minor/ThemeCustomizer";
-import { SmartAlias } from "./js/modules/posts/SmartAlias";
-import ThumbnailEngine from "./js/modules/posts/ThumbnailEngine";
+import ErrorHandler from "./js/old.components/utility/ErrorHandler";
+import Util from "./js/old.components/utility/Util";
+import { ComponentList } from "./js/old.modules/Component";
+import HeaderCustomizer from "./js/old.modules/general/HeaderCustomizer";
+import SettingsManager from "./js/old.modules/general/SettingsManager";
+import HeaderButtons from "./js/old.modules/minor/HeaderButtons";
+import ThemeCustomizer from "./js/old.modules/minor/ThemeCustomizer";
+import { SmartAlias } from "./js/old.modules/posts/SmartAlias";
+import ThumbnailEngine from "./js/old.modules/posts/ThumbnailEngine";
 
 export class RE621 {
 

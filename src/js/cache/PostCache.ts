@@ -1,6 +1,6 @@
 import { RE621 } from "../../RE621";
-import Util from "../components/utility/Util";
 import Post from "../models/data/Post";
+import Util from "../old.components/utility/Util";
 
 export default class PostCache {
 
