@@ -147,7 +147,7 @@ class ThumbnailParts {
 
 
         // Fallbacks for deleted and flash files
-        if (post.flags.has(PostFlag.Deleted) && !User.isApprover) {
+        if (post.flags.has(PostFlag.Deleted) && !User.canApprovePosts) {
             post.img.ratio = 1;
             thumbnail.loaded = LoadedFileType.ERROR;
             return $image;
