@@ -20,6 +20,7 @@
         "dmails",
         "dnpcache",
         "Earlopain",
+        "favorited",
         "fileinput",
         "fitv",
         "fnct",
@@ -63,6 +64,7 @@
         "userid",
         "userscript",
         "userscripts",
-        "xmlhttp"
+        "xmlhttp",
+        "zestyapi"
     ]
 }
