@@ -1,8 +1,8 @@
+import Util from "../utilities/Util";
 import { RE6Module } from "./RE6Module";
 import { CleanSlate } from "./structure/CleanSlate";
 import Debug from "./utility/Debug";
 import ErrorHandler from "./utility/ErrorHandler";
-import Util from "./utility/Util";
 
 export class ModuleController {
 

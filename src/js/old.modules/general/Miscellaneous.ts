@@ -8,7 +8,7 @@ import { Post } from "../../old.components/post/Post";
 import { PostActions } from "../../old.components/post/PostActions";
 import { PostParts } from "../../old.components/post/PostParts";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { BetterSearch, ImageClickAction } from "../posts/BetterSearch";
 
 /**

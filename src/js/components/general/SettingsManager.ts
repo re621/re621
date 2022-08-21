@@ -9,7 +9,7 @@ import User from "../../models/data/User";
 import Debug from "../../models/Debug";
 import { Form, FormElement } from "../../models/structure/Form";
 import Thumbnail from "../../models/structure/Thumbnail";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import Component from "../Component";
 
 export default class SettingsManager extends Component {

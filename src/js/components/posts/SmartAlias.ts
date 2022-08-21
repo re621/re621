@@ -4,7 +4,7 @@ import Page, { PageDefinition } from "../../models/data/Page";
 import { TagCategory } from "../../old.components/api/responses/APITag";
 import { TagCache } from "../../old.components/cache/TagCache";
 import { TagValidator } from "../../old.components/utility/TagValidator";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import Component from "../Component";
 
 export class SmartAlias extends Component {

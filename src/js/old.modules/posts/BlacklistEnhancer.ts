@@ -4,7 +4,7 @@ import { Blacklist } from "../../old.components/data/Blacklist";
 import { Post } from "../../old.components/post/Post";
 import { PostFilter } from "../../old.components/post/PostFilter";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { BetterSearch } from "./BetterSearch";
 
 /**

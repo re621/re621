@@ -1,8 +1,8 @@
 import XM from "../../models/api/XM";
 import { GMxmlHttpRequestResponse } from "../../models/api/XMConnect";
+import Util from "../../utilities/Util";
 import Debug from "./Debug";
 import ErrorHandler from "./ErrorHandler";
-import Util from "./Util";
 
 
 export class VersionChecker {

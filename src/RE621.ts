@@ -1,20 +1,19 @@
 import ZestyAPI from "@re621/zestyapi";
 import css from "./css/style.module.scss";
 
+import { ComponentList } from "./js/components/Component";
+import HeaderCustomizer from "./js/components/general/HeaderCustomizer";
+import SettingsManager from "./js/components/general/SettingsManager";
+import HeaderButtons from "./js/components/minor/HeaderButtons";
+import ThemeCustomizer from "./js/components/minor/ThemeCustomizer";
+import { SmartAlias } from "./js/components/posts/SmartAlias";
+import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
 import Debug from "./js/models/Debug";
-import DOMTools from "./js/models/structure/DOMTools";
 import PageObserver from "./js/models/structure/PageObserver";
 import ErrorHandler from "./js/old.components/utility/ErrorHandler";
-import Util from "./js/old.components/utility/Util";
-import { ComponentList } from "./js/old.modules/Component";
-import HeaderCustomizer from "./js/old.modules/general/HeaderCustomizer";
-import SettingsManager from "./js/old.modules/general/SettingsManager";
-import HeaderButtons from "./js/old.modules/minor/HeaderButtons";
-import ThemeCustomizer from "./js/old.modules/minor/ThemeCustomizer";
-import { SmartAlias } from "./js/old.modules/posts/SmartAlias";
-import ThumbnailEngine from "./js/old.modules/posts/ThumbnailEngine";
+import Util from "./js/utilities/Util";
 
 export class RE621 {
 
@@ -55,14 +54,14 @@ export class RE621 {
             // Append the CSS to head, and make sure it overrides other styles
             headLoaded = PageObserver.watch("head").then(() => {
                 Debug.log("+ HEAD is ready");
-                const styleElement = DOMTools.addStyle(css);
+                const styleElement = Util.DOM.addStyle(css);
                 $(() => { styleElement.appendTo("head"); });
             });
 
             bodyLoaded = PageObserver.watch("body").then(() => {
                 Debug.log("+ BODY is ready");
                 // Dialog.init();
-                DOMTools.setupDialogContainer(); // TODO Move to the dialog class
+                Util.DOM.setupDialogContainer(); // TODO Move to the dialog class
                 User.init();
             });
 
@@ -72,7 +71,7 @@ export class RE621 {
                     return;
                 }
                 Debug.log("+ MENU is ready");
-                DOMTools.patchHeader();
+                Util.DOM.patchHeader();
             });
 
             PageObserver.watch("head meta[name=csrf-token]").then((result) => {

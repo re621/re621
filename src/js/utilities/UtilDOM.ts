@@ -1,7 +1,7 @@
-import Util from "../../old.components/utility/Util";
-import Page from "../data/Page";
+import Page from "../models/data/Page";
+import Util from "./Util";
 
-export default class DOMTools {
+export class UtilDOM {
 
     /**
      * Adds the given style to the document and returns the injected style element
@@ -17,6 +17,9 @@ export default class DOMTools {
             .appendTo("head");
     }
 
+    /**
+     * Alters the page header to allow components to attach to it
+     */
     public static patchHeader(): void {
 
         const $menuContainer = $("nav#nav");
@@ -41,6 +44,7 @@ export default class DOMTools {
             .insertAfter($menuMain);
     }
 
+    /** Sets up a container to load modals into */
     public static setupDialogContainer(): void {
         $("<div>")
             .attr("id", "modal-container")

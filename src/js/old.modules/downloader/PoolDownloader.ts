@@ -8,7 +8,7 @@ import { ModuleController } from "../../old.components/ModuleController";
 import { PostData } from "../../old.components/post/Post";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { MassDownloader } from "./MassDownloader";
 

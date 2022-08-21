@@ -1,4 +1,4 @@
-import DOMTools from "../../models/structure/DOMTools";
+import Util from "../../utilities/Util";
 import Component from "../Component";
 
 export default class HeaderButtons extends Component {
@@ -10,14 +10,14 @@ export default class HeaderButtons extends Component {
     }
 
     public async create(): Promise<void> {
-        DOMTools.addSettingsButton({
+        Util.DOM.addSettingsButton({
             id: "header-button-dmail",
             name: `<i class="fas fa-envelope"></i>`,
             href: "/dmails",
             title: "DMail",
         });
 
-        DOMTools.addSettingsButton({
+        Util.DOM.addSettingsButton({
             id: "header-button-settings",
             name: `<i class="fas fa-wrench"></i>`,
             title: "Settings",

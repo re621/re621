@@ -1,7 +1,6 @@
-import DOMTools from "../../models/structure/DOMTools";
 import { Form } from "../../models/structure/Form";
 import Modal from "../../models/structure/Modal";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import Component from "../Component";
 
 export default class ThemeCustomizer extends Component {
@@ -18,7 +17,7 @@ export default class ThemeCustomizer extends Component {
 
     public async create(): Promise<void> {
 
-        const openCustomizerButton = DOMTools.addSettingsButton({
+        const openCustomizerButton = Util.DOM.addSettingsButton({
             id: "header-button-theme",
             name: `<i class="fas fa-paint-brush"></i>`,
             title: "Change Theme",

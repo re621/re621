@@ -4,7 +4,7 @@ import Modal from "../../models/structure/Modal";
 import { ModuleController } from "../../old.components/ModuleController";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import { Tabbed, TabContent } from "../../old.components/structure/Tabbed";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { TagTracker } from "./TagTracker";
 import { SubscriptionTracker } from "./_SubscriptionTracker";
 

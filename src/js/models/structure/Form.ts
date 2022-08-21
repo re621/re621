@@ -1,6 +1,6 @@
+import Component from "../../components/Component";
 import KeybindManager from "../../old.components/data/Keybinds";
-import Util from "../../old.components/utility/Util";
-import Component from "../../old.modules/Component";
+import Util from "../../utilities/Util";
 import XM from "../api/XM";
 import PreparedStructure from "./PreparedStructure";
 

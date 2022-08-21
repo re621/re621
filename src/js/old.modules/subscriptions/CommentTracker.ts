@@ -6,7 +6,7 @@ import { APIPost, PostFlag } from "../../old.components/api/responses/APIPost";
 import { PostData } from "../../old.components/post/Post";
 import { PostParts } from "../../old.components/post/PostParts";
 import { Settings } from "../../old.components/RE6Module";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";

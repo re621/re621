@@ -3,7 +3,7 @@ import Page from "../models/data/Page";
 import PageObserver from "../models/structure/PageObserver";
 import KeybindManager, { Keybind, ResponseFunction } from "../old.components/data/Keybinds";
 import ErrorHandler from "../old.components/utility/ErrorHandler";
-import Util from "../old.components/utility/Util";
+import Util from "../utilities/Util";
 
 export default class Component {
 

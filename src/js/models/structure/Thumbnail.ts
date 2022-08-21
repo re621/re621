@@ -1,6 +1,6 @@
 import { RE621 } from "../../../RE621";
-import Util from "../../old.components/utility/Util";
-import { ImageLoadMethod } from "../../old.modules/posts/ThumbnailEngine";
+import { ImageLoadMethod } from "../../components/posts/ThumbnailEngine";
+import Util from "../../utilities/Util";
 import Page, { PageDefinition } from "../data/Page";
 import Post, { FileExtension, PostFlag } from "../data/Post";
 import User from "../data/User";

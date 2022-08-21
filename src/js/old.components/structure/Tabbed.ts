@@ -1,5 +1,5 @@
 import PreparedStructure from "../../models/structure/PreparedStructure";
-import Util from "../utility/Util";
+import Util from "../../utilities/Util";
 
 /**
  * Tabbed  

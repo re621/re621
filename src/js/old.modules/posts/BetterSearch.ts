@@ -9,7 +9,7 @@ import { Post, PostData } from "../../old.components/post/Post";
 import { PostActions } from "../../old.components/post/PostActions";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BlacklistEnhancer } from "./BlacklistEnhancer";
 

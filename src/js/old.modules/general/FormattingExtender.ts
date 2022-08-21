@@ -4,7 +4,7 @@ import Modal from "../../models/structure/Modal";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import { Prompt } from "../../old.components/structure/Prompt";
 import Debug from "../../old.components/utility/Debug";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 
 // Available icons for formatting buttons
 const iconDefinitions = {

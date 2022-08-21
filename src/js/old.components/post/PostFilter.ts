@@ -1,7 +1,7 @@
 import { Tag } from "../../models/data/Tag";
 import User from "../../models/data/User";
+import Util from "../../utilities/Util";
 import { PostFlag, PostRating } from "../api/responses/APIPost";
-import Util from "../utility/Util";
 import { Post, PostData } from "./Post";
 
 export class PostFilter {

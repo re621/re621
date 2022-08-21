@@ -2,7 +2,7 @@ import XM from "../../models/api/XM";
 import Page from "../../models/data/Page";
 import { ModuleController } from "../../old.components/ModuleController";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { SubscriptionCache, UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionList } from "./_SubscriptionList";
 import { SubscriptionManager } from "./_SubscriptionManager";

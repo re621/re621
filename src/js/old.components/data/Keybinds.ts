@@ -1,5 +1,5 @@
+import Util from "../../utilities/Util";
 import Debug from "../utility/Debug";
-import Util from "../utility/Util";
 
 const validKeys = [
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",

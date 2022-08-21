@@ -1,8 +1,8 @@
 // E621 API Endpoint Wrapper
 // Version 2.1
 
+import Util from "../../utilities/Util";
 import Debug from "../utility/Debug";
-import Util from "../utility/Util";
 import { APIResponse } from "./responses/APIResponse";
 
 // All endpoints must be registered here.

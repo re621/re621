@@ -1,4 +1,4 @@
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import PreparedStructure from "./PreparedStructure";
 
 export default class Modal {

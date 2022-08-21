@@ -1,6 +1,6 @@
 import XM from "../../models/api/XM";
 import { GMxmlHttpRequestEvent, GMxmlHttpRequestProgressEvent, GMxmlHttpRequestResponse } from "../../models/api/XMConnect";
-import Util from "../utility/Util";
+import Util from "../../utilities/Util";
 
 declare const JSZip;
 

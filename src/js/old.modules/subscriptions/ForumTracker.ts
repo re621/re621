@@ -3,7 +3,7 @@ import User from "../../models/data/User";
 import { E621 } from "../../old.components/api/E621";
 import { APIForumTopic } from "../../old.components/api/responses/APIForumTopic";
 import { Settings } from "../../old.components/RE6Module";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";
 import { SubscriptionTracker } from "./_SubscriptionTracker";

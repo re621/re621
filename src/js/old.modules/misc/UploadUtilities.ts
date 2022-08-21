@@ -5,7 +5,7 @@ import { APIIQDBResponse } from "../../old.components/api/responses/APIIQDBRespo
 import { APIPost, PostFlag } from "../../old.components/api/responses/APIPost";
 import { PostData } from "../../old.components/post/Post";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
-import Util from "../../old.components/utility/Util";
+import Util from "../../utilities/Util";
 import { TagSuggester } from "./TagSuggester";
 
 export class UploadUtilities extends RE6Module {
@@ -517,7 +517,7 @@ export class UploadUtilities extends RE6Module {
             if (!imageURL) return;
 
             // Start the loading process
-            image.attr("src", Util.DOM.getLoadingImage());
+            // image.attr("src", Util.DOM.getLoadingImage()); // TODO missing image
 
             // Fetch the image directly
             XM.Connect.xmlHttpRequest({
