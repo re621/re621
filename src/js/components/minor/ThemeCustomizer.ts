@@ -53,7 +53,7 @@ export default class ThemeCustomizer extends Component {
                     name: "th-extra",
                     value: (element) => {
                         this.$extra = element;
-                        element.val(window.localStorage.getItem("theme-extra") || "hexagons");
+                        element.val(window.localStorage.getItem("theme-extra") || "hexagon");
                     },
                 },
                 {
