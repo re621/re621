@@ -35,9 +35,9 @@ export default class PostCache {
             const response = await RE621.API.Posts.find({ tags: "id:" + chunks[0].join(","), limit: 100 });
             for (const one of response.data) {
                 if (!PostCache.has(one.id)) continue;
-                Post.replace(PostCache.cache[one.id], Post.fromAPI(one));
+                PostCache.cache[one.id].import(Post.fromAPI(one));
             }
-            RE621.Registry.ThumbnailEngine.trigger("fetch");
+            $(window.document).trigger("re621:cache");
         }
     }
 

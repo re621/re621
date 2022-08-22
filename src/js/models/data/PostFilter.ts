@@ -1,6 +1,5 @@
-import { PostFlag, PostRating } from "../../old.components/api/responses/APIPost";
-import { Post, PostData } from "../../old.components/post/Post";
 import Util from "../../utilities/Util";
+import Post, { PostFlag, PostRating } from "./Post";
 import { Tag } from "./Tag";
 import User from "./User";
 
@@ -76,7 +75,7 @@ export class PostFilter {
      * @returns Whether or not the filter matches the post. 
      * If multiple posts are provided, returns true if all of them match.
      */
-    public update(post: PostData | PostData[], shouldDecrement = true): boolean {
+    public update(post: Post | Post[], shouldDecrement = true): boolean {
 
         // Take care of the multiple posts separately
         if (Array.isArray(post)) {
@@ -112,7 +111,7 @@ export class PostFilter {
                     result = post.rating === PostRating.fromValue(value);
                     break;
                 case FilterType.Flag:
-                    result = post.flags.has(PostFlag.fromSingle(value));
+                    result = post.flags.has(PostFlag.fromString(value)[0]);
                     break;
 
                 case FilterType.Uploader:
@@ -240,12 +239,9 @@ class PostFilterUtils {
             case ComparisonType.Range: {
                 const parts = b.split("...");
                 if (parts.length !== 2) return false;
-                console.log(parts);
 
                 const parsedParts = [];
                 for (const el of parts) parsedParts.push(parseFloat(el));
-
-                console.log(parsedParts, Math.min(...parsedParts), Math.max(...parsedParts), a >= Math.min(...parsedParts), a <= Math.max(...parsedParts));
 
                 return a >= Math.min(...parsedParts) && a <= Math.max(...parsedParts);
             }
@@ -254,7 +250,7 @@ class PostFilterUtils {
     }
 
     /** Returns true if the specified post has the provided tag */
-    public static tagsMatchesFilter(post: PostData, filter: string): boolean {
+    public static tagsMatchesFilter(post: Post, filter: string): boolean {
         if (filter.includes("*")) {
             const regex = Tag.escapeSearchToRegex(filter);
             return regex.test(post.tagString);

@@ -1,20 +1,41 @@
 import { RE621 } from "../../../RE621";
 import { ImageLoadMethod } from "../../components/posts/ThumbnailEngine";
 import Util from "../../utilities/Util";
+import { Danbooru } from "../api/Danbooru";
+import { Blacklist, PostVisibility } from "../data/Blacklist";
 import Page, { PageDefinition } from "../data/Page";
 import Post, { FileExtension, PostFlag } from "../data/Post";
 import User from "../data/User";
 
 
-export default class Thumbnail {
+export class ThumbnailLike {
 
-    private id: string;
-    public post: Post;
+    protected id: string;
     public $ref: JQuery<HTMLElement>;
+    public post: Post;
+
+    public constructor(post: Post) {
+        this.post = post;
+        this.id = Util.ID.make();
+    }
+
+    public getElement(): JQuery<HTMLElement> {
+        return this.$ref;
+    }
+
+    public updateVisibility(): void {
+        this.$ref.attr({
+            blacklisted: this.post.getBlacklistStatus(),
+        });
+    }
+}
+
+export default class Thumbnail extends ThumbnailLike {
+
     public loaded: LoadedFileType;
 
     public constructor(post: Post) {
-        this.id = Util.ID.make();
+        super(post);
         this.post = post;
         this.post.$thumb = this; // TODO What if there are multiple thumbnails for the same post
 
@@ -22,6 +43,7 @@ export default class Thumbnail {
             .attr({
                 rendered: false,
                 post: this.post.id,
+                blacklisted: this.post.getBlacklistStatus(),
             })
             .data("$post", this.post);
 
@@ -29,10 +51,10 @@ export default class Thumbnail {
             this.reset();
         });
 
-        RE621.Registry.ThumbnailEngine.on("fetch." + this.id, () => {
+        $(window.document).on("re621:cache." + this.id, () => {
             if (this.post.source !== "API") return;
             this.reset();
-            RE621.Registry.ThumbnailEngine.off("fetch." + this.id);
+            $(window.document).off("re621:cache." + this.id);
         });
     }
 
@@ -46,6 +68,7 @@ export default class Thumbnail {
                 filetype: this.post.file.ext,
                 deleted: this.post.flags.has(PostFlag.Deleted) ? true : undefined,
                 sound: this.post.meta.sound ? "true" : undefined,
+                blacklisted: this.post.getBlacklistStatus(),
             });
 
         if (!RE621.Registry.ThumbnailEngine.Settings.crop)
@@ -73,13 +96,25 @@ export default class Thumbnail {
         this.draw();
     }
 
-    public getElement(): JQuery<HTMLElement> {
-        return this.$ref;
-    }
-
     public static getPost(element: Element): Post {
         return $(element).data("$post");
     }
+
+}
+
+export class LargePost extends ThumbnailLike {
+
+    public constructor(post: Post) {
+        super(post);
+        this.$ref = $("#image-container");
+        this.post.$thumb = this;
+    }
+
+    public updateVisibility(): void {
+        if (Blacklist.checkPostAlt(this.post) == PostVisibility.None) Danbooru.Blacklist.postHide(this.$ref);
+        else Danbooru.Blacklist.postShow(this.$ref);
+    }
+
 
 }
 

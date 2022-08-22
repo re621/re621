@@ -1,12 +1,14 @@
 import APIPost from "@re621/zestyapi/dist/responses/APIPost";
+import { BlacklistEnhancer } from "../../components/posts/BlacklistEnhancer";
 import Util from "../../utilities/Util";
-import Thumbnail from "../structure/Thumbnail";
+import { ThumbnailLike } from "../structure/Thumbnail";
+import { Blacklist, PostVisibility } from "./Blacklist";
 import { Tag } from "./Tag";
 
 export default class Post {
 
-    public $thumb?: Thumbnail;
-    public source: "DOM" | "API";
+    public $thumb?: ThumbnailLike;
+    public source: "DOM" | "POST" | "API";
 
     public id: number;
     public flags: Set<PostFlag>;
@@ -90,23 +92,35 @@ export default class Post {
     private constructor(data: any) {
         for (const [key, value] of Object.entries(data))
             this[key] = value;
+        Blacklist.addPost(this);
     }
 
-    public static replace(target: Post, source: Post) {
-        const user_score = target.user_score,
-            uploaderName = target.uploaderName;
+    public getBlacklistStatus(): "true" | "maybe" | undefined {
+        switch (Blacklist.checkPostAlt(this)) {
+            case PostVisibility.None: return "true";
+            case PostVisibility.Some: return "maybe";
+        }
+        return undefined;
+    }
+
+    public import(source: Post) {
+        const user_score = this.user_score,
+            uploaderName = this.uploaderName;
 
         for (const [key, value] of Object.entries(source))
-            target[key] = value;
+            this[key] = value;
 
-        target.user_score = user_score;
-        target.uploaderName = uploaderName;
+        this.user_score = user_score;
+        this.uploaderName = uploaderName;
+        Blacklist.updatePost(this);
+        BlacklistEnhancer.refresh();
     }
 
 
     // Static constructors
     public static fromThumbnail($element: JQuery<HTMLElement>): Post {
         if ($element.is("article") && $element.hasClass("post-preview")) return this.fromThumbnailAB($element);
+        else if ($element.attr("id") == "image-container") return this.fromThumbnailC($element);
         return null;
     }
 
@@ -152,11 +166,11 @@ export default class Post {
             return isNaN(num) ? -1 : num;
         }
 
-        return {
+        return new Post({
             source: "DOM",
 
-            id: parseInt($element.data("id")) || 0,
-            flags: PostFlag.fromString($element.data("flags") || ""),
+            id: data.id || 0,
+            flags: PostFlag.fromString(data.flags || ""),
             score: {
                 // This is obviously not accurate
                 // But it's good enough until the API data loads
@@ -165,12 +179,12 @@ export default class Post {
                 total: data.score,
             },
             user_score: 0,
-            favorites: parseInt($element.data("favCount")) || 0,
-            is_favorited: $element.data("is-favorited") == "true",
+            favorites: data.favCount || 0,
+            is_favorited: data.isFavorited == true,
             comments: data.comments,
-            rating: PostRating.fromValue($element.data("rating")),
-            uploader: parseInt($element.data("uploaderId")) || 0,
-            uploaderName: $element.data("uploader") || "Unknown",
+            rating: PostRating.fromValue(data.rating),
+            uploader: data.uploaderId || 0,
+            uploaderName: data.uploader || "Unknown",
             approver: -1,
 
             date: {
@@ -235,7 +249,92 @@ export default class Post {
                 sound: tagSet.has("sound_warning"),
                 epilepsy: tagSet.has("epilepsy_warning"),
             },
-        }
+        });
+    }
+
+    private static fromThumbnailC($element: JQuery<HTMLElement>): Post {
+
+        const data = $element.data() as PostDataTypeC;
+        // TODO What if the element does not match the format?
+
+        return new Post({
+            source: "POST",
+
+            id: data.post.id || 0,
+            flags: PostFlag.fromFlagSet(data.post.flags),
+            score: data.post.score,
+            user_score: 0, // TODO
+            favorites: data.post.fav_count,
+            is_favorited: data.post.is_favorited,
+            comments: data.post.comment_count,
+            rating: PostRating.fromValue(data.rating),
+            uploader: data.post.uploader_id,
+            uploaderName: data.uploader || "Unknown",
+            approver: -1,
+
+            date: {
+                iso: data.post.created_at,
+                ago: Util.Time.ago(data.post.created_at),
+                obj: new Date(data.post.created_at),
+            },
+
+            tagString: data.post.tags.join(" "),
+            tags: {
+                all: new Set(data.post.tags),
+                artist: new Set<string>(),
+                real_artist: new Set<string>(),
+                copyright: new Set<string>(),
+                species: new Set<string>(),
+                character: new Set<string>(),
+                general: new Set<string>(),
+                invalid: new Set<string>(),
+                meta: new Set<string>(),
+                lore: new Set<string>(),
+            },
+            tagCategoriesKnown: false,
+
+            sources: data.post.sources,
+            description: data.post.description,
+
+            file: {
+                ext: data.post.file.ext,
+                md5: data.post.file.md5,
+                original: data.post.file.url,
+                sample: data.post.sample.url,
+                preview: `https://static1.e621.net/data/preview/${data.post.file.md5.substring(0, 2)}/${data.post.file.md5.substring(2, 4)}/${data.post.file.md5}.jpg`,
+                size: data.post.file.size,
+            },
+
+            img: {
+                width: data.post.file.width,
+                height: data.post.file.height,
+                ratio: data.post.file.height / data.post.file.width,
+            },
+
+            has: {
+                file: typeof data.post.file.url !== "undefined",
+                children: data.post.relationships.has_active_children,
+                parent: data.post.relationships.parent_id !== null,
+                sample: data.post.file.url !== data.post.sample.url,
+            },
+
+            rel: {
+                children: new Set(data.post.relationships.children),
+                parent: data.post.relationships.parent_id,
+            },
+
+            meta: {
+                duration: null,
+                animated: data.post.tags.includes("animated") || data.post.file.ext == "webm" || data.post.file.ext == "gif" || data.post.file.ext == "swf",
+                sound: data.post.tags.includes("sound"),
+                interactive: data.post.file.ext == "webm" || data.post.file.ext == "swf",
+            },
+
+            warning: {
+                sound: data.post.tags.includes("sound_warning"),
+                epilepsy: data.post.tags.includes("epilepsy_warning"),
+            },
+        });
     }
 
     public static fromAPI(data: APIPost): Post {
@@ -250,7 +349,7 @@ export default class Post {
             ...data.tags.meta,
             ...data.tags.lore,
         ]);
-        return {
+        return new Post({
             source: "API",
 
             id: data.id,
@@ -327,7 +426,7 @@ export default class Post {
                 sound: tagSet.has("sound_warning"),
                 epilepsy: tagSet.has("epilepsy_warning"),
             },
-        }
+        });
     }
 }
 
@@ -410,23 +509,30 @@ export enum PostFlag {
     NoteLocked = "note_locked",
     StatusLocked = "status_locked",
     RatingLocked = "rating_locked",
+
+    // Other
+    HasNotes = "has_notes",
 }
 
 export namespace PostFlag {
 
     export function get(post: APIPost): PostFlag[] {
-        const flags: PostFlag[] = [];
-        if (post.flags.deleted) flags.push(PostFlag.Deleted);
-        if (post.flags.flagged) flags.push(PostFlag.Flagged);
-        if (post.flags.pending) flags.push(PostFlag.Pending);
-        if (post.flags.note_locked) flags.push(PostFlag.NoteLocked);
-        if (post.flags.status_locked) flags.push(PostFlag.StatusLocked);
-        if (post.flags.rating_locked) flags.push(PostFlag.RatingLocked);
-        return flags;
+        return fromFlagSet(post.flags);
     }
 
     export function getString(post: APIPost): string {
         return PostFlag.get(post).join(" ");
+    }
+
+    export function fromFlagSet(flagSet: any): PostFlag[] {
+        const flags: PostFlag[] = [];
+        if (flagSet.deleted) flags.push(PostFlag.Deleted);
+        if (flagSet.flagged) flags.push(PostFlag.Flagged);
+        if (flagSet.pending) flags.push(PostFlag.Pending);
+        if (flagSet.note_locked) flags.push(PostFlag.NoteLocked);
+        if (flagSet.status_locked) flags.push(PostFlag.StatusLocked);
+        if (flagSet.rating_locked) flags.push(PostFlag.RatingLocked);
+        return flags;
     }
 
     export function fromString(input: string): Set<PostFlag> {
@@ -474,4 +580,91 @@ interface PostDataTypeAB {
     // Not present anywhere, fetched from DOM
     comments?: number,
     date?: Date,
+}
+
+/**
+ * This represents a unique format, available only on the post page.  
+ * It includes a copy of itself within itself, with slightly different data sets.
+ */
+interface PostDataTypeC {
+    post: {
+        id: number,
+        created_at: string,
+        updated_at: string,
+        fav_count: number,
+        comment_count: number,
+        uploader_id: number,
+        description: string,
+        flags: {
+            pending: boolean,
+            flagged: boolean,
+            note_locked: boolean,
+            status_locked: boolean,
+            rating_locked: boolean,
+            deleted: boolean,
+            has_notes: boolean,
+        },
+        score: {
+            up: number,
+            down: number,
+            total: number
+        },
+        relationships: {
+            parent_id: number | null,
+            has_children: boolean,
+            has_active_children: boolean,
+            children: number[],
+        },
+        pools: number[],
+        file: {
+            width: number,
+            height: number,
+            ext: FileExtension,
+            size: number,
+            md5: string,
+            url: string,
+        },
+        sample: {
+            has: true,
+            height: 637,
+            width: 850,
+            url: "https://static1.e621.net/data/sample/33/6e/336ec494422113f0aaf5e879470603ac.jpg",
+            alternates?: {
+                "720p"?: AlternateType,
+                "480p"?: AlternateType,
+                "original"?: AlternateType,
+            },
+        },
+        sources: string[],
+        tags: string[],
+        locked_tags: string[],
+        is_favorited: boolean,
+    },
+    uploader: string,
+    rating: PostRating,
+    hasSound: boolean,
+
+    // Irrelevant, available elsewhere
+    /*
+    id: number,
+    uploaderId: number,
+    score: number,
+    height: number,
+    width: number,
+    fileExt: string,
+    flags: string,
+    fileUrl: string,
+    largeFileUrl: string,
+    previewFileUrl: string,
+    tags: string,
+    isFavorited: boolean,
+    md5: string,
+    */
+}
+
+interface AlternateType {
+    type: "video",
+    height: number,
+    width: number,
+    urls: string[],
 }

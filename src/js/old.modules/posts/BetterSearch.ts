@@ -1,4 +1,3 @@
-import { BlacklistEnhancer } from "../../components/posts/BlacklistEnhancer";
 import XM from "../../models/api/XM";
 import { Blacklist } from "../../models/data/Blacklist";
 import Page, { PageDefinition } from "../../models/data/Page";
@@ -43,7 +42,7 @@ export class BetterSearch extends RE6Module {
     private loadingPosts: boolean;              // True value indicates that infinite scroll is loading posts
 
     public constructor() {
-        super([PageDefinition.search, PageDefinition.favorites], true, true, [BlacklistEnhancer]);
+        super([PageDefinition.search, PageDefinition.favorites], true, true);
     }
 
     protected getDefaultSettings(): Settings {
@@ -347,7 +346,7 @@ export class BetterSearch extends RE6Module {
                     .animate({ scrollTop: scrollTo.offset().top - 30 }, 200);
             }
 
-            BlacklistEnhancer.update();
+            // BlacklistEnhancer.update();
             this.updatePostCount();
             BetterSearch.trigger("ready");
         });
@@ -885,7 +884,7 @@ export class BetterSearch extends RE6Module {
 
         Page.setQueryParameter("page", this.queryPage + "");
         BetterSearch.trigger("tracker.update");
-        BlacklistEnhancer.update();
+        // BlacklistEnhancer.update();
         this.updatePostCount();
 
         BetterSearch.trigger("pageload");

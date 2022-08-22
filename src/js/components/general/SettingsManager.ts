@@ -36,6 +36,7 @@ export default class SettingsManager extends Component {
                 this.makeSearchForm(),
 
                 this.makeThumbnailSection(),
+                this.makeBlacklistSection(),
                 this.makeLookAndFeelSection(),
 
                 this.makeUploadSection(),
@@ -239,6 +240,55 @@ export default class SettingsManager extends Component {
                 ]),
             ]
         )
+    }
+
+    private makeBlacklistSection(): FormElement {
+        const BlacklistUI = RE621.Registry.BlacklistEnhancer;
+        return Form.section(
+            {
+                name: "blacklist",
+                columns: 1,
+                width: 3,
+            },
+            [
+                Form.header("Blacklist", 3),
+                Form.section({
+                    columns: 3,
+                    width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "blacklist whitelist filter exclude favorites uploads"
+                }, [
+                    Form.checkbox(
+                        {
+                            value: BlacklistUI.Settings.favorites,
+                            label: "<b>Exclude Favorites</b><br />Prevent your favorites from being filtered out by the blacklist",
+                            width: 3,
+                            sync: { base: BlacklistUI, tag: "favorites" },
+                        },
+                        (data) => {
+                            BlacklistUI.Settings.favorites = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+                    // ---------- ---------- ----------
+                    Form.checkbox(
+                        {
+                            value: BlacklistUI.Settings.uploads,
+                            label: "<b>Exclude Uploads</b><br />Prevent your uploads from being filtered out by the blacklist",
+                            width: 3,
+                            sync: { base: BlacklistUI, tag: "uploads" },
+                        },
+                        (data) => {
+                            BlacklistUI.Settings.uploads = data;
+                        }
+                    ),
+                    Form.spacer(2, true),
+                    // ---------- ---------- ----------
+
+                    // TODO Whitelist
+                ]),
+            ]
+        );
     }
 
     private makeLookAndFeelSection(): FormElement {

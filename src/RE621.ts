@@ -6,6 +6,8 @@ import HeaderCustomizer from "./js/components/general/HeaderCustomizer";
 import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/minor/HeaderButtons";
 import ThemeCustomizer from "./js/components/minor/ThemeCustomizer";
+import { BlacklistEnhancer } from "./js/components/posts/BlacklistEnhancer";
+import PostViewer from "./js/components/posts/PostViewer";
 import { SmartAlias } from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import Script from "./js/models/data/Script";
@@ -27,7 +29,9 @@ export class RE621 {
         HeaderButtons,
 
         // Posts
+        BlacklistEnhancer,
         ThumbnailEngine,
+        PostViewer,
         SmartAlias,
 
         // Must wait for all other settings to load
@@ -115,7 +119,9 @@ interface ComponentListAnnotated extends ComponentList {
     DMailHeaderButton?: HeaderButtons,
 
     // Posts
+    BlacklistEnhancer?: BlacklistEnhancer,
     ThumbnailEngine?: ThumbnailEngine,
+    PostViewer?: PostViewer,
     SmartAlias?: SmartAlias,
 
     // Settings

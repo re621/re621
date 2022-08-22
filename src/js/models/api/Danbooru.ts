@@ -38,6 +38,14 @@ export class Danbooru {
             Danbooru.getModules()["Blacklist"].initialize_disable_all_blacklists = (): void => { return; };
             Danbooru.getModules()["Blacklist"].initialize_all = (): void => { return; };
         },
+
+        postShow(post: JQuery<HTMLElement>) {
+            Danbooru.getModules()["Blacklist"].postShow(post);
+        },
+
+        postHide(post: JQuery<HTMLElement>) {
+            Danbooru.getModules()["Blacklist"].postHide(post);
+        },
     }
 
     public static DText = {

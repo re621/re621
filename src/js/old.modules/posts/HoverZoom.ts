@@ -214,13 +214,13 @@ export class HoverZoom extends RE6Module {
             if ($ref.is("post")) post = Post.get($ref);
             else {
                 post = PostData.fromThumbnail($ref);
-                Blacklist.addPost(post);
+                Blacklist.addPost(null);  // TODO null is post
             }
 
             // Skip blacklisted posts, if necessary
             if (this.fetchSettings("skipBlacklisted")
                 && (post["$ref"]                    // Placeholder until feat:thumb gets finished
-                    ? Blacklist.checkPost(post)     // Non-RE621 blacklist does not work properly with this
+                    ? Blacklist.checkPost(null)     // Non-RE621 blacklist does not work properly with this
                     : $ref.find("img:first").attr("src") == "/images/blacklisted-preview.png")
             ) return;
 

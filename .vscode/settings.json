@@ -61,9 +61,11 @@
         "unformat",
         "unmargin",
         "Unvote",
+        "upvotes",
         "userid",
         "userscript",
         "userscripts",
+        "webm",
         "xmlhttp",
         "zestyapi"
     ]

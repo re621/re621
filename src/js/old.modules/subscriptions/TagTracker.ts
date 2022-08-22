@@ -97,7 +97,7 @@ export class TagTracker extends SubscriptionTracker {
 
             // Avoid posts with blacklisted tags
             // This is kind of excessive, but it works
-            Blacklist.addPost(post);
+            Blacklist.addPost(null);  // TODO null is post
             if (Blacklist.checkPost(post.id, true)) continue;
 
             result[timestamp] = {

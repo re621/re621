@@ -1,7 +1,7 @@
-import { BlacklistEnhancer } from "../../components/posts/BlacklistEnhancer";
-import { ModuleController } from "../../old.components/ModuleController";
-import { Post, PostData } from "../../old.components/post/Post";
-import Util from "../../utilities/Util";
+import { RE621 } from "../../../RE621";
+import ErrorHandler from "../../old.components/utility/ErrorHandler";
+import LocalStorage from "../api/LocalStorage";
+import Post from "./Post";
 import { FilterOptions, PostFilter } from "./PostFilter";
 import User from "./User";
 
@@ -18,22 +18,33 @@ export class Blacklist {
             return;
         }
 
-        const filters = blacklistMeta.attr("content");
-        const blacklistEnabled = Util.LS.getItem("dab") !== "1";
+        const BlacklistEnhancer = RE621.Registry.BlacklistEnhancer;
+        const options: FilterOptions = {
+            favorites: BlacklistEnhancer.Settings.favorites,
+            uploads: BlacklistEnhancer.Settings.uploads,
+            whitelist: BlacklistEnhancer.Settings.whitelist,
+        };
 
-        const enhancer = ModuleController.get(BlacklistEnhancer)
-        const options = enhancer.fetchSettings(["favorites", "uploads", "whitelist"]) as FilterOptions;
+        const rawBlacklistData = blacklistMeta.attr("content");
+        if (typeof rawBlacklistData == "undefined") return;
+        let blacklistData: string[];
+        try { blacklistData = JSON.parse(rawBlacklistData); }
+        catch (error) {
+            ErrorHandler.write("Error while parsing the blacklist data", error);
+            return;
+        }
 
-        if (filters !== undefined) {
-            for (const filter of JSON.parse(filters)) {
+        const allDisabled = LocalStorage.Blacklist.AllDisabled;
+        const disabledTags = LocalStorage.Blacklist.TagsDisabled;
 
-                // Skip empty or broken values
-                const text = filter ? filter.trim() : "";
-                if (!text) continue;
+        for (let tags of blacklistData.filter(n => n)) {
 
-                // Create a blacklist filter
-                this.createFilter(filter, blacklistEnabled, options);
-            }
+            // Skip empty or broken values
+            tags = tags ? tags.trim() : "";
+            if (!tags) continue;
+
+            // Create a blacklist filter
+            this.createFilter(tags, (!allDisabled && !disabledTags.includes(tags)), options);
         }
     }
 
@@ -64,7 +75,7 @@ export class Blacklist {
      * @param posts Post(s) to add to the cache
      * @returns Number of filters that match the post
      */
-    public static addPost(...posts: PostData[]): number {
+    public static addPost(...posts: Post[]): number {
         let count = 0;
         for (const filter of Blacklist.get().values()) {
             if (filter.update(posts)) count++;
@@ -77,12 +88,12 @@ export class Blacklist {
      * @param posts Post(s) to update
      * @returns Number of filters that match the post
      */
-    public static updatePost(...posts: PostData[]): number {
+    public static updatePost(...posts: Post[]): number {
         return Blacklist.addPost(...posts);
     }
 
     /** Returns true if the post is in the blacklist cache */
-    public static checkPost(post: PostData | number, ignoreDisabled = false): boolean {
+    public static checkPost(post: Post | number, ignoreDisabled = false): boolean {
         if (typeof post !== "number") post = post.id;
         for (const filter of Blacklist.get().values()) {
             if (filter.matchesID(post, ignoreDisabled)) return true;
@@ -98,14 +109,14 @@ export class Blacklist {
      * - 2 if any number of filters match, but are all disabled
      * @param post Post to test against the filter
      */
-    public static checkPostAlt(post: PostData | number): number {
+    public static checkPostAlt(post: Post | number): PostVisibility {
         if (typeof post !== "number") post = post.id;
-        let resultType = 0;
+        let resultType = PostVisibility.Full;
         for (const filter of Blacklist.get().values()) {
             const result = filter.matchesIDAlt(post);
             if (result) {
-                if (result == 1) return result;
-                else resultType = 2;
+                if (result == 1) return PostVisibility.None;
+                else resultType = PostVisibility.Some;
             }
         }
         return resultType;
@@ -121,6 +132,20 @@ export class Blacklist {
     public static disableAll(): void {
         for (const filter of Blacklist.get().values())
             filter.setEnabled(false);
+    }
+
+    /** Returns true if all active filters are enabled */
+    public static allEnabled(): boolean {
+        for (const filter of this.getActiveFilters().values())
+            if (!filter.isEnabled()) return false;
+        return true;
+    }
+
+    /** Returns true if all active filters are enabled */
+    public static allDisabled(): boolean {
+        for (const filter of this.getActiveFilters().values())
+            if (filter.isEnabled()) return false;
+        return true;
     }
 
     /**
@@ -186,8 +211,8 @@ export class Blacklist {
 
         await User.setSettings({ blacklisted_tags: currentBlacklist.join("\n") });
 
-        if (ModuleController.get(BlacklistEnhancer).isInitialized()) BlacklistEnhancer.update();
-        Post.find("all").each((post) => { post.updateVisibility(); });
+        // BlacklistEnhancer.update(); // TODO What if not initialized?
+        // Post.find("all").each((post) => { post.updateVisibility(); });
 
         return Promise.resolve();
 
@@ -197,4 +222,15 @@ export class Blacklist {
         }
     }
 
+}
+
+/*
+     * - 0 if no filters match the post
+     * - 1 if at least one enabled filter matches
+     * - 2 if any number of filters match, but are all disabled
+ */
+export enum PostVisibility {
+    Full = 0,
+    None = 1,
+    Some = 2,
 }

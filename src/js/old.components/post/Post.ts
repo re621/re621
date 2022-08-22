@@ -196,7 +196,7 @@ export class Post implements PostData {
     /** Refreshes the blacklist and custom flagger filters */
     public updateFilters(): Post {
         CustomFlagger.addPost(this);
-        Blacklist.addPost(this);
+        // Blacklist.addPost(this);
 
         return this;
     }

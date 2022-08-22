@@ -85,11 +85,14 @@ export class CustomFlagger extends RE6Module {
      * @returns Number of filters that match the post
      */
     public static addPost(...posts: PostData[]): number {
+        /*
         let count = 0;
         for (const filterPair of CustomFlagger.get().values()) {
             if (filterPair.filter.update(posts)) count++;
         }
         return count;
+        */
+        return 0;
     }
 
     /**

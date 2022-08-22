@@ -37,6 +37,13 @@ thumbnail {
 
     box-sizing: border-box;
 
+    &[blacklisted=true] {
+        display: none;
+    }
+    &[blacklisted=maybe] post-info {
+        background: #ff000025 !important;
+    }
+
     a {
         display: flex;
         overflow: hidden;
@@ -80,7 +87,7 @@ thumbnail {
 
         border-radius: 0 0 6px 6px;
 
-        &>span:not(:last-child) {
+        & > span:not(:last-child) {
             margin-right: 0.5rem;
         }
 
@@ -144,9 +151,9 @@ thumbnail {
 
 
 /* Placeholder Images */
-thumbnail[error=true]>a:after,
-thumbnail[filetype=swf]>a:after,
-thumbnail[deleted=true]>a:after {
+thumbnail[error=true] > a:after,
+thumbnail[filetype=swf] > a:after,
+thumbnail[deleted=true] > a:after {
     content: "PLACEHOLDER";
     position: absolute;
     top: 0;
@@ -165,15 +172,15 @@ thumbnail[deleted=true]>a:after {
     text-shadow: 1px 1px 0px #000000, 1px 0px 0px #000000, 0px 1px 0px #000, -1px -1px 0px #000;
 }
 
-thumbnail[error=true]>a:after {
+thumbnail[error=true] > a:after {
     content: "ERROR";
 }
 
-thumbnail[filetype=swf]>a:after {
+thumbnail[filetype=swf] > a:after {
     content: "FLASH";
 }
 
-thumbnail[deleted=true]>a:after {
+thumbnail[deleted=true] > a:after {
     content: "DELETED";
 }
 
@@ -183,7 +190,7 @@ thumbnail[filetype=webm],
 thumbnail[filetype=gif],
 thumbnail[filetype=swf] {
 
-    &>a::before {
+    & > a::before {
         content: "ANIM";
         background-color: #222222aa;
         border: 1px solid #66666655;
@@ -200,15 +207,15 @@ thumbnail[filetype=swf] {
         z-index: 10;
     }
 
-    &[filetype=webm]>a::before {
+    &[filetype=webm] > a::before {
         content: "WEBM";
     }
 
-    &[filetype=gif]>a::before {
+    &[filetype=gif] > a::before {
         content: "GIF";
     }
 
-    &[filetype=swf]>a::before {
+    &[filetype=swf] > a::before {
         content: "SWF";
     }
 }
@@ -279,7 +286,7 @@ img-ribbons {
         $rel-children: forestgreen;
         $rel-parent: goldenrod;
 
-        &>span {
+        & > span {
             display: block;
             position: absolute;
             top: -0.6rem;
@@ -352,4 +359,12 @@ img-ribbons {
             transform: rotate(90deg);
         }
     }
+}
+
+// Fixes to thumbnails blowing up too much where they shouldn't
+.user-favorites,
+.user-uploads,
+.parent-children {
+    --img-width: 150px;
+    --img-ratio: 1;
 }

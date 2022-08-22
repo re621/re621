@@ -7,6 +7,7 @@ import Component from "../Component";
 export default class ThumbnailEngine extends Component {
 
     private observer: IntersectionObserver;
+    private thumbnails: Thumbnail[] = [];
 
     public constructor() {
         super({
@@ -40,7 +41,7 @@ export default class ThumbnailEngine extends Component {
             if (XM.Window["observer"]) return;
             entries.forEach((value) => {
                 const post = Thumbnail.getPost(value.target),
-                    thumb = post.$thumb,
+                    thumb = post.$thumb as Thumbnail,
                     has = intersecting.has(post.id);
 
                 // element left the viewport
@@ -60,11 +61,6 @@ export default class ThumbnailEngine extends Component {
                 }
             })
         }, config);
-
-        this.on("fetch", () => {
-            // console.log("result", PostCache.all());
-            // TODO Check which posts have old data
-        });
 
         $("#posts-container").addClass("thumbnail-engine");
         for (const article of $("article.post-preview").get())
@@ -90,7 +86,13 @@ export default class ThumbnailEngine extends Component {
     }
 
     public register(thumbnail: Thumbnail) {
+        this.thumbnails.push(thumbnail);
         this.observer.observe(thumbnail.getElement()[0]);
+    }
+
+    public updateVisibility() {
+        for (const thumb of this.thumbnails)
+            thumb.updateVisibility();
     }
 
     private updateContentHeader() {

@@ -41,8 +41,8 @@ export class InstantFilters extends RE6Module {
 
             if (InstantFilters.filter == undefined) $article.removeAttr("filtered");
             else {
-                InstantFilters.filter.update(post);
-                if (InstantFilters.filter.matches(post)) $article.removeAttr("filtered");
+                InstantFilters.filter.update(null); // TODO null is post
+                if (InstantFilters.filter.matches(null)) $article.removeAttr("filtered");
                 else $article.attr("filtered", "true");
             }
         });
@@ -95,7 +95,7 @@ export class InstantFilters extends RE6Module {
     public static addPost(...posts: PostData[]): boolean {
         const filter = InstantFilters.get();
         if (!filter) return false;
-        return filter.update(posts);
+        return filter.update(null);  // TODO null is post
     }
 
     public applyFilter(): void {
