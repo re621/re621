@@ -363,7 +363,7 @@ export default class Post {
             };
             urls = {
                 original: this.rebuildURL("original", options),
-                sample: imageURL,
+                sample: data.status == "deleted" ? imageURL : this.rebuildURL("sample", options),
                 preview: imageURL,
             }
         } else {
@@ -851,10 +851,10 @@ interface PostDataTypeD {
     // Missing if the file is deleted
     md5?: string,
     previewUrl?: string,
+    status: "active" | "deleted",
 
     // Pointless
     /*
     croppedUrl: string,
-    status: "active" | "deleted",
     */
 }
