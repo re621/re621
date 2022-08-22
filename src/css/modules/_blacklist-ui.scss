@@ -3,7 +3,7 @@ blacklist-ui {
     margin-bottom: 0.5rem;
 
     &[filters="0"] {
-        display: none;
+        display: none !important;
     }
 
     blacklist-header {
