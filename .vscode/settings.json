@@ -49,6 +49,7 @@
         "pximg",
         "qedit",
         "scrollbars",
+        "sidekiq",
         "smartalias",
         "spacefix",
         "stylesheet",

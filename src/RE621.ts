@@ -10,6 +10,7 @@ import BlacklistUI from "./js/components/posts/BlacklistUI";
 import PostViewer from "./js/components/posts/PostViewer";
 import SmartAlias from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
+import Page, { IgnoredPages } from "./js/models/data/Page";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
 import Debug from "./js/models/Debug";
@@ -39,6 +40,8 @@ export default class RE621 {
     ];
 
     public async run(): Promise<void> {
+
+        if (Page.matches(IgnoredPages)) return;
 
         console.log("%c[RE621]%c v." + Script.version, "color: maroon", "color: unset");
 

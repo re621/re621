@@ -140,3 +140,9 @@ export const PageDefinition = {
     // Custom
     pluginSettings: /^\/plugins\/re621.*/,
 };
+
+export const IgnoredPages = [
+    PageDefinition.title,
+    /\.json/,
+    /sidekiq/,
+];
