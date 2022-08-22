@@ -377,6 +377,7 @@ img-ribbons {
 
 // Style tweaks for DText thumbnails
 .styled-dtext,
+.avatar,
 .profile-avatar {
 
     thumbnail {
@@ -405,6 +406,10 @@ img-ribbons {
                 width: 150px;
                 height: 150px;
             }
+        }
+
+        &[rendered=false] {
+            border-bottom: 0;
         }
     }
 
