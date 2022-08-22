@@ -24,8 +24,6 @@ module.exports = {
     require: [
         "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js",
         "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js",
-        "https://cdn.jsdelivr.net/npm/winbox@0.2.1/dist/winbox.bundle.min.js",
-        "https://cdn.jsdelivr.net/npm/jsframe.js/lib/jsframe.min.js",
         "https://cdn.jsdelivr.net/npm/@re621/zestyapi@0.1.5/dist/ZestyAPI.min.js"
     ],
 
