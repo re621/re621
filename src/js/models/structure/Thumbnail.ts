@@ -1,34 +1,10 @@
 import RE621 from "../../../RE621";
 import { ImageLoadMethod } from "../../components/posts/ThumbnailEngine";
 import Util from "../../utilities/Util";
-import Danbooru from "../api/Danbooru";
-import Blacklist, { PostVisibility } from "../data/Blacklist";
 import Page, { PageDefinition } from "../data/Page";
 import Post, { FileExtension, PostFlag } from "../data/Post";
 import User from "../data/User";
-
-
-export class ThumbnailLike {
-
-    protected id: string;
-    public $ref: JQuery<HTMLElement>;
-    public post: Post;
-
-    public constructor(post: Post) {
-        this.post = post;
-        this.id = Util.ID.make();
-    }
-
-    public getElement(): JQuery<HTMLElement> {
-        return this.$ref;
-    }
-
-    public updateVisibility(): void {
-        this.$ref.attr({
-            blacklisted: this.post.getBlacklistStatus(),
-        });
-    }
-}
+import ThumbnailLike from "./ThumbnailLike";
 
 export default class Thumbnail extends ThumbnailLike {
 
@@ -37,7 +13,7 @@ export default class Thumbnail extends ThumbnailLike {
     public constructor(post: Post) {
         super(post);
         this.post = post;
-        this.post.$thumb = this; // TODO What if there are multiple thumbnails for the same post
+        this.post.$thumb.push(this)
 
         this.$ref = $("<thumbnail>")
             .attr({
@@ -45,7 +21,10 @@ export default class Thumbnail extends ThumbnailLike {
                 post: this.post.id,
                 blacklisted: this.post.getBlacklistStatus(),
             })
-            .data("$post", this.post);
+            .data({
+                "$post": post,
+                "$thumb": this,
+            });
 
         this.$ref.on("re621:update", () => {
             this.reset();
@@ -96,26 +75,6 @@ export default class Thumbnail extends ThumbnailLike {
         this.draw();
     }
 
-    public static getPost(element: Element): Post {
-        return $(element).data("$post");
-    }
-
-}
-
-export class LargePost extends ThumbnailLike {
-
-    public constructor(post: Post) {
-        super(post);
-        this.$ref = $("#image-container");
-        this.post.$thumb = this;
-    }
-
-    public updateVisibility(): void {
-        if (Blacklist.checkPostAlt(this.post) == PostVisibility.None) Danbooru.Blacklist.postHide(this.$ref);
-        else Danbooru.Blacklist.postShow(this.$ref);
-    }
-
-
 }
 
 class ThumbnailParts {
@@ -130,7 +89,7 @@ class ThumbnailParts {
 
         // Basic structure
         const $link = $("<a>")
-            .attr({ "href": "/posts/" + thumbnail.post.id + (query !== null ? "?q=" + query : ""), })
+            .attr({ "href": "/posts/" + thumbnail.post.id + (query !== null ? "?q=" + query : ""), }) // BUG wiki page
             .append(this.renderImageElement(thumbnail));
 
 

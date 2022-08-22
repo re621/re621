@@ -1,12 +1,12 @@
 import PostCache from "../../cache/PostCache";
 import { PageDefinition } from "../../models/data/Page";
 import Post from "../../models/data/Post";
-import { LargePost } from "../../models/structure/Thumbnail";
+import ThumbnailPost from "../../models/structure/Thumbnail";
 import Component from "../Component";
 
 export default class PostViewer extends Component {
 
-    private thumbnail: LargePost;
+    private thumbnail: ThumbnailPost;
 
     public constructor() {
         super({
@@ -21,7 +21,7 @@ export default class PostViewer extends Component {
         if (!element) return;
         const post = Post.fromThumbnail(element);
         PostCache.add(post);
-        this.thumbnail = new LargePost(post);
+        this.thumbnail = new ThumbnailPost(post);
         this.thumbnail.updateVisibility();
 
     }

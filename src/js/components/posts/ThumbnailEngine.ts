@@ -1,6 +1,7 @@
 import PostCache from "../../cache/PostCache";
 import XM from "../../models/api/XM";
 import Post from "../../models/data/Post";
+import Debug from "../../models/Debug";
 import Thumbnail from "../../models/structure/Thumbnail";
 import Component from "../Component";
 
@@ -11,7 +12,7 @@ export default class ThumbnailEngine extends Component {
 
     public constructor() {
         super({
-            waitForDOM: true,
+            waitForDOM: "#page",
         });
     }
 
@@ -31,7 +32,7 @@ export default class ThumbnailEngine extends Component {
 
         this.updateContentHeader();
 
-        const intersecting: Set<number> = new Set();
+        const intersecting: Set<string> = new Set();
         const config = {
             root: null,
             rootMargin: "100% 50% 100% 50%",
@@ -40,31 +41,41 @@ export default class ThumbnailEngine extends Component {
         this.observer = new IntersectionObserver((entries) => {
             if (XM.Window["observer"]) return;
             entries.forEach((value) => {
-                const post = Thumbnail.getPost(value.target),
-                    thumb = post.$thumb as Thumbnail,
-                    has = intersecting.has(post.id);
+                const thumbnail = Thumbnail.getThumbnail(value.target) as Thumbnail;
+                if (!thumbnail) return;
+
+                const has = intersecting.has(thumbnail.id);
 
                 // element left the viewport
                 if (has && !value.isIntersecting) {
-                    // console.log("object left", id);
-                    intersecting.delete(post.id);
-                    thumb.clear();
+                    intersecting.delete(thumbnail.id);
+                    thumbnail.clear();
                 }
                 // element entered viewport
                 if (!has && value.isIntersecting) {
-                    // console.log("object entered", id);
-                    intersecting.add(post.id);
+                    intersecting.add(thumbnail.id);
                     window.setTimeout(() => {
-                        if (!intersecting.has(post.id)) return;
-                        thumb.draw();
+                        if (!intersecting.has(thumbnail.id)) return;
+                        thumbnail.draw();
                     }, 100);
                 }
             })
         }, config);
 
-        $("#posts-container").addClass("thumbnail-engine");
-        for (const article of $("article.post-preview").get())
-            this.convertThumbnail($(article));
+        let count = 0;
+        const mutationObserver = new MutationObserver(() => {
+            // console.log(mutations);
+
+            for (const article of $("article.post-preview, div.post-thumbnail").get()) {
+                this.convertThumbnail($(article));
+                count++;
+            }
+        });
+        mutationObserver.observe(document, { subtree: true, childList: true });
+        $(() => {
+            Debug.log("[ThumbnailEngine] Converted " + count + " posts");
+            mutationObserver.disconnect();
+        });
 
         this.on("settings.imageWidth settings.imageRatio settings.crop", () => {
             this.updateContentHeader();

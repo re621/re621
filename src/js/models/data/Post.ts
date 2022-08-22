@@ -1,13 +1,13 @@
 import APIPost from "@re621/zestyapi/dist/responses/APIPost";
 import BlacklistUI from "../../components/posts/BlacklistUI";
 import Util from "../../utilities/Util";
-import { ThumbnailLike } from "../structure/Thumbnail";
+import ThumbnailLike from "../structure/ThumbnailLike";
 import Blacklist, { PostVisibility } from "./Blacklist";
 import { Tag } from "./Tag";
 
 export default class Post {
 
-    public $thumb?: ThumbnailLike;
+    public $thumb: ThumbnailLike[] = [];
     public source: "DOM" | "POST" | "API";
 
     public id: number;
@@ -121,6 +121,7 @@ export default class Post {
     public static fromThumbnail($element: JQuery<HTMLElement>): Post {
         if ($element.is("article") && $element.hasClass("post-preview")) return this.fromThumbnailAB($element);
         else if ($element.attr("id") == "image-container") return this.fromThumbnailC($element);
+        else if ($element.is("div") && $element.hasClass("post-thumbnail")) return this.fromThumbnailD($element);
         return null;
     }
 
@@ -337,6 +338,120 @@ export default class Post {
         });
     }
 
+    private static fromThumbnailD($element: JQuery<HTMLElement>): Post {
+
+        const data = $element.data() as PostDataTypeD;
+        // TODO What if the element does not match the format?
+
+        const tagSet: Set<string> = new Set(data.tags.split(" "));
+
+        let urls;
+        if (data.md5) {
+            const options = {
+                md5: data.md5,
+                extension: data.fileExt,
+                width: data.width,
+                height: data.height,
+            };
+            urls = {
+                original: this.rebuildURL("original", options),
+                sample: this.rebuildURL("sample", options),
+                preview: this.rebuildURL("preview", options),
+            }
+        } else {
+            urls = {
+                original: "/images/deleted-preview.png",
+                sample: "/images/deleted-preview.png",
+                preview: "/images/deleted-preview.png",
+            };
+        }
+
+        return new Post({
+            source: "DOM",
+
+            id: data.id || 0,
+            flags: PostFlag.fromString(data.flags || ""),
+            score: {
+                // This is obviously not accurate
+                // But it's good enough until the API data loads
+                up: data.score > 0 ? data.score : 0,
+                down: data.score < 0 ? data.score : 0,
+                total: data.score,
+            },
+            user_score: 0,
+            favorites: 0,
+            is_favorited: false,
+            comments: 0,
+            rating: PostRating.fromValue(data.rating),
+            uploader: data.uploaderId || 0,
+            uploaderName: data.uploader || "Unknown",
+            approver: -1,
+
+            date: {
+                iso: data.createdAt,
+                ago: Util.Time.ago(data.createdAt),
+                obj: new Date(data.createdAt),
+            },
+
+            tagString: data.tags,
+            tags: {
+                all: tagSet,
+                artist: new Set<string>(),
+                real_artist: new Set<string>(),
+                copyright: new Set<string>(),
+                species: new Set<string>(),
+                character: new Set<string>(),
+                general: new Set<string>(),
+                invalid: new Set<string>(),
+                meta: new Set<string>(),
+                lore: new Set<string>(),
+            },
+            tagCategoriesKnown: false,
+
+            sources: [],
+            description: "",
+
+            file: {
+                ext: data.fileExt,
+                md5: data.md5,
+                original: urls.original,
+                sample: urls.sample,
+                preview: urls.preview,
+                size: 0,
+            },
+
+            img: {
+                width: data.width,
+                height: data.height,
+                ratio: data.height / data.width,
+            },
+
+            has: {
+                file: typeof urls.original !== "undefined",
+                children: $element.hasClass("post-status-has-children"),
+                parent: $element.hasClass("post-status-has-parent"),
+                sample: urls.original === urls.sample,
+            },
+
+            rel: {
+                children: new Set(),
+                parent: null,
+            },
+
+            meta: {
+                duration: null,
+                animated: tagSet.has("animated") || data.fileExt == "webm" || data.fileExt == "gif" || data.fileExt == "swf",
+                sound: tagSet.has("sound"),
+                interactive: data.fileExt == "webm" || data.fileExt == "swf",
+            },
+
+            warning: {
+                sound: tagSet.has("sound_warning"),
+                epilepsy: tagSet.has("epilepsy_warning"),
+            },
+        });
+    }
+
     public static fromAPI(data: APIPost): Post {
         const tagSet = new Set([
             ...data.tags.artist,
@@ -427,6 +542,37 @@ export default class Post {
                 epilepsy: tagSet.has("epilepsy_warning"),
             },
         });
+    }
+
+    private static rebuildURL(
+        type: "preview" | "sample" | "original" = "preview",
+        options: {
+            md5: string,
+            extension: string,
+            width: number,
+            height: number,
+        }): string {
+        if (!options) return null;
+
+        const parts = [
+            options.md5.substring(0, 2),
+            options.md5.substring(2, 4),
+            options.md5,
+            options.extension,
+        ]
+
+        switch (type) {
+            case "original":
+                `https://static1.e621.net/data/${parts[0]}/${parts[1]}/${parts[2]}.${parts[3]}`
+            case "sample":
+                return ((options.width < 850 || options.height < 850 || options.extension == "gif")
+                    ? `https://static1.e621.net/data/${parts[0]}/${parts[1]}/${parts[2]}.${parts[3]}`
+                    : `https://static1.e621.net/data/sample/${parts[0]}/${parts[1]}/${parts[2]}.jpg`);
+            case "preview":
+            default: {
+                return `https://static1.e621.net/data/preview/${parts[0]}/${parts[1]}/${parts[2]}.jpg`;
+            }
+        }
     }
 }
 
@@ -667,4 +813,33 @@ interface AlternateType {
     height: number,
     width: number,
     urls: string[],
+}
+
+/**
+ * The worst format out there. Used for avatars and previews in DText.
+ */
+interface PostDataTypeD {
+    id: number,
+    uploader: string,
+    uploaderId: number,
+    score: number,
+    tags: string,
+    height: number,
+    width: number,
+    rating: string,
+    createdAt: string,
+    fileExt: string,
+    flags: string,
+
+    // Missing if the file is deleted
+    md5?: string,
+    previewUrl?: string,
+
+    // Pointless
+    /*
+    croppedUrl: string,
+    previewHeight: 150,
+    previewWidth: 122,
+    status: "active" | "deleted",
+    */
 }
