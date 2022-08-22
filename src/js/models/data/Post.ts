@@ -89,7 +89,12 @@ export default class Post {
         epilepsy: boolean;                  // file is marked with epilepsy warning
     }
 
-    private constructor(data: any) {
+    public override: {                         // overrides for the thumbnail dimensions
+        width: number;
+        height: number;
+    }
+
+    private constructor(data: any) { // TODO Add type definitions
         for (const [key, value] of Object.entries(data))
             this[key] = value;
         Blacklist.addPost(this);
@@ -346,8 +351,9 @@ export default class Post {
         // TODO What if the element does not match the format?
 
         const tagSet: Set<string> = new Set(data.tags.split(" "));
+        const imageURL = $element.find("img").attr("src");
 
-        let urls;
+        let urls: any;
         if (data.md5) {
             const options = {
                 md5: data.md5,
@@ -357,14 +363,15 @@ export default class Post {
             };
             urls = {
                 original: this.rebuildURL("original", options),
-                sample: this.rebuildURL("sample", options),
-                preview: this.rebuildURL("preview", options),
+                sample: imageURL,
+                preview: imageURL,
             }
         } else {
+            console.log(imageURL);
             urls = {
                 original: "/images/deleted-preview.png",
-                sample: "/images/deleted-preview.png",
-                preview: "/images/deleted-preview.png",
+                sample: imageURL,
+                preview: imageURL,
             };
         }
 
@@ -451,6 +458,11 @@ export default class Post {
                 sound: tagSet.has("sound_warning"),
                 epilepsy: tagSet.has("epilepsy_warning"),
             },
+
+            override: {
+                width: data.previewWidth,
+                height: data.previewHeight,
+            }
         });
     }
 
@@ -833,6 +845,9 @@ interface PostDataTypeD {
     fileExt: string,
     flags: string,
 
+    previewHeight: 150,
+    previewWidth: 122,
+
     // Missing if the file is deleted
     md5?: string,
     previewUrl?: string,
@@ -840,8 +855,6 @@ interface PostDataTypeD {
     // Pointless
     /*
     croppedUrl: string,
-    previewHeight: 150,
-    previewWidth: 122,
     status: "active" | "deleted",
     */
 }

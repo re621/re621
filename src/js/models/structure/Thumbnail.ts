@@ -139,6 +139,18 @@ class ThumbnailParts {
             });
 
 
+        // Dimensions overrides
+        if (post.override) {
+            $image.css({
+                width: post.override.width,
+                height: post.override.height,
+            });
+            $ref.css({
+                width: post.override.width,
+                height: post.override.height,
+            });
+        }
+
         // Fallbacks for deleted and flash files
         if (post.flags.has(PostFlag.Deleted) && !User.canApprovePosts) {
             post.img.ratio = 1;
