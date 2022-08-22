@@ -132,7 +132,7 @@ export default class BlacklistUI extends Component {
 
     private makeFilter(tags: string, filter: PostFilter, wrapper: JQuery<HTMLElement>): JQuery<HTMLElement> {
         const element = $("<filter>")
-            .html("<a>" + tags + "</a>")
+            .html("<a>" + tags.replace(/_/g, "_<wbr>") + "</a>")
             .attr({
                 count: filter.getMatchesCount(),
                 enabled: filter.isEnabled(),

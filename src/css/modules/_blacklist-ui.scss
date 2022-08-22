@@ -35,13 +35,14 @@ blacklist-ui {
             padding-left: 1rem;
             cursor: pointer;
             color: #bbb;
+            overflow-wrap: break-word;
             &:hover {
                 background: #ffffff10;
             }
 
             &::before {
                 content: unicode("f14a");
-                display: inline-block;
+                display: inline;
                 margin-right: 0.435rem;
                 margin-left: -1rem;
                 margin-top: 0.125rem;
