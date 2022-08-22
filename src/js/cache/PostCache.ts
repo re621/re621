@@ -36,7 +36,7 @@ export default class PostCache {
             const chunks = Util.chunkArray<number>(PostCache.queue, 100, "split");
             PostCache.queue = chunks[1];
             if (chunks[0].length == 0) return;
-            const response = await RE621.API.Posts.find({ tags: "id:" + chunks[0].join(","), limit: 100 });
+            const response = await RE621.API.Posts.find({ tags: ["id:" + chunks[0].join(","), "status:any"], limit: 100 });
             for (const one of response.data) {
                 if (!PostCache.has(one.id)) continue;
                 PostCache.cache[one.id].import(Post.fromAPI(one));

@@ -401,7 +401,7 @@ img-ribbons {
         &[error=true],
         &[filetype=swf],
         &[deleted=true] {
-            a img {
+            a img[src^="data:image"] {
                 width: 150px;
                 height: 150px;
             }

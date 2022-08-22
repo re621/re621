@@ -69,8 +69,7 @@ export default class Thumbnail extends ThumbnailLike {
     }
 
     public reset() {
-        if (!this.$ref.attr("rendered")) return;
-        this.clear();
+        if (this.$ref.attr("rendered") !== "true") return;
         this.loaded = undefined;
         this.draw();
     }
