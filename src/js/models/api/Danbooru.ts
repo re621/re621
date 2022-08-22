@@ -4,132 +4,175 @@ import XM from "./XM";
 
 export default class Danbooru {
 
-    private static getModules(): any { return XM.Window["Danbooru"]; }
+    private static _cachedModules: any;
+    private static get Modules(): any {
+        if (!this._cachedModules) {
+            this._cachedModules = XM.Window["Danbooru"];
+            if (!this._cachedModules) this._cachedModules = {};
+        }
+        return this._cachedModules;
+    }
+
+    private static _cachedModuleCount: number;
+    private static get hasModules(): boolean {
+        if (typeof this._cachedModuleCount == "undefined")
+            this._cachedModuleCount = Object.keys(this.Modules).length;
+        return this._cachedModuleCount > 0;
+    }
 
     public static Autocomplete = {
         initialize_all(): void {
-            Danbooru.getModules()["Autocomplete"].initialize_all();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Autocomplete.initialize_all();
         }
     }
 
     public static Blacklist = {
         apply(): void {
-            Danbooru.getModules()["Blacklist"].apply();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.apply();
 
         },
 
         initialize_anonymous_blacklist(): void {
-            Danbooru.getModules()["Blacklist"].initialize_anonymous_blacklist();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.initialize_anonymous_blacklist();
 
         },
 
         initialize_all(): void {
-            Danbooru.getModules()["Blacklist"].initialize_all();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.initialize_all();
 
         },
 
         initialize_disable_all_blacklists(): void {
-            Danbooru.getModules()["Blacklist"].initialize_disable_all_blacklists();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.initialize_disable_all_blacklists();
 
         },
 
         stub_vanilla_functions(): void {
-            Danbooru.getModules()["Blacklist"].apply = (): void => { return; };
-            Danbooru.getModules()["Blacklist"].initialize_disable_all_blacklists = (): void => { return; };
-            Danbooru.getModules()["Blacklist"].initialize_all = (): void => { return; };
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.apply = (): void => { return; };
+            Danbooru.Modules.Blacklist.initialize_disable_all_blacklists = (): void => { return; };
+            Danbooru.Modules.Blacklist.initialize_all = (): void => { return; };
         },
 
         postShow(post: JQuery<HTMLElement>) {
-            Danbooru.getModules()["Blacklist"].postShow(post);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.postShow(post);
         },
 
         postHide(post: JQuery<HTMLElement>) {
-            Danbooru.getModules()["Blacklist"].postHide(post);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Blacklist.postHide(post);
         },
     }
 
     public static DText = {
         get buttons(): DTextButton[] {
-            return Danbooru.getModules()["DText"].buttons;
+            if (!Danbooru.hasModules) return;
+            return Danbooru.Modules.DText.buttons;
         },
         set buttons(values: DTextButton[]) {
-            Danbooru.getModules()["DText"].buttons = values;
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.DText.buttons = values;
         },
         override_formatting(fn: (content: string, input: JQuery<HTMLInputElement>) => void): void {
-            Danbooru.getModules()["DText"].process_formatting = fn;
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.DText.process_formatting = fn;
         },
     };
 
     public static Post = {
         vote(post_id: number, scoreDifference: number, preventUnvote?: boolean): void {
-            Danbooru.getModules()["Post"].vote(post_id, scoreDifference, preventUnvote);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.vote(post_id, scoreDifference, preventUnvote);
         },
         initialize_all(): void {
-            Danbooru.getModules()["Post"].initialize_all();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.initialize_all();
         },
         update(post_id: number, params: any): void {
-            Danbooru.getModules()["Post"].update(post_id, params);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.update(post_id, params);
         },
         delete_with_reason(post_id: number, reason: string, reload_after_delete: boolean): void {
-            Danbooru.getModules()["Post"].delete_with_reason(post_id, reason, reload_after_delete);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.delete_with_reason(post_id, reason, reload_after_delete);
         },
         undelete(post_id: number): void {
-            Danbooru.getModules()["Post"].undelete(post_id);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.undelete(post_id);
         },
         approve(post_id: number, should_reload = false): void {
-            Danbooru.getModules()["Post"].approve(post_id, should_reload);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.approve(post_id, should_reload);
         },
         disapprove(post_id: number, reason: string, should_reload = false): void {
-            Danbooru.getModules()["Post"].disapprove(post_id, reason, should_reload);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.disapprove(post_id, reason, should_reload);
         },
         unapprove(post_id: number): void {
-            Danbooru.getModules()["Post"].unapprove(post_id);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.unapprove(post_id);
         },
         resize_cycle_mode(): void {
-            Danbooru.getModules()["Post"].resize_cycle_mode();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.resize_cycle_mode();
         },
         resize_to(size: string): void {
-            Danbooru.getModules()["Post"].resize_to(size);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.resize_to(size);
         },
         resize_to_internal(size: string): void {
-            Danbooru.getModules()["Post"].resize_to_internal(size);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.resize_to_internal(size);
         },
         resize_notes(): void {
-            Danbooru.getModules()["Post"].resize_notes();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Post.resize_notes();
         }
     };
 
     public static PostModeMenu = {
         change(): void {
-            Danbooru.getModules()["PostModeMenu"].change();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.PostModeMenu.change();
         },
         click(e: Event | any): void {
-            Danbooru.getModules()["PostModeMenu"].click(e);
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.PostModeMenu.click(e);
         },
         change_tag_script(script: number): void {
+            if (!Danbooru.hasModules) return;
             const event = new CustomEvent("re621.dummy-event");
             event["key"] = script;
-            Danbooru.getModules()["PostModeMenu"].change_tag_script(event);
+            Danbooru.Modules.PostModeMenu.change_tag_script(event);
         },
     };
 
     public static Note = {
         Box: {
             scale_all(): void {
-                Danbooru.getModules()["Note"]["Box"].scale_all();
+                if (!Danbooru.hasModules) return;
+                Danbooru.Modules.Note.Box.scale_all();
 
             }
         },
 
         TranslationMode: {
             active(state?: boolean): Promise<boolean> {
-                if (state !== undefined) Danbooru.getModules()["Note"]["TranslationMode"].active = state;
-                return Promise.resolve(Danbooru.getModules()["Note"]["TranslationMode"].active);
+                if (!Danbooru.hasModules) return;
+                if (state !== undefined) Danbooru.Modules.Note.TranslationMode.active = state;
+                return Promise.resolve(Danbooru.Modules.Note.TranslationMode.active);
 
             },
 
             toggle(): void {
-                Danbooru.getModules()["Note"]["TranslationMode"].toggle(new CustomEvent("re621.dummy-event"));
+                if (!Danbooru.hasModules) return;
+                Danbooru.Modules.Note.TranslationMode.toggle(new CustomEvent("re621.dummy-event"));
 
             },
         }
@@ -138,7 +181,8 @@ export default class Danbooru {
     public static Thumbnails = {
 
         initialize(): void {
-            Danbooru.getModules()["Thumbnails"].initialize();
+            if (!Danbooru.hasModules) return;
+            Danbooru.Modules.Thumbnails.initialize();
         }
 
     }
@@ -146,8 +190,8 @@ export default class Danbooru {
     public static Utility = {
 
         disableShortcuts(state?: boolean): Promise<boolean> {
-            if (state !== undefined) Danbooru.getModules()["Utility"].disableShortcuts = state;
-            return Promise.resolve(Danbooru.getModules()["Utility"].disableShortcuts);
+            if (state !== undefined) Danbooru.Modules.Utility.disableShortcuts = state;
+            return Promise.resolve(Danbooru.Modules.Utility.disableShortcuts);
         },
 
     };
@@ -162,11 +206,11 @@ export default class Danbooru {
     }
 
     public static notice(input: string, permanent?: boolean): void {
-        Danbooru.getModules()["notice"](input, permanent);
+        Danbooru.Modules.notice(input, permanent);
     }
 
     public static error(input: string): void {
-        Danbooru.getModules()["error"](input);
+        Danbooru.Modules.error(input);
     }
 }
 
