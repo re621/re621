@@ -397,6 +397,15 @@ img-ribbons {
         post-info {
             display: none;
         }
+
+        &[error=true],
+        &[filetype=swf],
+        &[deleted=true] {
+            a img {
+                width: 150px;
+                height: 150px;
+            }
+        }
     }
 
 }
