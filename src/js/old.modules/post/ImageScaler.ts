@@ -1,4 +1,4 @@
-import { Danbooru } from "../../models/api/Danbooru";
+import Danbooru from "../../models/api/Danbooru";
 import { PageDefinition } from "../../models/data/Page";
 import User, { ImageScalingMode } from "../../models/data/User";
 import { Post } from "../../old.components/post/Post";

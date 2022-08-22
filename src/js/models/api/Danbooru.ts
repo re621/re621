@@ -2,7 +2,7 @@
 
 import XM from "./XM";
 
-export class Danbooru {
+export default class Danbooru {
 
     private static getModules(): any { return XM.Window["Danbooru"]; }
 

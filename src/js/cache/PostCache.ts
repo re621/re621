@@ -1,4 +1,4 @@
-import { RE621 } from "../../RE621";
+import RE621 from "../../RE621";
 import Post from "../models/data/Post";
 import Util from "../utilities/Util";
 

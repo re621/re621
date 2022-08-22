@@ -6,9 +6,9 @@ import HeaderCustomizer from "./js/components/general/HeaderCustomizer";
 import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/minor/HeaderButtons";
 import ThemeCustomizer from "./js/components/minor/ThemeCustomizer";
-import { BlacklistEnhancer } from "./js/components/posts/BlacklistEnhancer";
+import BlacklistUI from "./js/components/posts/BlacklistUI";
 import PostViewer from "./js/components/posts/PostViewer";
-import { SmartAlias } from "./js/components/posts/SmartAlias";
+import SmartAlias from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
@@ -17,7 +17,7 @@ import PageObserver from "./js/models/structure/PageObserver";
 import ErrorHandler from "./js/old.components/utility/ErrorHandler";
 import Util from "./js/utilities/Util";
 
-export class RE621 {
+export default class RE621 {
 
     public static Registry: ComponentListAnnotated = {};
     public static API: ZestyAPI;
@@ -29,7 +29,7 @@ export class RE621 {
         HeaderButtons,
 
         // Posts
-        BlacklistEnhancer,
+        BlacklistUI,
         ThumbnailEngine,
         PostViewer,
         SmartAlias,
@@ -119,7 +119,7 @@ interface ComponentListAnnotated extends ComponentList {
     DMailHeaderButton?: HeaderButtons,
 
     // Posts
-    BlacklistEnhancer?: BlacklistEnhancer,
+    BlacklistUI?: BlacklistUI,
     ThumbnailEngine?: ThumbnailEngine,
     PostViewer?: PostViewer,
     SmartAlias?: SmartAlias,

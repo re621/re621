@@ -1,4 +1,4 @@
-import { RE621 } from "../../../RE621";
+import RE621 from "../../../RE621";
 import Assets from "../../cache/Assets";
 import { AvoidPosting } from "../../cache/AvoidPosting";
 import XM from "../../models/api/XM";
@@ -243,7 +243,7 @@ export default class SettingsManager extends Component {
     }
 
     private makeBlacklistSection(): FormElement {
-        const BlacklistUI = RE621.Registry.BlacklistEnhancer;
+        const BlacklistUI = RE621.Registry.BlacklistUI;
         return Form.section(
             {
                 name: "blacklist",

@@ -1,5 +1,5 @@
 import XM from "../../models/api/XM";
-import { Blacklist } from "../../models/data/Blacklist";
+import Blacklist from "../../models/data/Blacklist";
 import User from "../../models/data/User";
 import { PostFlag } from "../../old.components/api/responses/APIPost";
 import { ModuleController } from "../../old.components/ModuleController";

@@ -1,4 +1,4 @@
-import { RE621 } from "../../../RE621";
+import RE621 from "../../../RE621";
 import { PageDefinition } from "../../models/data/Page";
 import { ModuleController } from "../../old.components/ModuleController";
 import { RE6Module, Settings } from "../../old.components/RE6Module";

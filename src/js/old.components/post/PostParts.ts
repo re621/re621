@@ -1,6 +1,6 @@
-import { Danbooru } from "../../models/api/Danbooru";
+import Danbooru from "../../models/api/Danbooru";
 import XM from "../../models/api/XM";
-import { Blacklist } from "../../models/data/Blacklist";
+import Blacklist from "../../models/data/Blacklist";
 import Page, { PageDefinition } from "../../models/data/Page";
 import User from "../../models/data/User";
 import { BetterSearch, ImageClickAction, ImageLoadMethod } from "../../old.modules/posts/BetterSearch";

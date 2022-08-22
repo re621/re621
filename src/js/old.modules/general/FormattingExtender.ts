@@ -1,4 +1,4 @@
-import { Danbooru, DTextButton } from "../../models/api/Danbooru";
+import Danbooru, { DTextButton } from "../../models/api/Danbooru";
 import { Form } from "../../models/structure/Form";
 import Modal from "../../models/structure/Modal";
 import { RE6Module, Settings } from "../../old.components/RE6Module";

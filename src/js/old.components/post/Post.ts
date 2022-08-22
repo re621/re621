@@ -1,4 +1,4 @@
-import { Blacklist } from "../../models/data/Blacklist";
+import Blacklist from "../../models/data/Blacklist";
 import { Tag } from "../../models/data/Tag";
 import { PostViewer } from "../../old.modules/post/PostViewer";
 import { BetterSearch } from "../../old.modules/posts/BetterSearch";

@@ -3,7 +3,7 @@ import Post, { PostFlag, PostRating } from "./Post";
 import { Tag } from "./Tag";
 import User from "./User";
 
-export class PostFilter {
+export default class PostFilter {
 
     private input: string;
 

@@ -1,9 +1,9 @@
-import { RE621 } from "../../../RE621";
+import RE621 from "../../../RE621";
 import PostCache from "../../cache/PostCache";
-import { Danbooru } from "../../models/api/Danbooru";
+import Danbooru from "../../models/api/Danbooru";
 import LocalStorage from "../../models/api/LocalStorage";
-import { Blacklist } from "../../models/data/Blacklist";
-import { PostFilter } from "../../models/data/PostFilter";
+import Blacklist from "../../models/data/Blacklist";
+import PostFilter from "../../models/data/PostFilter";
 import PageObserver from "../../models/structure/PageObserver";
 import Util from "../../utilities/Util";
 import Component from "../Component";
@@ -12,7 +12,7 @@ import Component from "../Component";
  * Blacklist Enhancer  
  * Replaces e6 blacklist functionality
  */
-export class BlacklistEnhancer extends Component {
+export default class BlacklistUI extends Component {
 
     public constructor() {
         super(); // TODO

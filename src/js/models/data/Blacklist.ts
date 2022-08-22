@@ -1,11 +1,11 @@
-import { RE621 } from "../../../RE621";
+import RE621 from "../../../RE621";
 import ErrorHandler from "../../old.components/utility/ErrorHandler";
 import LocalStorage from "../api/LocalStorage";
 import Post from "./Post";
-import { FilterOptions, PostFilter } from "./PostFilter";
+import PostFilter, { FilterOptions } from "./PostFilter";
 import User from "./User";
 
-export class Blacklist {
+export default class Blacklist {
 
     private static instance: Blacklist;
 
@@ -18,7 +18,7 @@ export class Blacklist {
             return;
         }
 
-        const BlacklistEnhancer = RE621.Registry.BlacklistEnhancer;
+        const BlacklistEnhancer = RE621.Registry.BlacklistUI;
         const options: FilterOptions = {
             favorites: BlacklistEnhancer.Settings.favorites,
             uploads: BlacklistEnhancer.Settings.uploads,

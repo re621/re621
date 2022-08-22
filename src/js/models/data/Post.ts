@@ -1,8 +1,8 @@
 import APIPost from "@re621/zestyapi/dist/responses/APIPost";
-import { BlacklistEnhancer } from "../../components/posts/BlacklistEnhancer";
+import BlacklistUI from "../../components/posts/BlacklistUI";
 import Util from "../../utilities/Util";
 import { ThumbnailLike } from "../structure/Thumbnail";
-import { Blacklist, PostVisibility } from "./Blacklist";
+import Blacklist, { PostVisibility } from "./Blacklist";
 import { Tag } from "./Tag";
 
 export default class Post {
@@ -113,7 +113,7 @@ export default class Post {
         this.user_score = user_score;
         this.uploaderName = uploaderName;
         Blacklist.updatePost(this);
-        BlacklistEnhancer.refresh();
+        BlacklistUI.refresh();
     }
 
 

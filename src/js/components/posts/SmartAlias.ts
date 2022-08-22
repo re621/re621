@@ -1,4 +1,4 @@
-import { RE621 } from "../../../RE621";
+import RE621 from "../../../RE621";
 import { AvoidPosting } from "../../cache/AvoidPosting";
 import Page, { PageDefinition } from "../../models/data/Page";
 import { TagCategory } from "../../old.components/api/responses/APITag";
@@ -7,7 +7,7 @@ import { TagValidator } from "../../old.components/utility/TagValidator";
 import Util from "../../utilities/Util";
 import Component from "../Component";
 
-export class SmartAlias extends Component {
+export default class SmartAlias extends Component {
 
     // Maximum recursion depth for aliases that contain other aliases
     private static ITERATIONS_LIMIT = 10;

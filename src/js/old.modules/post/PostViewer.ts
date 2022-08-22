@@ -1,5 +1,5 @@
-import { RE621 } from "../../../RE621";
-import { Danbooru } from "../../models/api/Danbooru";
+import RE621 from "../../../RE621";
+import Danbooru from "../../models/api/Danbooru";
 import Page, { PageDefinition } from "../../models/data/Page";
 import { ModuleController } from "../../old.components/ModuleController";
 import { Post } from "../../old.components/post/Post";

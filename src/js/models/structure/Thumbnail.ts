@@ -1,8 +1,8 @@
-import { RE621 } from "../../../RE621";
+import RE621 from "../../../RE621";
 import { ImageLoadMethod } from "../../components/posts/ThumbnailEngine";
 import Util from "../../utilities/Util";
-import { Danbooru } from "../api/Danbooru";
-import { Blacklist, PostVisibility } from "../data/Blacklist";
+import Danbooru from "../api/Danbooru";
+import Blacklist, { PostVisibility } from "../data/Blacklist";
 import Page, { PageDefinition } from "../data/Page";
 import Post, { FileExtension, PostFlag } from "../data/Post";
 import User from "../data/User";
