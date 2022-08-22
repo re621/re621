@@ -105,13 +105,15 @@ export default class Post {
 
     public import(source: Post) {
         const user_score = this.user_score,
-            uploaderName = this.uploaderName;
+            uploaderName = this.uploaderName,
+            $thumb = this.$thumb;
 
         for (const [key, value] of Object.entries(source))
             this[key] = value;
 
         this.user_score = user_score;
         this.uploaderName = uploaderName;
+        this.$thumb = $thumb;
         Blacklist.updatePost(this);
         BlacklistUI.refresh();
     }

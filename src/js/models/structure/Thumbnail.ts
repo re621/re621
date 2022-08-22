@@ -13,7 +13,7 @@ export default class Thumbnail extends ThumbnailLike {
     public constructor(post: Post) {
         super(post);
         this.post = post;
-        this.post.$thumb.push(this)
+        this.post.$thumb.push(this);
 
         this.$ref = $("<thumbnail>")
             .attr({

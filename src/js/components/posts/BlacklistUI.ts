@@ -145,7 +145,6 @@ export default class BlacklistUI extends Component {
                 for (const id of filter.getMatches()) {
                     if (!PostCache.has(id)) continue;
                     const thumbnails = PostCache.get(id).$thumb;
-                    if (!thumbnails) continue;
                     for (const one of thumbnails)
                         one.updateVisibility();
                 }

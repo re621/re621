@@ -15,7 +15,11 @@ export default class PostCache {
         if (!this.cache) this.cache = {};
         if (!this.queue) this.queue = [];
 
-        if (this.has(post.id)) return;
+        if (this.has(post.id)) {
+            const existing = this.get(post.id);
+            existing.$thumb.push(...post.$thumb);
+            return;
+        }
         if (this.timeout) window.clearTimeout(this.timeout);
 
         this.cache[post.id] = post;
