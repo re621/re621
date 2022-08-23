@@ -199,7 +199,9 @@ export default class SettingsManager extends Component {
                             },
                             (data, input) => {
                                 if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                                ThumbnailEngine.Settings.imageWidth = data;
+                                const value = parseInt(data);
+                                if (isNaN(value)) return;
+                                ThumbnailEngine.Settings.imageWidth = value;
                             }
                         ),
                         Form.spacer(2, true),
@@ -218,7 +220,9 @@ export default class SettingsManager extends Component {
                             },
                             async (data, input) => {
                                 if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                                ThumbnailEngine.Settings.imageRatio = data;
+                                const value = parseFloat(data);
+                                if (isNaN(value)) return;
+                                ThumbnailEngine.Settings.imageRatio = value;
                             }
                         ),
                         Form.spacer(2, true),
@@ -255,7 +259,9 @@ export default class SettingsManager extends Component {
                             },
                             async (data, input) => {
                                 if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                                ThumbnailEngine.Settings.maxPlayingGIFs = data;
+                                const value = parseInt(data);
+                                if (isNaN(value)) return;
+                                ThumbnailEngine.Settings.maxPlayingGIFs = value;
                             }
                         ),
                         Form.spacer(2, true),
@@ -495,7 +501,9 @@ export default class SettingsManager extends Component {
                         },
                         (data, input) => {
                             if (!(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                            SmartAlias.Settings.minPostsWarning = data;
+                            const value = parseInt(data);
+                            if (isNaN(value)) return;
+                            SmartAlias.Settings.minPostsWarning = value;
                         }
                     ),
                     Form.spacer(3),
@@ -510,7 +518,9 @@ export default class SettingsManager extends Component {
                         },
                         (data, input) => {
                             if (!(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                            SmartAlias.Settings.minCachedTags = data;
+                            const value = parseInt(data);
+                            if (isNaN(value)) return;
+                            SmartAlias.Settings.minCachedTags = value;
                         }
                     ),
                     Form.spacer(3),
