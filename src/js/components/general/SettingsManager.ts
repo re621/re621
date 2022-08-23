@@ -159,100 +159,153 @@ export default class SettingsManager extends Component {
                     name: "adjust",
                     columns: 2,
                     width: 2,
-                    wrapper: "settings-section searchable-section" + (ThumbnailEngine.Settings.enabled ? "" : " display-none"),
-                    tags: "thumbnail image post size aspect ratio"
+                    wrapper: ThumbnailEngine.Settings.enabled ? undefined : "display-none",
                 }, [
-                    Form.subheader("Hi-Res Thumbnails", "Replaces 150x150 thumbnails", 1),
-                    Form.select(
-                        {
-                            value: ThumbnailEngine.Settings.loadMethod,
-                            width: 1,
-                            sync: { base: ThumbnailEngine, tag: "loadMethod" },
-                        },
-                        {
-                            "preview": "Disabled",
-                            "hover": "On Hover",
-                            "sample": "Always",
-                        },
-                        async (data) => {
-                            ThumbnailEngine.Settings.loadMethod = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
 
-                    Form.subheader("Thumbnail Size", "Thumbnail card width, in pixels", 1),
-                    Form.input(
-                        {
-                            name: "image-width",
-                            value: ThumbnailEngine.Settings.imageWidth,
-                            title: "Number between 150 and 999",
-                            required: true,
-                            width: 1,
-                            pattern: "^(1[5-9][0-9]|[2-9][0-9][0-9])$",
-                            sync: { base: ThumbnailEngine, tag: "imageWidth" },
-                        },
-                        (data, input) => {
-                            if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                            ThumbnailEngine.Settings.imageWidth = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
-                    // ---------- ---------- ----------
+                    Form.section({
+                        columns: 2,
+                        width: 2,
+                        wrapper: "settings-section searchable-section",
+                        tags: "thumbnail image post size aspect ratio"
+                    }, [
+                        Form.subheader("Hi-Res Thumbnails", "Replaces 150x150 thumbnails", 1),
+                        Form.select(
+                            {
+                                value: ThumbnailEngine.Settings.loadMethod,
+                                width: 1,
+                                sync: { base: ThumbnailEngine, tag: "loadMethod" },
+                            },
+                            {
+                                "preview": "Disabled",
+                                "hover": "On Hover",
+                                "sample": "Always",
+                            },
+                            async (data) => {
+                                ThumbnailEngine.Settings.loadMethod = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
 
-                    Form.subheader("Aspect Ratio", "Height to width image ratio"),
-                    Form.input(
-                        {
-                            name: "image-ratio",
-                            value: ThumbnailEngine.Settings.imageRatio,
-                            title: "Number between 0.1 and 1.9",
-                            required: true,
-                            width: 1,
-                            pattern: "^1|([01]\\.[1-9]|1\\.0)$",
-                            sync: { base: ThumbnailEngine, tag: "imageRatio" },
-                        },
-                        async (data, input) => {
-                            if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                            ThumbnailEngine.Settings.imageRatio = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
-                    // ---------- ---------- ----------
+                        Form.subheader("Thumbnail Size", "Thumbnail card width, in pixels", 1),
+                        Form.input(
+                            {
+                                name: "image-width",
+                                value: ThumbnailEngine.Settings.imageWidth,
+                                title: "Number between 150 and 999",
+                                required: true,
+                                width: 1,
+                                pattern: "^(1[5-9][0-9]|[2-9][0-9][0-9])$",
+                                sync: { base: ThumbnailEngine, tag: "imageWidth" },
+                            },
+                            (data, input) => {
+                                if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                                ThumbnailEngine.Settings.imageWidth = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+                        // ---------- ---------- ----------
 
-                    Form.checkbox(
-                        {
-                            name: "image-crop",
-                            value: ThumbnailEngine.Settings.crop,
-                            label: "<b>Crop to Fit</b><br />Restrict image size to the specified ratio",
-                            width: 2,
-                            sync: { base: ThumbnailEngine, tag: "crop" },
-                        },
-                        (data) => {
-                            ThumbnailEngine.Settings.crop = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
-                    // ---------- ---------- ----------
+                        Form.subheader("Aspect Ratio", "Height to width image ratio"),
+                        Form.input(
+                            {
+                                name: "image-ratio",
+                                value: ThumbnailEngine.Settings.imageRatio,
+                                title: "Number between 0.1 and 1.9",
+                                required: true,
+                                width: 1,
+                                pattern: "^1|([01]\\.[1-9]|1\\.0)$",
+                                sync: { base: ThumbnailEngine, tag: "imageRatio" },
+                            },
+                            async (data, input) => {
+                                if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                                ThumbnailEngine.Settings.imageRatio = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+                        // ---------- ---------- ----------
 
-                    Form.subheader(
-                        "Maximum Playing GIFs",
-                        "Set to -1 to disable.",
-                        1,
-                    ),
-                    Form.input(
-                        {
-                            name: "maxPlayingGIFs",
-                            value: ThumbnailEngine.Settings.maxPlayingGIFs,
-                            title: "Number between 1 and 320",
-                            required: true,
-                            width: 1,
-                            pattern: "^(-1|0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|250)$",
-                        },
-                        async (data, input) => {
-                            if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
-                            ThumbnailEngine.Settings.maxPlayingGIFs = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
+                        Form.checkbox(
+                            {
+                                name: "image-crop",
+                                value: ThumbnailEngine.Settings.crop,
+                                label: "<b>Crop to Fit</b><br />Restrict image size to the specified ratio",
+                                width: 2,
+                                sync: { base: ThumbnailEngine, tag: "crop" },
+                            },
+                            (data) => {
+                                ThumbnailEngine.Settings.crop = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+                        // ---------- ---------- ----------
+
+                        Form.subheader(
+                            "Maximum Playing GIFs",
+                            "Set to -1 to disable.",
+                            1,
+                        ),
+                        Form.input(
+                            {
+                                name: "maxPlayingGIFs",
+                                value: ThumbnailEngine.Settings.maxPlayingGIFs,
+                                title: "Number between 1 and 320",
+                                required: true,
+                                width: 1,
+                                pattern: "^(-1|0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|250)$",
+                            },
+                            async (data, input) => {
+                                if (input.val() == "" || !(input.get()[0] as HTMLInputElement).checkValidity()) return;
+                                ThumbnailEngine.Settings.maxPlayingGIFs = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+                    ]),
+
+                    Form.section({
+                        columns: 2,
+                        width: 2,
+                        wrapper: "settings-section searchable-section",
+                    }, [
+                        Form.checkbox(
+                            {
+                                value: ThumbnailEngine.Settings.highlightVisited,
+                                label: "<b>Underline Visited Posts</b><br />Adds an orange bottom border to visited posts",
+                                width: 2,
+                                sync: { base: ThumbnailEngine, tag: "highlightVisited" },
+                            },
+                            (data) => {
+                                ThumbnailEngine.Settings.highlightVisited = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+
+                        Form.checkbox(
+                            {
+                                value: ThumbnailEngine.Settings.hideInfoBar,
+                                label: "<b>Hide Post Info</b><br />Hides the score, favorites, and rating display under the post",
+                                width: 2,
+                                sync: { base: ThumbnailEngine, tag: "hideInfoBar" },
+                            },
+                            (data) => {
+                                ThumbnailEngine.Settings.hideInfoBar = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+
+                        Form.checkbox(
+                            {
+                                value: ThumbnailEngine.Settings.colorFavCount,
+                                label: "<b>Colored Favorites Counter</b><br />Changes the color of the favorites counter to yellow",
+                                width: 2,
+                                sync: { base: ThumbnailEngine, tag: "colorFavCount" },
+                            },
+                            (data) => {
+                                ThumbnailEngine.Settings.colorFavCount = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+                    ]),
+
                 ]),
 
                 Form.section({

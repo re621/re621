@@ -26,6 +26,10 @@ export default class ThumbnailEngine extends Component {
 
         maxPlayingGIFs: 3,
         ribbons: true,
+
+        highlightVisited: false,
+        hideInfoBar: false,
+        colorFavCount: true,
     };
 
     public async create() {
@@ -77,7 +81,7 @@ export default class ThumbnailEngine extends Component {
             mutationObserver.disconnect();
         });
 
-        this.on("settings.imageWidth settings.imageRatio settings.crop", () => {
+        this.on("settings.imageWidth settings.imageRatio settings.crop settings.highlightVisited settings.hideInfoBar settings.colorFavCount", () => {
             this.updateContentHeader();
         });
         this.on("settings.loadMethod settings.maxPlayingGIFs", () => {
@@ -113,6 +117,9 @@ export default class ThumbnailEngine extends Component {
         content.css("--img-width", this.Settings.imageWidth + "px");
         content.css("--img-ratio", this.Settings.imageRatio);
         setContentParameter(this.Settings.crop, "img-crop");
+        setContentParameter(this.Settings.highlightVisited, "highlight-visited");   // Add border to visited pages
+        setContentParameter(this.Settings.hideInfoBar, "hide-info-bar");            // Hide the post info bar
+        setContentParameter(this.Settings.colorFavCount, "color-fav-count");        // Change the color of the favorites counter
 
         function setContentParameter(param: boolean, value: string): void {
             if (param) content.attr(value, "true");

@@ -119,12 +119,8 @@ thumbnail {
             }
         }
 
-        span.post-info-favorites {
-            color: #c3a816;
-
-            &::before {
-                content: unicode("f004");
-            }
+        span.post-info-favorites::before {
+            content: unicode("f004");
         }
 
         span.post-info-comments::before {
@@ -415,4 +411,48 @@ img-ribbons {
         }
     }
 
+}
+
+/* Visited Highlights */
+#page[highlight-visited=true] thumbnail {
+    a {
+        border-bottom: 0.05rem solid #444;
+        &:visited {
+            border-bottom-color: #d2a109;
+        }
+    }
+    &[rendered=false] {
+        border-bottom: 1.05rem solid #ffffff25;
+    }
+}
+
+/* Hiding the info bar */
+#page[hide-info-bar=true] thumbnail {
+
+    height: $image-height;
+    post-info {
+        display: none;
+    }
+    &[rendered=false] {
+        border-bottom: 0;
+    }
+    a img {
+        border-radius: 6px;
+    }
+    post-voting {
+        bottom: 0;
+        button.fav {
+            border-bottom-left-radius: 0.25rem;
+        }
+    }
+}
+#page[highlight-visited=true][hide-info-bar=true] thumbnail > a {
+    border-radius: 6px;
+}
+
+/* Coloring the favorites counter */
+#page[color-fav-count=true] thumbnail > post-info {
+    span.post-info-favorites {
+        color: #c3a816;
+    }
 }

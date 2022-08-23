@@ -27,7 +27,12 @@
 div.thumb-preview {
     padding-left: 0.5rem;
     box-sizing: border-box;
-    max-height: 14rem;
+    height: 100%;
+    text-align: center;
+    thumbnail {
+        position: sticky;
+        top: 10rem;
+    }
 }
 
 form-section.searchable-section.hidden {
