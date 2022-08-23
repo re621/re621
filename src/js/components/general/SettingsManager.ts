@@ -35,8 +35,8 @@ export default class SettingsManager extends Component {
                 this.makeCoverSection(),
                 this.makeSearchForm(),
 
-                this.makeThumbnailSection(),
                 this.makeLookAndFeelSection(),
+                this.makeThumbnailSection(),
 
                 this.makeUploadSection(),
                 this.makeUtilitySection(),
@@ -108,6 +108,89 @@ export default class SettingsManager extends Component {
                 }),
             ]
         );
+    }
+
+    private makeLookAndFeelSection(): FormElement {
+        const HeaderCustomizer = RE621.Registry.HeaderCustomizer;
+        const StickyElements = RE621.Registry.StickyElements;
+
+        return Form.section(
+            {
+                name: "look",
+                columns: 3,
+                width: 3,
+            },
+            [
+                Form.header("General", 3),
+                Form.section({
+                    name: "header",
+                    columns: 3, width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "header forum"
+                }, [
+                    Form.checkbox(
+                        {
+                            value: ($input) => {
+                                $input.prop("checked", HeaderCustomizer.Settings.forumUpdateDot);
+                                HeaderCustomizer.on("settings.forumUpdateDot-remote", (event, data) => {
+                                    $input.prop("checked", data);
+                                });
+                            },
+                            label: "<b>Forum Notifications</b><br />Red dot on the Forum tab in the header if there are new posts",
+                            width: 3,
+                        },
+                        async (data) => {
+                            HeaderCustomizer.Settings.forumUpdateDot = data;
+                        }
+                    ),
+                ]),
+
+                Form.section({
+                    name: "header",
+                    columns: 3, width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "sticky header search edit box sidebar form tags scroll"
+                }, [
+                    Form.checkbox(
+                        {
+                            value: StickyElements.Settings.header,
+                            label: "<b>Fixed Header</b><br />Make the page header stick to the top when scrolling",
+                            width: 3,
+                            sync: { base: StickyElements, tag: "header" },
+                        },
+                        async (data) => {
+                            StickyElements.Settings.header = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: StickyElements.Settings.searchBox,
+                            label: "<b>Fixed Sidebar</b><br />Leave the sidebar controls on the screen while scrolling",
+                            width: 3,
+                            sync: { base: StickyElements, tag: "searchBox" },
+                        },
+                        async (data) => {
+                            StickyElements.Settings.searchBox = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: StickyElements.Settings.editBox,
+                            label: "<b>Fixed Edit Form</b><br />Make the quick tags form stick to the top when scrolling",
+                            width: 3,
+                            sync: { base: StickyElements, tag: "editBox" },
+                        },
+                        async (data) => {
+                            StickyElements.Settings.editBox = data;
+                        }
+                    ),
+                ]),
+            ]
+        )
     }
 
     private makeThumbnailSection(): FormElement {
@@ -390,41 +473,6 @@ export default class SettingsManager extends Component {
 
                         // TODO Whitelist
                     ]),
-                ]),
-            ]
-        )
-    }
-
-    private makeLookAndFeelSection(): FormElement {
-        return Form.section(
-            {
-                name: "look",
-                columns: 3,
-                width: 3,
-            },
-            [
-                Form.header("General", 3),
-                Form.section({
-                    name: "header",
-                    columns: 3, width: 3,
-                    wrapper: "settings-section searchable-section",
-                    tags: "header forum"
-                }, [
-                    Form.checkbox(
-                        {
-                            value: ($input) => {
-                                $input.prop("checked", RE621.Registry.HeaderCustomizer.Settings.forumUpdateDot);
-                                RE621.Registry.HeaderCustomizer.on("settings.forumUpdateDot-remote", (event, data) => {
-                                    $input.prop("checked", data);
-                                });
-                            },
-                            label: "<b>Forum Notifications</b><br />Red dot on the Forum tab in the header if there are new posts",
-                            width: 3,
-                        },
-                        async (data) => {
-                            RE621.Registry.HeaderCustomizer.Settings.forumUpdateDot = data;
-                        }
-                    ),
                 ]),
             ]
         )

@@ -5,13 +5,14 @@ import { ComponentList } from "./js/components/Component";
 import HeaderCustomizer from "./js/components/general/HeaderCustomizer";
 import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/minor/HeaderButtons";
+import StickyElements from "./js/components/minor/StickyElements";
 import ThemeCustomizer from "./js/components/minor/ThemeCustomizer";
 import ThumbnailResizeButtons from "./js/components/minor/ThumbnailResizeButtons";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
 import PostViewer from "./js/components/posts/PostViewer";
 import SmartAlias from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
-import Page, { IgnoredPages } from "./js/models/data/Page";
+import Page, { IgnoredPages, PageDefinition } from "./js/models/data/Page";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
 import Debug from "./js/models/Debug";
@@ -36,6 +37,9 @@ export default class RE621 {
         PostViewer,
         BlacklistUI,
         SmartAlias,
+
+        // Minor
+        StickyElements,
 
         // Must wait for all other settings to load
         SettingsManager,
@@ -82,6 +86,12 @@ export default class RE621 {
                 Debug.log("+ MENU is ready");
                 Util.DOM.patchHeader();
             });
+
+            if (Page.matches([PageDefinition.search, PageDefinition.post, PageDefinition.favorites]))
+                PageObserver.watch("section#mode-box").then((result) => {
+                    if (!result) return;
+                    Util.DOM.setupSearchBox();
+                });
 
             PageObserver.watch("head meta[name=csrf-token]").then((result) => {
                 if (!result) {
@@ -132,6 +142,9 @@ interface ComponentListAnnotated extends ComponentList {
     PostViewer?: PostViewer,
     BlacklistUI?: BlacklistUI,
     SmartAlias?: SmartAlias,
+
+    // Minor
+    StickyElements?: StickyElements,
 
     // Settings
     SettingsManager?: SettingsManager,

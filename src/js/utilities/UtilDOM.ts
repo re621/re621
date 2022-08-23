@@ -1,4 +1,4 @@
-import Page from "../models/data/Page";
+import Page, { PageDefinition } from "../models/data/Page";
 import Util from "./Util";
 
 export class UtilDOM {
@@ -49,6 +49,23 @@ export class UtilDOM {
         $("<div>")
             .attr("id", "modal-container")
             .prependTo("body");
+    }
+
+    public static setupSearchBox() {
+
+        if (Page.matches([PageDefinition.search, PageDefinition.post, PageDefinition.favorites]) && $("aside#sidebar").length > 0) {
+            const $searchContainer = $("<div>").attr("id", "re621-search").prependTo("aside#sidebar");
+            $("#search-box").appendTo($searchContainer);
+            $("#mode-box").appendTo($searchContainer);
+            $("#blacklist-box").appendTo($searchContainer);
+
+            const observer = new IntersectionObserver(
+                ([event]) => { $(event.target).toggleClass("re621-search-sticky bg-foreground", event.intersectionRatio < 1) },
+                { threshold: [1] }
+            );
+
+            observer.observe($searchContainer[0]);
+        }
     }
 
     /**
