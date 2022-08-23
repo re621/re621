@@ -11,9 +11,9 @@ export default class StickyElements extends Component {
     public Settings = {
         enabled: true,
 
-        searchBox: true,      // `div#re621-search`
-        editBox: true,        // `form#re621-quick-tags`
-        header: false,        // `header#top`
+        searchBox: false,   // `div#re621-search`
+        editBox: false,     // `form#re621-quick-tags`
+        header: false,      // `header#top`
     }
 
     public async create() {
