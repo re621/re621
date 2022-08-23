@@ -130,14 +130,10 @@ export default class SettingsManager extends Component {
                 }, [
                     Form.checkbox(
                         {
-                            value: ($input) => {
-                                $input.prop("checked", HeaderCustomizer.Settings.forumUpdateDot);
-                                HeaderCustomizer.on("settings.forumUpdateDot-remote", (event, data) => {
-                                    $input.prop("checked", data);
-                                });
-                            },
+                            value: HeaderCustomizer.Settings.forumUpdateDot,
                             label: "<b>Forum Notifications</b><br />Red dot on the Forum tab in the header if there are new posts",
                             width: 3,
+                            sync: { base: HeaderCustomizer, tag: "forumUpdateDot" },
                         },
                         async (data) => {
                             HeaderCustomizer.Settings.forumUpdateDot = data;
@@ -207,6 +203,16 @@ export default class SettingsManager extends Component {
             ThumbnailEngine.register(thumb);
         });
 
+        ThumbnailEngine.on("settings.enabled-remote", (event, enabled) => {
+            toggleThumbnailSection(enabled == true);
+        });
+        function toggleThumbnailSection(enabled: boolean) {
+            $("#settings-thumbnail-adjust").toggleClass("display-none", !enabled);
+            $("#settings-thumbnail-preview").toggleClass("display-none", !enabled);
+            $("#settings-thumbnail-misc").toggleClass("display-none", !enabled);
+            $("#settings-thumbnail-blacklist").toggleClass("display-none", !enabled);
+        }
+
         return Form.section(
             {
                 name: "thumbnail",
@@ -230,10 +236,7 @@ export default class SettingsManager extends Component {
                         },
                         (data) => {
                             ThumbnailEngine.Settings.enabled = data;
-                            $("#settings-thumbnail-adjust").toggleClass("display-none", !data)
-                            $("#settings-thumbnail-preview").toggleClass("display-none", !data)
-                            $("#settings-thumbnail-misc").toggleClass("display-none", !data)
-                            $("#settings-thumbnail-blacklist").toggleClass("display-none", !data)
+                            toggleThumbnailSection(data);
                         }
                     ),
                     Form.text(`<div class="text-center text-bold">Requires a page reload</div>`, 1, "align-middle"),
@@ -531,7 +534,7 @@ export default class SettingsManager extends Component {
                             value: !SmartAlias.Settings.replaceLastTag,
                             label: `<b>Ignore Last Tag</b><br />Don't replace the last tag with its alias, in case you are still thinking about it`,
                             width: 3,
-                            sync: { base: SmartAlias, tag: "replaceLastTag" },
+                            sync: { base: SmartAlias, tag: "replaceLastTag", inverted: true },
                         },
                         (data) => { SmartAlias.Settings.replaceLastTag = !data; }
                     ),
@@ -569,7 +572,7 @@ export default class SettingsManager extends Component {
                             value: SmartAlias.Settings.minPostsWarning,
                             width: 1,
                             pattern: "\\d+",
-                            sync: { base: SmartAlias, tag: "minPostWarning" },
+                            sync: { base: SmartAlias, tag: "minPostsWarning" },
                         },
                         (data, input) => {
                             if (!(input.get()[0] as HTMLInputElement).checkValidity()) return;

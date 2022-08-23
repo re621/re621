@@ -828,7 +828,7 @@ export class Form implements PreparedStructure {
 
         if (options.sync)
             options.sync.base.on("settings." + options.sync.tag + "-remote", (_event, data) => {
-                console.log("event", "settings." + options.sync.tag + "-remote", data);
+                if (options.sync.inverted) data = !data;
                 $input.prop("checked", data);
             });
 
@@ -1153,7 +1153,7 @@ interface ElementOptions {
     /** Whether the input should be disabled */
     disabled?: boolean;
 
-    sync?: { base: Component, tag: string };
+    sync?: { base: Component, tag: string, inverted?: boolean };
 }
 
 interface InputElementOptions extends ElementOptions {
