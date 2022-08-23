@@ -8,8 +8,8 @@ import { Post } from "../../old.components/post/Post";
 import { PostActions } from "../../old.components/post/PostActions";
 import { PostParts } from "../../old.components/post/PostParts";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
+import { BetterSearch, ImageClickAction } from "../../old.modules/posts/BetterSearch";
 import Util from "../../utilities/Util";
-import { BetterSearch, ImageClickAction } from "../posts/BetterSearch";
 
 /**
  * Miscellaneous functionality that does not require a separate module
