@@ -45,6 +45,44 @@ export default class SettingsManager extends Component {
 
         page.append(content.render());
 
+        const subnav = {
+            "look": "General",
+            "thumbnail": "Thumbnails",
+            "thumbnail-blacklist": "Blacklist",
+            "upload": "Uploads",
+            "utility": "Utility",
+        }
+        const subnavElement = $("menu.subnav");
+        $(`<li><a href="#page">Top</a></li>`)
+            .appendTo(subnavElement)
+            .on("click", (event) => {
+                event.preventDefault();
+
+                window.scrollTo({
+                    behavior: 'smooth',
+                    top: 0
+                });
+                return false;
+            });
+
+        $(`<li>|</li>`).appendTo(subnavElement);
+        for (const [href, title] of Object.entries(subnav))
+            $(`<li><a href="#settings-${href}">${title}</a></li>`)
+                .appendTo(subnavElement)
+                .on("click", (event) => {
+                    event.preventDefault();
+                    const element = $(event.target);
+
+                    window.scrollTo({
+                        behavior: "smooth",
+                        top:
+                            document.querySelector(element.attr("href")).getBoundingClientRect().top -
+                            document.body.getBoundingClientRect().top -
+                            64,
+                    });
+
+                    return false;
+                });
     }
 
     private makeCoverSection(): FormElement {
