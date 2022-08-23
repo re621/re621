@@ -15,7 +15,9 @@ import Component from "../Component";
 export default class BlacklistUI extends Component {
 
     public constructor() {
-        super(); // TODO
+        super({
+            dependencies: ["ThumbnailEngine"],
+        });
     }
 
     public Settings = {

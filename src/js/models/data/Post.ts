@@ -146,8 +146,8 @@ export default class Post {
 
         if (!data.width || !data.height) {
             const img = $element.find("img");
-            data.width = img.innerWidth();
-            data.height = img.innerHeight();
+            data.width = img[0].naturalWidth;
+            data.height = img[0].naturalHeight;
         }
 
         function findMD5(data: PostDataTypeAB): string {

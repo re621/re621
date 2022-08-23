@@ -29,7 +29,7 @@ export default class ThumbnailEngine extends Component {
     };
 
     public async create() {
-
+        $("body").attr("thumbnail-engine", "true");
         this.updateContentHeader();
 
         const intersecting: Set<string> = new Set();

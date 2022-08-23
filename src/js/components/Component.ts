@@ -1,3 +1,4 @@
+import RE621 from "../../RE621";
 import XM from "../models/api/XM";
 import Page from "../models/data/Page";
 import PageObserver from "../models/structure/PageObserver";
@@ -14,6 +15,7 @@ export default class Component {
     private constraintMatches: boolean;             // Whether or not the declared page constraints match
     private DOMLoadConditions: boolean | string;    // DOM conditions that must be met for the component to load
     private waitForFocus: boolean;                  // Wait for the window to come into focus before loading
+    private dependencies: string[];                 // List of components names that need to be enabled
 
     // Component settings
     // The Settings object defines default values and is used to access them via dynamic setters and getters
@@ -40,35 +42,12 @@ export default class Component {
         this.DOMLoadConditions = options.waitForDOM;
         this.waitForFocus = options.waitForFocus || false;
 
-        // TODO options.dependencies
+        this.dependencies = options.dependencies || [];
 
         // Initialize the settings cache
         this.SettingsCache = {
             enabled: true,
         };
-    }
-
-    public async init(): Promise<void> {
-        if (!this.constraintMatches) return Promise.resolve();
-        return this.execPrepare()
-            .then(async () => {
-                // Wait for the window to come into focus
-                if (this.waitForFocus)
-                    await PageObserver.awaitFocus();
-
-                // Determine when to create the DOM structure
-                if (typeof this.DOMLoadConditions == "string") {
-                    PageObserver.watch(this.DOMLoadConditions).then((status) => {
-                        if (!status) {
-                            // TODO Page loaded, but the element was not found
-                            return;
-                        }
-                        this.execCreate();
-                    });
-                } else if (this.DOMLoadConditions) {
-                    $(() => this.execCreate());
-                } else this.execCreate();
-            });
     }
 
     /** Loads the settings from storage, and sets up listeners to sync them across tabs */
@@ -122,13 +101,6 @@ export default class Component {
             });
         }
 
-        // Example of a settings listener.
-        // Loads the component if it's enabled, unloads it if it's disabled.
-        this.on("settings.enabled", (value) => {
-            if (value) this.load();
-            else this.unload();
-        });
-
         this.trigger("bootstrap");
     }
 
@@ -137,22 +109,33 @@ export default class Component {
      * Aborted if some of the load conditions do not match.
      */
     public async load(): Promise<void> {
-        // Check if page constraints match
-        if (!this.constraintMatches) return;
+        if (!this.constraintMatches || !this.Settings.enabled) return Promise.resolve();
 
-        // Determine when to create the DOM structure
-        if (typeof this.DOMLoadConditions == "string") {
-            PageObserver.watch(this.DOMLoadConditions).then((status) => {
-                if (!status) {
-                    // TODO Page loaded, but the element was not found
-                    return;
-                }
-                this.execCreate();
+        for (const one of this.dependencies) {
+            if (!RE621.Registry[one].Settings.enabled)
+                return Promise.resolve();
+        }
+
+        return this.execPrepare()
+            .then(async () => {
+                // Wait for the window to come into focus
+                if (this.waitForFocus)
+                    await PageObserver.awaitFocus();
+
+                // Determine when to create the DOM structure
+                if (typeof this.DOMLoadConditions == "string") {
+                    PageObserver.watch(this.DOMLoadConditions).then((status) => {
+                        if (!status) {
+                            // TODO Page loaded, but the element was not found
+                            return;
+                        }
+                        this.execCreate();
+                    });
+                } else if (this.DOMLoadConditions) {
+                    $(() => this.execCreate());
+                } else this.execCreate();
+                this.trigger("load");
             });
-        } else if (this.DOMLoadConditions) {
-            $(() => this.execCreate());
-        } else this.execCreate();
-        this.trigger("load");
     }
 
     /** Unloads the component's functionality and returns the DOM to its original state */
@@ -325,10 +308,9 @@ export interface ComponentOptions {
     waitForFocus?: boolean;
 
     /**
-     * Other components that must finish loading (aka emit the `create` event) before this one can initialize.
-     * Ideally, should be kept to a minimum. Use passive dependencies instead.
+     * Other components that must be enabled in order for this one to initialize.
      */
-    dependencies?: Component[];
+    dependencies?: string[];
 }
 
 export interface ComponentList {

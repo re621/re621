@@ -97,19 +97,22 @@ export default class RE621 {
 
         // Start loading components
         await Promise.all([headLoaded, bodyLoaded]);
-        let loaded = 0;
-        const total = Object.keys(this.loadOrder).length;
+
+        // Bootstrap settings (synchronous)
         for (const module of this.loadOrder) {
             const instance = new module();
             RE621.Registry[instance.getName()] = instance;
             await instance.bootstrapSettings();
-            loaded++;
-            if (loaded >= total) {
-                Util.Events.trigger("re621.bootstrap");
-                console.log("%c[RE621]%c loaded", "color: maroon", "color: unset");
-            }
-            instance.init(); // Deliberately not-awaited
         }
+        Util.Events.trigger("re621:bootstrap");
+
+        // Load modules (asynchronous)
+        const promises: Promise<void>[] = [];
+        for (const instance of Object.values(RE621.Registry))
+            promises.push(instance.load());
+        Promise.all(promises).then(() => {
+            console.log("%c[RE621]%c loaded", "color: maroon", "color: unset");
+        });
     }
 
 }
@@ -122,9 +125,9 @@ interface ComponentListAnnotated extends ComponentList {
     DMailHeaderButton?: HeaderButtons,
 
     // Posts
-    BlacklistUI?: BlacklistUI,
     ThumbnailEngine?: ThumbnailEngine,
     PostViewer?: PostViewer,
+    BlacklistUI?: BlacklistUI,
     SmartAlias?: SmartAlias,
 
     // Settings

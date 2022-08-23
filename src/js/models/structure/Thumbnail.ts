@@ -26,6 +26,9 @@ export default class Thumbnail extends ThumbnailLike {
                 "$thumb": this,
             });
 
+        if (!RE621.Registry.ThumbnailEngine.Settings.crop)
+            this.$ref.css("--img-ratio", this.post.img.ratio);
+
         this.$ref.on("re621:update", () => {
             this.reset();
         });

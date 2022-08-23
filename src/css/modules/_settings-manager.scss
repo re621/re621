@@ -25,8 +25,11 @@
 }
 
 div.thumb-preview {
-    display: flex;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     box-sizing: border-box;
     max-height: 14rem;
+}
+
+form-section.searchable-section.hidden {
+    display: none;
 }

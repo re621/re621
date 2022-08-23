@@ -36,7 +36,6 @@ export default class SettingsManager extends Component {
                 this.makeSearchForm(),
 
                 this.makeThumbnailSection(),
-                this.makeBlacklistSection(),
                 this.makeLookAndFeelSection(),
 
                 this.makeUploadSection(),
@@ -101,11 +100,11 @@ export default class SettingsManager extends Component {
                     width: 3,
                 }, (value) => {
                     if (value == "") {
-                        $("form-section.searchable-section").removeClass("display-none");
+                        $("form-section.searchable-section").removeClass("hidden");
                         return;
                     }
-                    $("form-section.searchable-section").addClass("display-none");
-                    $("form-section.searchable-section[search*='" + value + "']").removeClass("display-none");
+                    $("form-section.searchable-section").addClass("hidden");
+                    $("form-section.searchable-section[search*='" + value + "']").removeClass("hidden");
                 }),
             ]
         );
@@ -113,9 +112,10 @@ export default class SettingsManager extends Component {
 
     private makeThumbnailSection(): FormElement {
         const ThumbnailEngine = RE621.Registry.ThumbnailEngine;
+        const BlacklistUI = RE621.Registry.BlacklistUI;
 
         const preview = $("<div>").addClass("thumb-preview");
-        RE621.API.Posts.get(12345).then((response) => {
+        RE621.API.Posts.find({ tags: ["order:random", "rating:safe", "score:>100", "-meme", "-comic", "-animated"], limit: 1 }).then((response) => {
             if (response.status.code !== 200) return;
             const post = Post.fromAPI(response.data[0]);
             const thumb = new Thumbnail(post);
@@ -132,10 +132,34 @@ export default class SettingsManager extends Component {
             [
                 Form.header("Thumbnails", 3),
                 Form.section({
+                    columns: 3,
+                    width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "thumbnail toggle"
+                }, [
+                    Form.checkbox(
+                        {
+                            value: ThumbnailEngine.Settings.enabled,
+                            label: "<b>Enhanced Thumbnails</b><br />Better-looking and more functional previews",
+                            width: 2,
+                            sync: { base: ThumbnailEngine, tag: "enabled" },
+                        },
+                        (data) => {
+                            ThumbnailEngine.Settings.enabled = data;
+                            $("#settings-thumbnail-adjust").toggleClass("display-none", !data)
+                            $("#settings-thumbnail-preview").toggleClass("display-none", !data)
+                            $("#settings-thumbnail-blacklist").toggleClass("display-none", !data)
+                        }
+                    ),
+                    Form.text(`<div class="text-center text-bold">Requires a page reload</div>`, 1, "align-middle"),
+                    Form.spacer(3, true),
+                ]),
+
+                Form.section({
                     name: "adjust",
                     columns: 2,
                     width: 2,
-                    wrapper: "settings-section searchable-section",
+                    wrapper: "settings-section searchable-section" + (ThumbnailEngine.Settings.enabled ? "" : " display-none"),
                     tags: "thumbnail image post size aspect ratio"
                 }, [
                     Form.subheader("Hi-Res Thumbnails", "Replaces 150x150 thumbnails", 1),
@@ -232,63 +256,60 @@ export default class SettingsManager extends Component {
                 ]),
 
                 Form.section({
-                    name: "thumb-preview",
+                    name: "preview",
                     columns: 1,
                     width: 1,
+                    wrapper: ThumbnailEngine.Settings.enabled ? undefined : "display-none",
                 }, [
                     Form.div({ value: preview }),
                 ]),
-            ]
-        )
-    }
+                // ---------- ---------- ----------
 
-    private makeBlacklistSection(): FormElement {
-        const BlacklistUI = RE621.Registry.BlacklistUI;
-        return Form.section(
-            {
-                name: "blacklist",
-                columns: 1,
-                width: 3,
-            },
-            [
-                Form.header("Blacklist", 3),
+
                 Form.section({
+                    name: "blacklist",
                     columns: 3,
                     width: 3,
-                    wrapper: "settings-section searchable-section",
-                    tags: "blacklist whitelist filter exclude favorites uploads"
+                    wrapper: ThumbnailEngine.Settings.enabled ? "" : " display-none",
                 }, [
-                    Form.checkbox(
-                        {
-                            value: BlacklistUI.Settings.favorites,
-                            label: "<b>Exclude Favorites</b><br />Prevent your favorites from being filtered out by the blacklist",
-                            width: 3,
-                            sync: { base: BlacklistUI, tag: "favorites" },
-                        },
-                        (data) => {
-                            BlacklistUI.Settings.favorites = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
-                    // ---------- ---------- ----------
-                    Form.checkbox(
-                        {
-                            value: BlacklistUI.Settings.uploads,
-                            label: "<b>Exclude Uploads</b><br />Prevent your uploads from being filtered out by the blacklist",
-                            width: 3,
-                            sync: { base: BlacklistUI, tag: "uploads" },
-                        },
-                        (data) => {
-                            BlacklistUI.Settings.uploads = data;
-                        }
-                    ),
-                    Form.spacer(2, true),
-                    // ---------- ---------- ----------
+                    Form.header("Blacklist", 3),
+                    Form.section({
+                        columns: 3,
+                        width: 3,
+                        wrapper: "settings-section searchable-section",
+                        tags: "blacklist whitelist filter exclude favorites uploads"
+                    }, [
+                        Form.checkbox(
+                            {
+                                value: BlacklistUI.Settings.favorites,
+                                label: "<b>Exclude Favorites</b><br />Prevent your favorites from being filtered out by the blacklist",
+                                width: 3,
+                                sync: { base: BlacklistUI, tag: "favorites" },
+                            },
+                            (data) => {
+                                BlacklistUI.Settings.favorites = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
 
-                    // TODO Whitelist
+                        Form.checkbox(
+                            {
+                                value: BlacklistUI.Settings.uploads,
+                                label: "<b>Exclude Uploads</b><br />Prevent your uploads from being filtered out by the blacklist",
+                                width: 3,
+                                sync: { base: BlacklistUI, tag: "uploads" },
+                            },
+                            (data) => {
+                                BlacklistUI.Settings.uploads = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+
+                        // TODO Whitelist
+                    ]),
                 ]),
             ]
-        );
+        )
     }
 
     private makeLookAndFeelSection(): FormElement {

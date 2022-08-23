@@ -1,13 +1,15 @@
 $image-width: var(--img-width, 150px);
 $image-height: calc(var(--img-width, 150px) * var(--img-ratio, 1));
 
-#posts-container,
-#wiki-page-posts {
+body[thumbnail-engine=true] {
+    #posts-container,
+    #wiki-page-posts {
 
-    // TODO Temporary solution
-    // Should hide the posts everywhere, not just on the search page
-    article.post-preview {
-        display: none;
+        // TODO Temporary solution
+        // Should hide the posts everywhere, not just on the search page
+        article.post-preview {
+            display: none;
+        }
     }
 }
 
