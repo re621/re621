@@ -10,9 +10,7 @@ export default class Assets {
                 this.ImagesInstance = {
                     logo32: null,
                     logo64: null,
-                    logoSVG: null,
                     kofi: null,
-                    spinner: null,
                     empty: null,
                 }
             }
@@ -24,9 +22,7 @@ class Images {
 
     logo32: string;
     logo64: string;
-    logoSVG: string;
     kofi: string;
-    spinner: string;
     empty: string;
 
 }
