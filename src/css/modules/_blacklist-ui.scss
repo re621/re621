@@ -101,3 +101,9 @@ blacklist-ui[inline="true"] {
         width: 100%;
     }
 }
+
+
+/* Hide the blacklist sidebar section */
+body[hide-blacklist=true] blacklist-ui {
+    display: none !important;
+}

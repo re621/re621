@@ -488,6 +488,19 @@ export default class SettingsManager extends Component {
                     }, [
                         Form.checkbox(
                             {
+                                value: BlacklistUI.Settings.hide,
+                                label: "<b>Hide Blacklist</b><br />Completely remove the \"Blacklisted\" section in the sidebar",
+                                width: 3,
+                                sync: { base: BlacklistUI, tag: "hide" },
+                            },
+                            (data) => {
+                                BlacklistUI.Settings.hide = data;
+                            }
+                        ),
+                        Form.spacer(2, true),
+
+                        Form.checkbox(
+                            {
                                 value: BlacklistUI.Settings.favorites,
                                 label: "<b>Exclude Favorites</b><br />Prevent your favorites from being filtered out by the blacklist",
                                 width: 3,

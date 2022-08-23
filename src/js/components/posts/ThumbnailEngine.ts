@@ -110,21 +110,19 @@ export default class ThumbnailEngine extends Component {
             thumb.updateVisibility();
     }
 
-    private updateContentHeader() {
+    public updateContentHeader() {
         const content = $("#page");
         content.removeAttr("style");
 
         content.css("--img-width", this.Settings.imageWidth + "px");
         content.css("--img-ratio", this.Settings.imageRatio);
-        setContentParameter(this.Settings.crop, "img-crop");
-        setContentParameter(this.Settings.highlightVisited, "highlight-visited");   // Add border to visited pages
-        setContentParameter(this.Settings.hideInfoBar, "hide-info-bar");            // Hide the post info bar
-        setContentParameter(this.Settings.colorFavCount, "color-fav-count");        // Change the color of the favorites counter
 
-        function setContentParameter(param: boolean, value: string): void {
-            if (param) content.attr(value, "true");
-            else content.removeAttr(value);
-        }
+        super.updateContentHeader({
+            "img-crop": this.Settings.crop,
+            "highlight-visited": this.Settings.highlightVisited,    // Add border to visited pages
+            "hide-info-bar": this.Settings.hideInfoBar,             // Hide the post info bar
+            "color-fav-count": this.Settings.colorFavCount,         // Change the color of the favorites counter
+        }, "#page");
     }
 
 }

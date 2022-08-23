@@ -22,6 +22,9 @@ export default class BlacklistUI extends Component {
 
     public Settings = {
         enabled: true,
+
+        hide: false,
+
         favorites: false,
         uploads: false,
         whitelist: "",
@@ -44,7 +47,12 @@ export default class BlacklistUI extends Component {
             this.makeUI($(".inline-blacklist").first(), true);
         });
 
+        this.updateContentHeader();
+
         // TODO Update on settings change
+        this.on("settings.hide", () => {
+            this.updateContentHeader();
+        });
     }
 
     private makeUI($element: JQuery<HTMLElement>, inline = false) {
@@ -172,6 +180,12 @@ export default class BlacklistUI extends Component {
                     .trigger("re621:recalculate-totals");
             });
         return element;
+    }
+
+    public updateContentHeader() {
+        super.updateContentHeader({
+            "hide-blacklist": this.Settings.hide,
+        });
     }
 
     public static refresh() {

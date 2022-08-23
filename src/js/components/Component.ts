@@ -270,6 +270,17 @@ export default class Component {
 
     public getName(): string { return this.name; }
 
+    public updateContentHeader(headers: { [name: string]: boolean }, selector = "body") {
+        const content = $(selector);
+
+        for (const [name, value] of Object.entries(headers))
+            setContentParameter(name, value);
+
+        function setContentParameter(name: string, value: boolean): void {
+            if (value) content.attr(name, "true");
+            else content.removeAttr(name);
+        }
+    }
 }
 
 /**

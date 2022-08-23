@@ -25,16 +25,11 @@ export default class StickyElements extends Component {
     }
 
     public updateContentHeader() {
-        const body = $("body");
-
-        if (this.Settings.searchBox) body.attr("sticky-search-box", "true");
-        else body.removeAttr("sticky-search-box");
-
-        if (this.Settings.editBox) body.attr("sticky-edit-box", "true");
-        else body.removeAttr("sticky-edit-box");
-
-        if (this.Settings.header) body.attr("sticky-header", "true");
-        else body.removeAttr("sticky-header");
+        super.updateContentHeader({
+            "sticky-search-box": this.Settings.searchBox,
+            "sticky-edit-box": this.Settings.editBox,
+            "sticky-header": this.Settings.header,
+        });
     }
 
 }
