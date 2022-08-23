@@ -23,7 +23,8 @@
     "dependencies": {
         "@re621/zestyapi": "^0.1.6",
         "jquery": "^3.6.0",
-        "jquery-ui": "^1.13.2"
+        "jquery-ui": "^1.13.2",
+        "jquery.hotkeys": "^0.1.0"
     },
     "devDependencies": {
         "@types/jquery": "^3.5.14",

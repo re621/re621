@@ -1,5 +1,5 @@
 import Util from "../../utilities/Util";
-import Debug from "../utility/Debug";
+import Debug from "../Debug";
 
 const validKeys = [
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
@@ -40,7 +40,6 @@ export default class KeybindManager {
     public static register(keybind: Keybind): void;
     public static register(keybind: Keybind[]): void;
     public static register(keybind: Keybind | Keybind[]): void {
-
         if (KeybindManager.blocked) return;
 
         if (Array.isArray(keybind)) {

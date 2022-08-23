@@ -14,6 +14,7 @@ import PostViewer from "./js/components/posts/PostViewer";
 import SmartAlias from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import ThumbnailResizeButtons from "./js/components/posts/ThumbnailResizeButtons";
+import Danbooru from "./js/models/api/Danbooru";
 import Page, { IgnoredPages, PageDefinition } from "./js/models/data/Page";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
@@ -73,6 +74,7 @@ export default class RE621 {
                 Debug.log("+ HEAD is ready");
                 const styleElement = Util.DOM.addStyle(css);
                 $(() => { styleElement.appendTo("head"); });
+                Danbooru.Utility.disableShortcuts(true);
             });
 
             bodyLoaded = PageObserver.watch("body").then(() => {

@@ -1,8 +1,8 @@
 import RE621 from "../../RE621";
 import XM from "../models/api/XM";
+import KeybindManager, { Keybind, ResponseFunction } from "../models/data/Keybinds";
 import Page from "../models/data/Page";
 import PageObserver from "../models/structure/PageObserver";
-import KeybindManager, { Keybind, ResponseFunction } from "../old.components/data/Keybinds";
 import ErrorHandler from "../old.components/utility/ErrorHandler";
 import Util from "../utilities/Util";
 
@@ -186,6 +186,7 @@ export default class Component {
             ErrorHandler.write(`[${this.name}] Fatal crash during "create"`, error);
             return;
         }
+        this.resetHotkeys();
         this.initialized = true;
         this.trigger("create");
     }
