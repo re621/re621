@@ -74,12 +74,11 @@ export default class RE621 {
                 Debug.log("+ HEAD is ready");
                 const styleElement = Util.DOM.addStyle(css);
                 $(() => { styleElement.appendTo("head"); });
-                Danbooru.Utility.disableShortcuts(true);
             });
 
             bodyLoaded = PageObserver.watch("body").then(() => {
                 Debug.log("+ BODY is ready");
-                // Dialog.init();
+                Danbooru.Utility.disableShortcuts(true);
                 Util.DOM.setupDialogContainer(); // TODO Move to the dialog class
                 User.init();
             });
