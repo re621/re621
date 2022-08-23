@@ -113,6 +113,7 @@ export default class SettingsManager extends Component {
     private makeThumbnailSection(): FormElement {
         const ThumbnailEngine = RE621.Registry.ThumbnailEngine;
         const BlacklistUI = RE621.Registry.BlacklistUI;
+        const ThumbnailResizeButtons = RE621.Registry.ThumbnailResizeButtons;
 
         const preview = $("<div>").addClass("thumb-preview");
         RE621.API.Posts.find({ tags: ["order:random", "rating:safe", "score:>100", "-meme", "-comic", "-animated"], limit: 1 }).then((response) => {
@@ -148,6 +149,7 @@ export default class SettingsManager extends Component {
                             ThumbnailEngine.Settings.enabled = data;
                             $("#settings-thumbnail-adjust").toggleClass("display-none", !data)
                             $("#settings-thumbnail-preview").toggleClass("display-none", !data)
+                            $("#settings-thumbnail-misc").toggleClass("display-none", !data)
                             $("#settings-thumbnail-blacklist").toggleClass("display-none", !data)
                         }
                     ),
@@ -324,6 +326,27 @@ export default class SettingsManager extends Component {
                     Form.div({ value: preview }),
                 ]),
                 // ---------- ---------- ----------
+
+                Form.section({
+                    name: "misc",
+                    columns: 3,
+                    width: 3,
+                    wrapper: "settings-section searchable-section" + (ThumbnailEngine.Settings.enabled ? "" : " display-none"),
+                    tags: "thumbnail rescale rescaling buttons resize"
+                }, [
+                    Form.checkbox(
+                        {
+                            name: "thumbnailResizeButtons",
+                            value: ThumbnailResizeButtons.Settings.enabled,
+                            label: '<b>Thumbnail Rescaling Buttons</b><br />Resize the images using the - and + buttons in the top right',
+                            width: 3,
+                        },
+                        (data) => {
+                            ThumbnailResizeButtons.Settings.enabled = data;
+                        }
+                    ),
+                    Form.spacer(3, true),
+                ]),
 
 
                 Form.section({

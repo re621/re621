@@ -6,6 +6,7 @@ import HeaderCustomizer from "./js/components/general/HeaderCustomizer";
 import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/minor/HeaderButtons";
 import ThemeCustomizer from "./js/components/minor/ThemeCustomizer";
+import ThumbnailResizeButtons from "./js/components/minor/ThumbnailResizeButtons";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
 import PostViewer from "./js/components/posts/PostViewer";
 import SmartAlias from "./js/components/posts/SmartAlias";
@@ -30,9 +31,10 @@ export default class RE621 {
         HeaderButtons,
 
         // Posts
-        BlacklistUI,
         ThumbnailEngine,
+        ThumbnailResizeButtons,
         PostViewer,
+        BlacklistUI,
         SmartAlias,
 
         // Must wait for all other settings to load
@@ -126,6 +128,7 @@ interface ComponentListAnnotated extends ComponentList {
 
     // Posts
     ThumbnailEngine?: ThumbnailEngine,
+    ThumbnailResizeButtons?: ThumbnailResizeButtons,
     PostViewer?: PostViewer,
     BlacklistUI?: BlacklistUI,
     SmartAlias?: SmartAlias,
