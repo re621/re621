@@ -169,13 +169,13 @@ export default class SettingsManager extends Component {
                 }, [
                     Form.checkbox(
                         {
-                            value: ProfileEnhancer.Settings.enabled,
+                            value: ProfileEnhancer.Settings.enhancements,
                             label: "<b>Redesigned Profile Page</b><br />Restyle the profile page to be more sleek and compact",
                             width: 3,
-                            sync: { base: ProfileEnhancer, tag: "enabled" },
+                            sync: { base: ProfileEnhancer, tag: "enhancements" },
                         },
                         async (data) => {
-                            ProfileEnhancer.Settings.enabled = data;
+                            ProfileEnhancer.Settings.enhancements = data;
                         }
                     ),
                     Form.spacer(3),
