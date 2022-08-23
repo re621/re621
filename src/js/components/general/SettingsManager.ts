@@ -318,7 +318,8 @@ export default class SettingsManager extends Component {
                     name: "preview",
                     columns: 1,
                     width: 1,
-                    wrapper: ThumbnailEngine.Settings.enabled ? undefined : "display-none",
+                    wrapper: "searchable-section" + (ThumbnailEngine.Settings.enabled ? "" : " display-none"),
+                    tags: "thumbnail image post size aspect ratio",
                 }, [
                     Form.div({ value: preview }),
                 ]),
