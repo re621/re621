@@ -33,8 +33,6 @@ export default class Miscellaneous extends Component {
 
         hotkeyScrollUp: "",
         hotkeyScrollDown: "",
-
-        profileEnhancements: true,
     };
 
     /**
@@ -123,19 +121,9 @@ export default class Miscellaneous extends Component {
             return result.join(delimiter);
         }
 
-        // Reset the content headers
-        this.updateContentHeader();
-
         // Add a "remove from set" button
         if (Page.matches(PageDefinition.post))
             this.addRemoveFromSetButton();
-    }
-
-    /** Reset the content headers */
-    public updateContentHeader() {
-        super.updateContentHeader({
-            "better-profile": this.Settings.profileEnhancements,
-        });
     }
 
     /** Emulated clicking on "Edit" tab */

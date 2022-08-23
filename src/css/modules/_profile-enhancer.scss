@@ -1,5 +1,5 @@
 /** Fixes to the vanilla profile structure */
-div#page[enhancements=true] div#c-users div#a-show {
+body[better-profile=true] div#c-users div#a-show {
 
     .bottom-section {
         display: block;
@@ -74,4 +74,3 @@ div#page[enhancements=true] div#c-users div#a-show {
     }
 
 }
-

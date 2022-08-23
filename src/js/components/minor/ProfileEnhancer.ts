@@ -1,0 +1,31 @@
+import { PageDefinition } from "../../models/data/Page";
+import Component from "../Component";
+
+export default class ProfileEnhancer extends Component {
+
+    public constructor() {
+        super({
+            constraint: PageDefinition.profile,
+            waitForDOM: "body",
+        });
+    }
+
+    public Settings = {
+        enabled: true,
+    }
+
+    public async create() {
+        this.updateContentHeader();
+        this.on("settings.enabled", () => {
+            this.updateContentHeader();
+        });
+    }
+
+    /** Reset the content headers */
+    public updateContentHeader() {
+        super.updateContentHeader({
+            "better-profile": this.Settings.enabled,
+        });
+    }
+
+}

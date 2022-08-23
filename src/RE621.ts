@@ -7,6 +7,7 @@ import HeaderButtons from "./js/components/header/HeaderButtons";
 import HeaderCustomizer from "./js/components/header/HeaderCustomizer";
 import ThemeCustomizer from "./js/components/header/ThemeCustomizer";
 import Miscellaneous from "./js/components/minor/Miscellaneous";
+import ProfileEnhancer from "./js/components/minor/ProfileEnhancer";
 import QuoteTools from "./js/components/minor/QuoteTools";
 import StickyElements from "./js/components/minor/StickyElements";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
@@ -43,6 +44,7 @@ export default class RE621 {
 
         // Minor
         Miscellaneous,
+        ProfileEnhancer,
         QuoteTools,
         StickyElements,
 
@@ -150,6 +152,7 @@ interface ComponentListAnnotated extends ComponentList {
 
     // Minor
     Miscellaneous?: Miscellaneous,
+    ProfileEnhancer?: ProfileEnhancer,
     QuoteTools?: QuoteTools,
     StickyElements?: StickyElements,
 

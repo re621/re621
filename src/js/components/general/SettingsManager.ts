@@ -35,7 +35,7 @@ export default class SettingsManager extends Component {
                 this.makeCoverSection(),
                 this.makeSearchForm(),
 
-                this.makeLookAndFeelSection(),
+                this.makeGeneralSection(),
                 this.makeThumbnailSection(),
 
                 this.makeUploadSection(),
@@ -46,7 +46,7 @@ export default class SettingsManager extends Component {
         page.append(content.render());
 
         const subnav = {
-            "look": "General",
+            "general": "General",
             "thumbnail": "Thumbnails",
             "thumbnail-blacklist": "Blacklist",
             "upload": "Uploads",
@@ -148,13 +148,14 @@ export default class SettingsManager extends Component {
         );
     }
 
-    private makeLookAndFeelSection(): FormElement {
+    private makeGeneralSection(): FormElement {
         const HeaderCustomizer = RE621.Registry.HeaderCustomizer;
         const StickyElements = RE621.Registry.StickyElements;
+        const ProfileEnhancer = RE621.Registry.ProfileEnhancer;
 
         return Form.section(
             {
-                name: "look",
+                name: "general",
                 columns: 3,
                 width: 3,
             },
@@ -168,6 +169,19 @@ export default class SettingsManager extends Component {
                 }, [
                     Form.checkbox(
                         {
+                            value: ProfileEnhancer.Settings.enabled,
+                            label: "<b>Redesigned Profile Page</b><br />Restyle the profile page to be more sleek and compact",
+                            width: 3,
+                            sync: { base: ProfileEnhancer, tag: "enabled" },
+                        },
+                        async (data) => {
+                            ProfileEnhancer.Settings.enabled = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
                             value: HeaderCustomizer.Settings.forumUpdateDot,
                             label: "<b>Forum Notifications</b><br />Red dot on the Forum tab in the header if there are new posts",
                             width: 3,
@@ -177,10 +191,11 @@ export default class SettingsManager extends Component {
                             HeaderCustomizer.Settings.forumUpdateDot = data;
                         }
                     ),
+                    // Form.spacer(3),
                 ]),
 
                 Form.section({
-                    name: "header",
+                    name: "sticky",
                     columns: 3, width: 3,
                     wrapper: "settings-section searchable-section",
                     tags: "sticky header search edit box sidebar form tags scroll"
