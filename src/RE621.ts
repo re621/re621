@@ -6,6 +6,8 @@ import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/header/HeaderButtons";
 import HeaderCustomizer from "./js/components/header/HeaderCustomizer";
 import ThemeCustomizer from "./js/components/header/ThemeCustomizer";
+import Miscellaneous from "./js/components/minor/Miscellaneous";
+import QuoteTools from "./js/components/minor/QuoteTools";
 import StickyElements from "./js/components/minor/StickyElements";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
 import PostViewer from "./js/components/posts/PostViewer";
@@ -39,6 +41,8 @@ export default class RE621 {
         SmartAlias,
 
         // Minor
+        Miscellaneous,
+        QuoteTools,
         StickyElements,
 
         // Must wait for all other settings to load
@@ -144,6 +148,8 @@ interface ComponentListAnnotated extends ComponentList {
     SmartAlias?: SmartAlias,
 
     // Minor
+    Miscellaneous?: Miscellaneous,
+    QuoteTools?: QuoteTools,
     StickyElements?: StickyElements,
 
     // Settings

@@ -31,4 +31,8 @@ export default class PostViewer extends Component {
             this.thumbnail.updateVisibility();
     }
 
+    public getViewingPost(): ThumbnailPost {
+        return this.thumbnail;
+    }
+
 }
