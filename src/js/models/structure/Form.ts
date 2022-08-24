@@ -306,12 +306,10 @@ export class Form implements PreparedStructure {
                     $input.val(options.value.text());
                     break;
                 }
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .val(options.value)
-                        .attr("defval", options.value);
+                        .val(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
         }
@@ -375,12 +373,10 @@ export class Form implements PreparedStructure {
                     $input.val(options.value.text());
                     break;
                 }
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .val(options.value)
-                        .attr("defval", options.value);
+                        .val(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
         }
@@ -438,12 +434,10 @@ export class Form implements PreparedStructure {
                     $input.val(options.value.text());
                     break;
                 }
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .val(options.value)
-                        .attr("defval", options.value);
+                        .val(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
         }
@@ -508,12 +502,10 @@ export class Form implements PreparedStructure {
                     $input.val(options.value.text());
                     break;
                 }
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .val(options.value)
-                        .attr("defval", options.value);
+                        .val(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
 
@@ -671,12 +663,10 @@ export class Form implements PreparedStructure {
                     $input.val(options.value.text());
                     break;
                 }
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .val(options.value)
-                        .attr("defval", options.value);
+                        .val(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
         }
@@ -752,13 +742,10 @@ export class Form implements PreparedStructure {
                     $input.append(options.value);
                     break;
                 }
-                case "number":
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .html(options.value)
-                        .attr("defval", options.value);
+                        .html(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
         }
@@ -878,12 +865,10 @@ export class Form implements PreparedStructure {
                     $input.val(options.value.text());
                     break;
                 }
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
                     $input
-                        .val(options.value)
-                        .attr("defval", options.value);
+                        .val(options.value + "")
+                        .attr("defval", options.value + "");
                 }
             }
         }
@@ -944,11 +929,8 @@ export class Form implements PreparedStructure {
                     $element.append(options.value);
                     break;
                 }
-                case "number":
-                case "boolean":
-                    options.value = options.value + "";
                 default: {
-                    $element.html(options.value);
+                    $element.html(options.value + "");
                 }
             }
         }
