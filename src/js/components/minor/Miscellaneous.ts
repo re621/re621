@@ -153,7 +153,7 @@ export default class Miscellaneous extends Component {
                 const result = await RE621.API.Posts.find({ tags: ["set:" + shortname, "order:random"], limit: 1 });
                 if (result.status.code !== 200 || result.data.length == 0) return;
 
-                location.href = "/posts/" + result.data[0].id + "?q=set:" + shortname;
+                location.href = "/posts/" + result.data[0].id + "?q=set:" + encodeURIComponent(shortname);
             })
             .appendTo(wrapper);
     }
