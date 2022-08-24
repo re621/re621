@@ -283,11 +283,11 @@ export default class HeaderCustomizer extends Component {
             .attr("align", config.right ? "true" : undefined)
             .appendTo(this.$menu);
         const $link = $("<a>")
-            .html(this.processTabVariables(config.name))
+            .text(this.processTabVariables(config.name))
             .appendTo($tab);
 
         if (config.title !== "") $link.attr("title", this.processTabVariables(config.title));
-        if (config.href !== "") $link.attr("href", this.processTabVariables(config.href));
+        if (config.href !== "") $link.attr("href", encodeURI(this.processTabVariables(config.href)));
 
         if (config.href === "/forum_topics" && this.hasForumUpdates)
             $link.addClass("tab-has-updates");
@@ -347,9 +347,9 @@ export default class HeaderCustomizer extends Component {
             .removeAttr("align")
             .attr("align", config.right ? "true" : undefined);
         $element.find("a").first()
-            .html(this.processTabVariables(config.name))
+            .text(this.processTabVariables(config.name))
             .attr("title", this.processTabVariables(config.title))
-            .attr("href", this.processTabVariables(config.href));
+            .attr("href", encodeURI(this.processTabVariables(config.href)));
         this.saveNavbarSettings();
     }
 
