@@ -574,7 +574,7 @@ export class SubscriptionTracker extends RE6Module {
                             .text(`Subscribe to ${value}`)
                             .attr({
                                 tag: value,
-                                href: `/wiki_pages/show_or_new?title=${value}`,
+                                href: `/wiki_pages/show_or_new?title=${encodeURIComponent(value)}`,
                             });
                         quickAddCont.removeClass("display-none");
                     }

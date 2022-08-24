@@ -29,7 +29,7 @@ export class PostParts {
 
         // Basic structure
         const $link = $("<a>")
-            .attr({ "href": "/posts/" + post.id + (query !== null ? "?q=" + query : ""), })
+            .attr({ "href": "/posts/" + post.id + (query !== null ? "?q=" + encodeURIComponent(query) : ""), })
             .append(PostParts.renderImageElement(post, conf))
             .append($("<post-loading>"));
 
