@@ -69,9 +69,9 @@ export default class BlacklistUI extends Component {
             .html("Blacklisted")
             .appendTo(wrapper)
             .on("click", () => {
-                const collapsed = !(wrapper.attr("collapsed") == "true");
-                wrapper.attr("collapsed", collapsed + "");
-                Util.LS.setItem("bc", collapsed ? "1" : "0");
+                const shouldCollapse = wrapper.attr("collapsed") !== "true";
+                wrapper.attr("collapsed", shouldCollapse + "");
+                Util.LS.setItem("bc", shouldCollapse ? "1" : "0");
             });
 
         const toggles = $("<blacklist-filters>")

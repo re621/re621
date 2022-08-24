@@ -376,7 +376,6 @@ export class UploadUtilities extends RE6Module {
                 let requestURLValidated: URL = null;
                 try {
                     requestURLValidated = new URL(requestURL);
-                    if (!requestURLValidated) requestURLValidated = null;
                 } catch (e) { requestURLValidated = null; }
 
                 if (!requestURLValidated) {
