@@ -1,0 +1,36 @@
+name: Build Project
+
+on:
+  push:
+    tags:
+    - '*'
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out the Repository
+      uses: actions/checkout@v3
+      
+    - name: Fetch the latest Git tag
+      uses: little-core-labs/get-git-tag@v3.0.2
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    - name: Build
+      run: npm run build
+
+    - name: Create a Release
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: "./dist/script.user.js,./dist/script.meta.js"
+        replacesArtifacts: true
+        omitBody: true
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
