@@ -577,7 +577,7 @@ export default class Post {
 
         switch (type) {
             case "original":
-                `https://static1.e621.net/data/${parts[0]}/${parts[1]}/${parts[2]}.${parts[3]}`
+                return `https://static1.e621.net/data/${parts[0]}/${parts[1]}/${parts[2]}.${parts[3]}`
             case "sample":
                 return ((options.width < 850 || options.height < 850 || options.extension == "gif")
                     ? `https://static1.e621.net/data/${parts[0]}/${parts[1]}/${parts[2]}.${parts[3]}`

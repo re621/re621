@@ -646,6 +646,10 @@ export class BetterSearch extends RE6Module {
                 post = Post.get($article);
 
             switch (mode) {
+                case "approve": {
+                    post.flags.delete(PostFlag.Pending);
+                    // falls through
+                }
                 case "rating-q":
                 case "rating-s":
                 case "rating-e":
@@ -653,15 +657,10 @@ export class BetterSearch extends RE6Module {
                 case "lock-note":
                 case "delete":
                 case "undelete":
-                case "approve": {
-                    post.flags.delete(PostFlag.Pending);
-                }
                 case "remove-parent":
                 case "tag-script":
-
-                case "add-to-set": { }
-                case "remove-from-set": { }
-
+                case "add-to-set":
+                case "remove-from-set":
                 case "fake-click": {
 
                     // To avoid having to duplicate the functionality of every single mode,
@@ -855,8 +854,8 @@ export class BetterSearch extends RE6Module {
     private async loadNextPage(): Promise<boolean> {
 
         this.queryPage = Util.Math.isNumeric(this.queryPage)
-            ? this.queryPage = (parseInt(this.queryPage) + 1) + ""
-            : this.queryPage = "b" + Post.get($("post:last")).id;
+            ? (parseInt(this.queryPage) + 1) + ""
+            : "b" + Post.get($("post:last")).id;
 
         const search = await this.fetchPosts(this.queryPage);
         this.pageResultCount = search.length;

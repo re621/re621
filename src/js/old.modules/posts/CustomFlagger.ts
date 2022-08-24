@@ -92,7 +92,7 @@ export class CustomFlagger extends RE6Module {
         }
         return count;
         */
-        return 0;
+        return posts.length; // TODO Placeholder
     }
 
     /**

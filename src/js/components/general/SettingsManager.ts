@@ -832,10 +832,6 @@ export default class SettingsManager extends Component {
                     continue;
                 }
                 const value = module.Settings[setting];
-                if (!module) {
-                    XM.Storage.deleteValue(key);
-                    continue;
-                }
                 result[key] = value;
             }
 

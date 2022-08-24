@@ -21,12 +21,11 @@ export class Prompt extends Modal {
         this.open();
         this.$input.trigger("focus");
 
-        this.promise = new Promise((resolve, reject) => {
+        this.promise = new Promise((resolve) => {
             this.$form.on("submit", (event) => {
                 event.preventDefault();
                 this.destroy();
                 resolve(this.$input.val());
-                reject();
             });
         });
     }

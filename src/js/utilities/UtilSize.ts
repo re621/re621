@@ -19,7 +19,7 @@ export namespace UtilSize {
      */
     export function format(bytes: number | string, decimals = 2): string {
         if (typeof bytes == "string") bytes = parseInt(bytes);
-        if (!bytes || bytes === 0) return "0 B";
+        if (!bytes) return "0 B";
 
         const k = 1024;
         const dm = decimals < 0 ? 0 : decimals;

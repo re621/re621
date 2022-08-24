@@ -21,17 +21,17 @@ export class Patcher {
 
         try {
             switch (Patcher.version) {
-                case 0: counter += await this.patch1();
-                case 1: counter += await this.patch2();
-                case 2: counter += await this.patch3();
-                case 3: counter += await this.patch4();
-                case 4: counter += await this.patch5();
-                case 5: counter += await this.patch6();
+                case 0: counter += await this.patch1(); // falls through
+                case 1: counter += await this.patch2(); // falls through
+                case 2: counter += await this.patch3(); // falls through
+                case 3: counter += await this.patch4(); // falls through
+                case 4: counter += await this.patch5(); // falls through
+                case 5: counter += await this.patch6(); // falls through
                 case 6:
-                case 7: counter += await this.patch8();
-                case 8: counter += await this.patch9();
-                case 9: counter += await this.patch10();
-                case 10: counter += await this.patch11();
+                case 7: counter += await this.patch8(); // falls through
+                case 8: counter += await this.patch9(); // falls through
+                case 9: counter += await this.patch10(); // falls through
+                case 10: counter += await this.patch11(); // falls through
             }
         } catch (error) { ErrorHandler.log("Patcher", "patch " + Patcher.version, error); }
 
