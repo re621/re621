@@ -1,19 +1,19 @@
 {
     "name": "re621",
-    "displayName": "RE621 - e621 Enhancement Suite",
+    "displayName": "RE621: e621 Enhancement Suite",
     "namespace": "re621.bitwolfy.com",
     "version": "2.0.0",
-    "description": "Subscription manager, mass downloader, thumbnail enhancer, and more for e621",
+    "description": "Feature-packed enhancement suite for e621.net",
     "author": "bitWolfy",
     "contributors": [
         "bitWolfy <@bitWolfy#7932>",
         "Earlopain <@Earlopain#9703>"
     ],
-    "main": "./dist/re621.user.js",
+    "main": "./dist/script.user.js",
     "license": "GPL-3.0",
-    "homepage": "https://github.com/bitWolfy/re621",
+    "homepage": "https://github.com/re621/re621",
     "funding": "https://ko-fi.com/bitwolfy",
-    "repository": "github:bitWolfy/re621",
+    "repository": "github:re621/re621",
     "scripts": {
         "push": "npm version patch --tag-version-prefix='' -m 'Patch %s'&& git push --tags",
         "push-minor": "npm version minor --tag-version-prefix='' -m 'Version %s'&& git push --tags",
