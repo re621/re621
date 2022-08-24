@@ -39,7 +39,6 @@ const userscript = {
                         },
                     },
                 ],
-                exclude: /node_modules/,
             },
         ],
     },

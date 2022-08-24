@@ -2,11 +2,11 @@ const ConcatSource = require("webpack-sources").ConcatSource
 const ModuleFilenameHelpers = require("webpack/lib/ModuleFilenameHelpers")
 const Compilation = require("webpack/lib/Compilation")
 
-function longestLength (a) {
+function longestLength(a) {
     return a.reduce(function (a, b) { return a.length > b.length ? a : b }).length;
 }
 
-function parseAuthor (author) {
+function parseAuthor(author) {
     if (typeof author === "string") return author;
 
     let a = author["name"];
@@ -16,7 +16,7 @@ function parseAuthor (author) {
     return a;
 }
 
-function generateMetadataBlock (metadata) {
+function generateMetadataBlock(metadata) {
     let pad = longestLength(Object.keys(metadata)) + 3;
 
     let block = [];
@@ -25,21 +25,21 @@ function generateMetadataBlock (metadata) {
             let values = key === "author"
                 ? parseAuthor(metadata[key])
                 : metadata[key];
-            
+
             if (!values) {
                 block.push("// @" + key);
                 continue;
             }
-            
+
             if (typeof values === "object" && !Array.isArray(values)) {
                 let subLongest = longestLength(Object.keys(values));
 
                 for (const [subkey, subvalue] of Object.entries(values))
                     block.push(`// @${key.padEnd(pad) + subkey.padEnd(subLongest)} ${subvalue}`);
-            
+
             } else {
                 if (!Array.isArray(values)) values = [values];
-                for(entry of values)
+                for (const entry of values)
                     block.push("// @" + key.padEnd(pad) + entry);
             }
         }
@@ -48,16 +48,16 @@ function generateMetadataBlock (metadata) {
 }
 
 class UserScriptMetaDataPlugin {
-    
-    constructor (options) {
+
+    constructor(options) {
         if (typeof options !== "object") throw new TypeError(`Argument "options" must be an object.`);
         if (!options.hasOwnProperty("metadata")) throw new TypeError(`"Options" must have property "metadata"`);
 
         this.header = generateMetadataBlock(options.metadata);
         this.test = /\.(user|meta)\.js$/;
     }
-    
-    apply (compiler) {
+
+    apply(compiler) {
         const header = this.header
         const tester = { test: this.test }
 
