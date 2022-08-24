@@ -15,7 +15,10 @@ For a complete feature overview, visit the [project site](https://re621.bitwolfy
 The project is delivered via a userscript.
 This means that you need a script manager, such as [Tampermonkey](https://www.tampermonkey.net/).  
 With a script manager installed, click on this link and follow the instructions on the new page:
-## [![Install](https://img.shields.io/github/v/release/re621/re621?label=INSTALL&style=for-the-badge)](https://github.com/bitWolfy/re621/releases/latest/download/script.user.js)
+
+> ### IMPORTANT
+> This is an ALPHA build of re621 2.0.  
+> It is not compatible with the settings format from version 1.5.*, and should only be installed for testing purposes. A tool for converting the settings to a new format is coming later.
 
 Older versions of the script are available on the [Legacy page](https://github.com/re621/re621.Legacy).  
 It lacks some features, and will not receive updates besides critical bug fixes.
