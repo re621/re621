@@ -28,18 +28,6 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-        
-    - name: Install Project Dependencies
-      run: npm ci
-
-    - name: Build
-      run: npm run build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
