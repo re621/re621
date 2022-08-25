@@ -269,6 +269,7 @@ export default class SettingsManager extends Component {
             $("#settings-thumbnail-preview").toggleClass("display-none", !enabled);
             $("#settings-thumbnail-misc").toggleClass("display-none", !enabled);
             $("#settings-thumbnail-blacklist").toggleClass("display-none", !enabled);
+            $("#settings-thumbnail-zoom").toggleClass("display-none", !enabled);
         }
 
         return Form.section(
