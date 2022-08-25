@@ -100,20 +100,6 @@ if (isDev) {
         filename: "script.meta.js",
         path: path.resolve(__dirname, "dist"),
     },
-    optimization: {
-        usedExports: true,
-        minimize: false,
-        minimizer: [
-            (compiler) => {
-                new TerserPlugin({
-                    terserOptions: {
-                        format: { comments: false },
-                    },
-                    extractComments: false,
-                }).apply(compiler);
-            }
-        ]
-    },
 });
 
 module.exports = files;
