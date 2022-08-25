@@ -10,6 +10,7 @@ import Miscellaneous from "./js/components/minor/Miscellaneous";
 import ProfileEnhancer from "./js/components/minor/ProfileEnhancer";
 import QuoteTools from "./js/components/minor/QuoteTools";
 import StickyElements from "./js/components/minor/StickyElements";
+import { WikiEnhancer } from "./js/components/minor/WikiEnhancer";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
 import HoverZoom from "./js/components/posts/HoverZoom";
 import PostViewer from "./js/components/posts/PostViewer";
@@ -49,6 +50,7 @@ export default class RE621 {
         ProfileEnhancer,
         QuoteTools,
         StickyElements,
+        WikiEnhancer,
 
         // Must wait for all other settings to load
         SettingsManager,
@@ -158,6 +160,7 @@ interface ComponentListAnnotated extends ComponentList {
     ProfileEnhancer?: ProfileEnhancer,
     QuoteTools?: QuoteTools,
     StickyElements?: StickyElements,
+    WikiEnhancer?: WikiEnhancer,
 
     // Settings
     SettingsManager?: SettingsManager,

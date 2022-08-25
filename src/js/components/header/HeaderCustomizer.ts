@@ -67,7 +67,7 @@ export default class HeaderCustomizer extends Component {
             { name: "Blips", href: "/blips" },
             { name: "Pools", href: "/pools" },
             { name: "Sets", href: "/post_sets" },
-            { name: "Wiki", href: "/wiki_pages?title=help:home" },
+            { name: "Wiki", href: "/wiki_pages/help:home" },
             { name: "Forum", href: "/forum_topics" },
             { name: "Discord", href: "/static/discord" },
             { name: "Help", href: "/help" },

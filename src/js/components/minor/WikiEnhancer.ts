@@ -1,22 +1,22 @@
 import XM from "../../models/api/XM";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { RE6Module, Settings } from "../../old.components/RE6Module";
+import Component from "../Component";
 
-export class WikiEnhancer extends RE6Module {
+export class WikiEnhancer extends Component {
 
     public constructor() {
-        super([PageDefinition.wiki, PageDefinition.wikiNA, PageDefinition.artist], true);
+        super({
+            constraint: [PageDefinition.wiki, PageDefinition.artist],
+            waitForDOM: true,
+        });
     }
 
-    protected getDefaultSettings(): Settings {
-        return { enabled: true };
-    }
+    public async create() {
 
-    public create(): void {
-        super.create();
         const $title = Page.matches(PageDefinition.artist)
             ? $("#a-show h1 a:first")
             : $("#wiki-page-title a:first");
+        if ($title.length == 0) return;
         const tagName = WikiEnhancer.sanitizeWikiTagName($title.text());
 
         $("<button>")
@@ -29,9 +29,7 @@ export class WikiEnhancer extends RE6Module {
             });
     }
 
-    public destroy(): void {
-        if (!this.isInitialized()) return;
-        super.destroy();
+    public async destroy() {
         $("#wiki-page-copy-tag").remove();
     }
 
