@@ -1,6 +1,6 @@
 <p align="center">
     <img src="./assets/logo.png" alt="RE621">
-    <span style="display: block;">
+    <div align="center">
         <a href="https://github.com/re621/re621/releases">
             <img src="https://img.shields.io/github/v/release/re621/re621?label=version&style=flat-square" alt="Releases">
         </a>
@@ -13,7 +13,7 @@
         <a href="https://github.com/re621/re621/releases/latest/download/script.user.js">
             <img src="https://img.shields.io/github/downloads/re621/re621/total?style=flat-square" alt="Download">
         </a>
-    </span>
+    </div>
 </p>
 
 
