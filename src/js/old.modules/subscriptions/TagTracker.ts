@@ -1,3 +1,4 @@
+import { WikiEnhancer } from "../../components/minor/WikiEnhancer";
 import XM from "../../models/api/XM";
 import Blacklist from "../../models/data/Blacklist";
 import { PageDefinition } from "../../models/data/Page";
@@ -9,7 +10,6 @@ import { PostActions } from "../../old.components/post/PostActions";
 import { PostParts } from "../../old.components/post/PostParts";
 import { Settings } from "../../old.components/RE6Module";
 import Util from "../../utilities/Util";
-import { WikiEnhancer } from "../misc/WikiEnhancer";
 import { BetterSearch, ImageClickAction } from "../posts/BetterSearch";
 import { UpdateContent, UpdateData } from "./_SubscriptionCache";
 import { SubscriptionManager } from "./_SubscriptionManager";
