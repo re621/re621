@@ -70,7 +70,7 @@ export default class ThumbnailEngine extends Component {
         const mutationObserver = new MutationObserver(() => {
             // console.log(mutations);
 
-            for (const article of $("article.post-preview, div.post-thumbnail").get()) {
+            for (const article of $(".post-preview, div.post-thumbnail").get()) {
                 this.convertThumbnail($(article));
                 count++;
             }

@@ -126,7 +126,7 @@ export default class Post {
 
     // Static constructors
     public static fromThumbnail($element: JQuery<HTMLElement>): Post {
-        if ($element.is("article") && $element.hasClass("post-preview")) return this.fromThumbnailAB($element);
+        if ($element.hasClass("post-preview")) return this.fromThumbnailAB($element);
         else if ($element.attr("id") == "image-container") return this.fromThumbnailC($element);
         else if ($element.is("div") && $element.hasClass("post-thumbnail")) return this.fromThumbnailD($element);
         return null;
@@ -709,7 +709,7 @@ export namespace PostFlag {
 /**
  * This represents two similar, yet slightly different formats.  
  * * TypeA is present exclusively on the search and favorites pages. It has the `favCount` parameters.
- * * TypeB is present on the profile page, and in the wiki page footer. It has the `md5`, `width`, and `height` parameters.
+ * * TypeB is present on the profile page, comments index, and wiki pages. It has the `md5`, `width`, and `height` parameters.
  */
 interface PostDataTypeAB {
     // Present in all cases
@@ -732,7 +732,7 @@ interface PostDataTypeAB {
     // Present on the search page
     favCount?: number,
 
-    // Present on the profile page
+    // Present on the profile and comments pages
     md5?: string,
     width?: number,
     height?: number,

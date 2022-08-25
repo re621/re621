@@ -368,7 +368,8 @@ img-ribbons {
 // Fixes to thumbnails blowing up too much where they shouldn't
 .user-favorites,
 .user-uploads,
-.parent-children {
+.parent-children,
+.comment-post .post-container {
     --img-width: 150px;
     --img-ratio: 1;
 }
