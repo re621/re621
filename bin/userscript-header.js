@@ -10,8 +10,8 @@ module.exports = {
 
     homepageURL: pkg.homepage,
     supportURL: pkg.homepage + "/issues",
-    icon: "https://cdn.jsdelivr.net/gh/bitwolfy/re621@master/assets/icon64.png",
-    icon64: "https://cdn.jsdelivr.net/gh/bitwolfy/re621@master/assets/icon64.png",
+    icon: "https://cdn.jsdelivr.net/gh/re621/re621@master/assets/icon64.png",
+    icon64: "https://cdn.jsdelivr.net/gh/re621/re621@master/assets/icon64.png",
 
     updateURL: pkg.homepage + "/releases/latest/download/script.meta.js",
     downloadURL: pkg.homepage + "/releases/latest/download/script.user.js",
