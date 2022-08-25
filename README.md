@@ -1,7 +1,6 @@
 <p align="center">
     <img src="./assets/logo.png" alt="RE621">
-    <br />
-    <span>
+    <span style="display: block;">
         <a href="https://github.com/re621/re621/releases">
             <img src="https://img.shields.io/github/v/release/re621/re621?label=version&style=flat-square" alt="Releases">
         </a>
@@ -10,6 +9,9 @@
         </a>
         <a href="https://github.com/re621/re621/pulls">
             <img src="https://img.shields.io/github/issues-pr/re621/re621?style=flat-square" alt="Pull Requests">
+        </a>
+        <a href="https://github.com/re621/re621/releases/latest/download/script.user.js">
+            <img src="https://img.shields.io/github/downloads/re621/re621/total?style=flat-square" alt="Download">
         </a>
     </span>
 </p>
@@ -33,10 +35,12 @@ With a script manager installed, click on this link and follow the instructions 
 Older versions of the script are available on the [Legacy page](https://github.com/re621/re621.Legacy).  
 It lacks some features, and will not receive updates besides critical bug fixes.
 
+
 ## Contributing
 
 Contributions are always welcome.  
 For bug reports, suggestions, and feature requests, head on over to the [issue tracker](https://github.com/bitWolfy/re621/issues).
+
 
 ## Building the Script
 
