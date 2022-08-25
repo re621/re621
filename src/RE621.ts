@@ -11,6 +11,7 @@ import ProfileEnhancer from "./js/components/minor/ProfileEnhancer";
 import QuoteTools from "./js/components/minor/QuoteTools";
 import StickyElements from "./js/components/minor/StickyElements";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
+import HoverZoom from "./js/components/posts/HoverZoom";
 import PostViewer from "./js/components/posts/PostViewer";
 import SmartAlias from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
@@ -40,6 +41,7 @@ export default class RE621 {
         ThumbnailResizeButtons,
         PostViewer,
         BlacklistUI,
+        HoverZoom,
         SmartAlias,
 
         // Minor
@@ -148,6 +150,7 @@ interface ComponentListAnnotated extends ComponentList {
     ThumbnailResizeButtons?: ThumbnailResizeButtons,
     PostViewer?: PostViewer,
     BlacklistUI?: BlacklistUI,
+    HoverZoom?: HoverZoom,
     SmartAlias?: SmartAlias,
 
     // Minor

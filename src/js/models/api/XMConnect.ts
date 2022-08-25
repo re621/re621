@@ -305,7 +305,7 @@ export interface GMDownloadDetails {
     url: string;
 
     /** **name** - the filename - for security reasons the file extension needs to be whitelisted at Tampermonkey options page (required) */
-    name: string;
+    name?: string;
 
     /** **headers** - see GM_xmlhttpRequest for more details */
     headers?: string;

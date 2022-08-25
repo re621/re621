@@ -244,7 +244,7 @@ export default class Component {
     }
 
     /** Execute all handlers for the specified component event */
-    public trigger(event: string, data?: PrimitiveType | PrimitiveType[]): void {
+    public trigger(event: string, data?: PrimitiveType | PrimitiveType[] | PrimitiveMap): void {
         $(document).trigger(`re621.${this.name}.${event}`, data);
     }
 
@@ -252,7 +252,7 @@ export default class Component {
      * Attach a handler function for the specified event to the component
      * @returns Event ID, unique to this component, that can be used to unbind this handler
      */
-    public on(event: string, handler: (event: JQuery.TriggeredEvent, data?: PrimitiveType | PrimitiveType[]) => void): number {
+    public on(event: string, handler: (event: JQuery.TriggeredEvent, data?: PrimitiveType | PrimitiveType[] | PrimitiveMap) => void): number {
         const eventList = event.split(" ");
         for (const one of eventList)
             $(document).on(`re621.${this.name}.${one}.${this.eventIndex}`, handler);
@@ -260,7 +260,7 @@ export default class Component {
     }
 
     /** Executes a handler function exactly once whe encountering a specified event */
-    public one(event: string, handler: (event: JQuery.TriggeredEvent, data?: PrimitiveType | PrimitiveType[]) => void): void {
+    public one(event: string, handler: (event: JQuery.TriggeredEvent, data?: PrimitiveType | PrimitiveType[] | PrimitiveMap) => void): void {
         $(document).one(`re621.${this.name}.${event}`, handler);
     }
 

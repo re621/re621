@@ -246,6 +246,7 @@ export default class SettingsManager extends Component {
         const ThumbnailEngine = RE621.Registry.ThumbnailEngine;
         const BlacklistUI = RE621.Registry.BlacklistUI;
         const ThumbnailResizeButtons = RE621.Registry.ThumbnailResizeButtons;
+        const HoverZoom = RE621.Registry.HoverZoom;
 
         const preview = $("<div>").addClass("thumb-preview");
         RE621.API.Posts.find({ tags: ["order:random", "rating:safe", "score:>100", "-meme", "-comic", "-animated"], limit: 1 }).then((response) => {
@@ -541,6 +542,80 @@ export default class SettingsManager extends Component {
                         Form.spacer(2, true),
 
                         // TODO Whitelist
+                    ]),
+                ]),
+
+
+                Form.section({
+                    name: "zoom",
+                    columns: 3,
+                    width: 3,
+                    wrapper: ThumbnailEngine.Settings.enabled ? "" : " display-none",
+                }, [
+                    Form.header("Hover Zoom", 3),
+                    Form.section({
+                        columns: 3,
+                        width: 3,
+                        wrapper: "settings-section searchable-section",
+                        tags: "hover zoom thumbnail size"
+                    }, [
+
+                        Form.subheader("Zoom Mode", "Increases the size of the thumbnail when hovering over it", 2),
+                        Form.select(
+                            {
+                                value: HoverZoom.Settings.mode,
+                                sync: { base: HoverZoom, tag: "mode" },
+                            },
+                            {
+                                0: "Disabled",
+                                1: "On Hover",
+                                2: "Holding Shift",
+                                3: "Toggle Shift",
+                            },
+                            async (data) => {
+                                HoverZoom.Settings.mode = data;
+                            }
+                        ),
+                        Form.spacer(3, true),
+
+                        Form.checkbox(
+                            {
+                                value: HoverZoom.Settings.tags,
+                                label: "<b>Show Tags</b><br />Display the list of post's tags under the zoom-in image",
+                                width: 3,
+                                sync: { base: HoverZoom, tag: "tags" },
+                            },
+                            async (data) => {
+                                HoverZoom.Settings.tags = data;
+                            }
+                        ),
+                        Form.spacer(3, true),
+
+                        Form.checkbox(
+                            {
+                                value: HoverZoom.Settings.time,
+                                label: "<b>Relative Time</b><br />Display the post's upload time in a relative format",
+                                width: 3,
+                                sync: { base: HoverZoom, tag: "time" },
+                            },
+                            async (data) => {
+                                HoverZoom.Settings.time = data;
+                            }
+                        ),
+                        Form.spacer(3, true),
+
+                        Form.checkbox(
+                            {
+                                value: HoverZoom.Settings.skipBlacklisted,
+                                label: "<b>Skip Blacklisted</b><br />Don't trigger HoverZoom for blacklisted posts",
+                                width: 3,
+                                sync: { base: HoverZoom, tag: "skipBlacklisted" },
+                            },
+                            async (data) => {
+                                HoverZoom.Settings.skipBlacklisted = data;
+                            }
+                        ),
+                        Form.spacer(3, true),
                     ]),
                 ]),
             ]
