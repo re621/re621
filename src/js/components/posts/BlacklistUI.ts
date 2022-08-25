@@ -36,6 +36,7 @@ export default class BlacklistUI extends Component {
         Danbooru.Blacklist.stub_vanilla_functions();
         Danbooru.Blacklist.initialize_disable_all_blacklists();
         $("#blacklisted-hider").remove();
+        LocalStorage.LS.removeItem("dab");
 
         PageObserver.watch(".sidebar-blacklist").then((success) => {
             if (!success) return;

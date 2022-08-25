@@ -3,7 +3,7 @@ import XM from "./XM";
 
 export default class LocalStorage {
 
-    private static LS = XM.Window.localStorage;
+    public static LS = XM.Window.localStorage;
 
     public static Assets = {
         get ImagesExpire(): number {
