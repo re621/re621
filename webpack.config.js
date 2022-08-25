@@ -10,7 +10,7 @@ const files = [];
 files.push({
     entry: "./src/RE621.ts",
     mode: isDev ? "development" : "production",
-    devtool: isDev ? "inline-cheap-source-map" : isDev,
+    devtool: false,
     plugins: [
         new UserscriptWebpackPlugin({ metadata }),
     ],
@@ -21,13 +21,6 @@ files.push({
                 use: "ts-loader",
                 exclude: /node_modules/,
             },
-            /*
-            {
-                test: /\.s[ac]ss$/i,
-                use: [ "to-string-loader", "css-loader", "sass-loader" ],
-                exclude: /node_modules/,
-            },*/
-
             {
                 test: /.scss$/,
                 exclude: /node_modules/,
