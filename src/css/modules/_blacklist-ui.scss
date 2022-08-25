@@ -27,6 +27,7 @@ blacklist-ui {
         display: block;
         max-height: 50vh;
         overflow: visible auto;
+        @include scrollbars;
 
         filter {
             display: list-item;
