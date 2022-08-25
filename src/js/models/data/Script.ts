@@ -1,10 +1,12 @@
-import XM from "../api/XM";
-
+/**
+ * Basic script parameters, both hard-coded and derived from the userscript header.
+ * GM_info is used here because of XM.Connect initialization issues.
+ */
 export default class Script {
-    public static version = XM.Info.script.version;
+    public static version = GM_info.script.version;
     public static handler = {
-        name: XM.Info.scriptHandler,
-        version: XM.Info.version,
+        name: GM_info.scriptHandler,
+        version: GM_info.version,
     }
     public static url = {
         website: "https://re621.bitwolfy.com",

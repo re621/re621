@@ -18,6 +18,7 @@ import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import ThumbnailResizeButtons from "./js/components/posts/ThumbnailResizeButtons";
 import { EditTracker } from "./js/components/tags/EditTracker";
 import SmartAlias from "./js/components/tags/SmartAlias";
+import { UploadUtilities } from "./js/components/tags/UploadUtilities";
 import Danbooru from "./js/models/api/Danbooru";
 import Page, { IgnoredPages, PageDefinition } from "./js/models/data/Page";
 import Script from "./js/models/data/Script";
@@ -48,6 +49,7 @@ export default class RE621 {
         // Tags
         SmartAlias,
         EditTracker,
+        UploadUtilities,
 
         // Minor
         Miscellaneous,
@@ -161,6 +163,7 @@ interface ComponentListAnnotated extends ComponentList {
     // Tags
     SmartAlias?: SmartAlias,
     EditTracker?: EditTracker,
+    UploadUtilities?: UploadUtilities,
 
     // Minor
     Miscellaneous?: Miscellaneous,

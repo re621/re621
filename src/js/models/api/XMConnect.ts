@@ -1,5 +1,5 @@
+import Script from "../data/Script";
 import Debug from "../Debug";
-import XM from "./XM";
 
 declare const GM_xmlhttpRequest: any;
 declare const GM_download: any;
@@ -55,8 +55,8 @@ export default class XMConnect {
     private static validateXHRDetails(details: XMConnectRequest): XMConnectRequest {
         if (details.headers === undefined) details.headers = {};
         if (details.headers["User-Agent"] === undefined) {
-            details.headers["User-Agent"] = window["re621"]["useragent"];
-            details.headers["X-User-Agent"] = window["re621"]["useragent"];
+            details.headers["User-Agent"] = Script.userAgent;
+            details.headers["X-User-Agent"] = Script.userAgent;
         }
 
         if (details.onabort === undefined) details.onabort = (): void => { return; };
@@ -126,7 +126,7 @@ export default class XMConnect {
     public static browserDownload(a: any, b?: string, c?: boolean): void {
 
         // Fallback to avoid a crash in Vivaldi
-        if (Debug.Vivaldi) XM.Connect.download(a, b);
+        if (Debug.Vivaldi) XMConnect.download(a, b);
 
         const downloadDetails: GMDownloadDetails = typeof a === "string"
             ? { url: a, name: b, saveAs: c }
@@ -135,7 +135,7 @@ export default class XMConnect {
         // Workaround to SWF files not being whitelisted by default in Tampermonkey
         downloadDetails.onerror = (event): void => {
             if (event.error == "not_whitelisted")
-                XM.Connect.download(a, b);
+                XMConnect.download(a, b);
             else if (a.onerror) a.onerror(event);
             else throw "Error: unable to download file" + (event.error ? (` [${event.error}]`) : "");
         }

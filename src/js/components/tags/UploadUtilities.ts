@@ -1,45 +1,46 @@
+import { APIIQDBResponse } from "@re621/zestyapi/dist/responses/APIIQDBResponse";
+import RE621 from "../../../RE621";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
-import { E621 } from "../../old.components/api/E621";
-import { APIIQDBResponse } from "../../old.components/api/responses/APIIQDBResponse";
-import { APIPost, PostFlag } from "../../old.components/api/responses/APIPost";
-import { PostData } from "../../old.components/post/Post";
-import { RE6Module, Settings } from "../../old.components/RE6Module";
+import Post from "../../models/data/Post";
+import { PostFlag } from "../../old.components/api/responses/APIPost";
+import { TagSuggester } from "../../old.modules/misc/TagSuggester";
 import Util from "../../utilities/Util";
-import { TagSuggester } from "./TagSuggester";
+import Component from "../Component";
 
-export class UploadUtilities extends RE6Module {
+export class UploadUtilities extends Component {
 
 
     public constructor() {
-        super([PageDefinition.upload], true);
+        super({
+            constraint: PageDefinition.upload,
+            waitForDOM: true,
+        });
     }
 
-    protected getDefaultSettings(): Settings {
-        return {
-            enabled: true,
+    // TODO Make the settings sync
+    public Settings = {
+        enabled: true,
 
-            checkDuplicates: true,      // run uploads through e621's version of IQDB
-            addSourceLinks: true,       // improve source links fields somewhat
-            cleanSourceLinks: true,     // convert links to https and remove the www
-            loadImageData: false,       // load image headers to get extra data
-            fixPixivPreviews: false,    // load pixiv previews manually
+        checkDuplicates: true,      // run uploads through e621's version of IQDB
+        addSourceLinks: true,       // improve source links fields somewhat
+        cleanSourceLinks: true,     // convert links to https and remove the www
+        loadImageData: false,       // load image headers to get extra data
+        fixPixivPreviews: false,    // load pixiv previews manually
 
-            stopLeaveWarning: false,    // removes the beforeunload warning
-        };
-    }
+        stopLeaveWarning: false,    // removes the beforeunload warning
+    };
 
-    public create(): void {
-        super.create();
+    public async create() {
 
         // This form's structure is the absolute worst
         // There is not a single ID, or even a unique class
 
         // Check for duplicates and add reverse image search links
-        if (this.fetchSettings("checkDuplicates")) this.handleDuplicateCheck();
+        if (this.Settings.checkDuplicates) this.handleDuplicateCheck();
 
         // Add clickable links to sources
-        if (this.fetchSettings("addSourceLinks")) {
+        if (this.Settings.addSourceLinks) {
             this.handleSourceEnhancements();
             const noSourceCheckbox = $("#no_source").on("change", () => {
                 if (noSourceCheckbox.prop("checked")) return;
@@ -54,7 +55,7 @@ export class UploadUtilities extends RE6Module {
         $("button:contains('Upload')").addClass("submit-upload");
 
         // Remove the warning before leaving the page
-        if (this.fetchSettings("stopLeaveWarning")) {
+        if (this.Settings.stopLeaveWarning) {
             XM.Window.onbeforeunload = null;
         }
 
@@ -62,8 +63,8 @@ export class UploadUtilities extends RE6Module {
         this.handleParentIDPreview();
 
         // Make sure the pixiv previews load in properly
-        if (this.fetchSettings("fixPixivPreviews"))
-            this.handlePixivPreviews();
+        if (this.Settings.fixPixivPreviews)
+            this.handlePixivPreviews(); // BUG Sometimes does not work. Element no longer exists
     }
 
     /**
@@ -123,25 +124,24 @@ export class UploadUtilities extends RE6Module {
 
             dupesContainer.html(`<span class="fullspan">Checking for duplicates . . .</span>`);
 
-            E621.IQDBQueries.get<APIIQDBResponse>({ "url": encodeURI(value) }).then(
+            RE621.API.IQDBQueries.find({ url: value }).then(
                 (response) => {
-                    // console.log(response);
                     dupesContainer.html("");
 
                     // Sometimes, an empty response is just an empty array
                     // More often than not, it's an array with one malformed object
-                    if (response.length == 0 || (response[0] !== undefined && response[0].post_id == undefined))
+                    const data = response.data;
+                    if (data.length == 0 || (data[0] !== undefined && data[0].post_id == undefined))
                         return;
 
                     $("<h3>")
-                        .html(`<a href="/iqdb_queries?url=${encodeURI(value)}" target="_blank" rel="noopener noreferrer">Duplicates Found:</a> ${response.length}`)
+                        .html(`<a href="/iqdb_queries?url=${encodeURI(value)}" target="_blank" rel="noopener noreferrer">Duplicates Found:</a> ${data.length}`)
                         .appendTo(dupesContainer);
 
-                    for (const entry of response)
+                    for (const entry of data)
                         makePostThumbnail(entry).appendTo(dupesContainer);
                 },
                 (error) => {
-                    console.log(error);
                     dupesContainer.html("");
                     const errorMessage = $("<span>")
                         .addClass("fullspan error")
@@ -243,7 +243,7 @@ export class UploadUtilities extends RE6Module {
             // Fix the source links
             if (timers[id]) clearTimeout(timers[id]);
             timers[id] = window.setTimeout(() => {
-                if (!this.fetchSettings("cleanSourceLinks")) return;
+                if (!this.Settings.cleanSourceLinks) return;
                 $input.val((index, value) => {
                     if (!urlMatch.test(value)) return value;
                     return value.replace(urlMatch, "https://");
@@ -345,7 +345,7 @@ export class UploadUtilities extends RE6Module {
             } else if (urlInput.length > 0) {                           // Remote file URL
 
                 // Fallback - in case the loading of external data is disabled
-                if (!this.fetchSettings("loadImageData")) {
+                if (!this.Settings.loadImageData) {
 
                     output.attr({
                         "data-size": -1,
@@ -361,7 +361,6 @@ export class UploadUtilities extends RE6Module {
                 }
 
                 const curRequest = (urlInput.val() + "").trim();
-                console.log("attempting", prevRequest == curRequest);
                 if (curRequest == prevRequest) {
                     output.attr(prevData);
                     output.trigger("re621:update");
@@ -408,7 +407,6 @@ export class UploadUtilities extends RE6Module {
                             if (parts.length < 2) continue;
                             data[parts[0]] = parts.slice(1).join(": ");
                         }
-                        console.log(data);
 
                         output.attr({
                             "data-size": data["content-length"] || "0",
@@ -467,14 +465,13 @@ export class UploadUtilities extends RE6Module {
                     return;
                 }
 
-                const lookup = await E621.Posts.first<APIPost>({ tags: "id:" + search }, 500);
-                console.log(lookup);
-                if (!lookup) {
+                const lookup = await RE621.API.Posts.get(search);
+                if (lookup.status.code !== 200 || lookup.data.length == 0) {
                     preview.addClass("display-none-important");
                     return;
                 }
 
-                const post = PostData.fromAPI(lookup);
+                const post = Post.fromAPI(lookup.data[0]);
                 preview
                     .attr("href", "/posts/" + post.id)
                     .removeClass("display-none-important");

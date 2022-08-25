@@ -624,6 +624,7 @@ export default class SettingsManager extends Component {
 
     private makeUploadSection(): FormElement {
         const SmartAlias = RE621.Registry.SmartAlias;
+        const UploadUtilities = RE621.Registry.UploadUtilities;
 
         const aliasContainer = $("<textarea>")
             .attr("id", "alias-list-container")
@@ -640,6 +641,113 @@ export default class SettingsManager extends Component {
             },
             [
                 Form.header("Uploads", 3),
+                Form.section({
+                    name: "tags",
+                    columns: 3, width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "upload tags smartalias validation",
+                }, [
+                    Form.checkbox(
+                        {
+                            value: UploadUtilities.Settings.checkDuplicates,
+                            label: `<b>Check Duplicates</b><br />Search for visually similar images on e621 when uploading`,
+                            width: 2,
+                            sync: { base: UploadUtilities, tag: "checkDuplicates" },
+                        },
+                        async (data) => {
+                            UploadUtilities.Settings.checkDuplicates = data;
+                        }
+                    ),
+                    Form.text(`<div class="text-center text-bold">Requires a page reload</div>`),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: UploadUtilities.Settings.addSourceLinks,
+                            label: `<b>Source Link Buttons</b><br />Add utility buttons to the upload source inputs`,
+                            width: 2,
+                            sync: { base: UploadUtilities, tag: "addSourceLinks" },
+                        },
+                        async (data) => {
+                            UploadUtilities.Settings.addSourceLinks = data;
+                        }
+                    ),
+                    Form.text(`<div class="text-center text-bold">Requires a page reload</div>`),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: UploadUtilities.Settings.cleanSourceLinks,
+                            label: `<b>Clean Source Links</b><br />Convert source links to https, and remove the "www" prefix`,
+                            width: 3,
+                            sync: { base: UploadUtilities, tag: "cleanSourceLinks" },
+                        },
+                        async (data) => {
+                            UploadUtilities.Settings.cleanSourceLinks = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: UploadUtilities.Settings.stopLeaveWarning,
+                            label: `<b>Suppress Exit Message</b><br />Removes the confirmation message when leaving the upload page`,
+                            width: 3,
+                            sync: { base: UploadUtilities, tag: "stopLeaveWarning" },
+                        },
+                        async (data) => {
+                            UploadUtilities.Settings.stopLeaveWarning = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.section(
+                        {
+                            width: 3,
+                            columns: 3,
+                            // wrapper: window["re621"].privacy ? "display-none" : undefined, // TODO Make this work
+                        },
+                        [
+                            Form.text(`The following features require access to various domains not explicitly whitelisted by the script.<br />You will be prompted to approve a cross-origin request when that happens.`, 3),
+                            Form.spacer(3),
+
+                            Form.checkbox(
+                                {
+                                    value: UploadUtilities.Settings.loadImageData,
+                                    label: `<b>Fetch Image Data</b><br />Displays image dimensions, format, and file size`,
+                                    width: 2,
+                                    sync: { base: UploadUtilities, tag: "loadImageData" },
+                                },
+                                async (data) => {
+                                    UploadUtilities.Settings.loadImageData = data;
+                                }
+                            ),
+                            Form.text(
+                                `<div class="text-center text-bold">Requires a page reload</div>`
+                            ),
+                            Form.spacer(3),
+
+                            Form.checkbox(
+                                {
+                                    value: UploadUtilities.Settings.fixPixivPreviews,
+                                    label: `<b>Fix Broken Pixiv Previews</b><br />Hacky workaround – might not work reliably.`,
+                                    width: 2,
+                                    sync: { base: UploadUtilities, tag: "fixPixivPreviews" },
+                                },
+                                async (data) => {
+                                    UploadUtilities.Settings.fixPixivPreviews = data;
+                                }
+                            ),
+                            Form.text(
+                                `<div class="text-center text-bold">Requires a page reload</div>`
+                            ),
+                            Form.spacer(3),
+                        ]
+                    ),
+                ]),
+                // -------------------------------
+
+                Form.header("Smart Alias", 3),
                 Form.section({
                     name: "tags",
                     columns: 3, width: 3,

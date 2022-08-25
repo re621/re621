@@ -43,6 +43,7 @@ module.exports = {
         "GM_removeValueChangeListener",
         "GM_setClipboard",
         "GM_getResourceText",
+        "GM_xmlhttpRequest",
     ],
 
     connect: [
