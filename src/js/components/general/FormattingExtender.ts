@@ -1,10 +1,10 @@
 import Danbooru, { DTextButton } from "../../models/api/Danbooru";
+import Debug from "../../models/Debug";
 import { Form } from "../../models/structure/Form";
 import Modal from "../../models/structure/Modal";
-import { RE6Module, Settings } from "../../old.components/RE6Module";
-import { Prompt } from "../../old.components/structure/Prompt";
-import Debug from "../../old.components/utility/Debug";
+import { Prompt } from "../../models/structure/Prompt";
 import Util from "../../utilities/Util";
+import Component from "../Component";
 
 // Available icons for formatting buttons
 const iconDefinitions = {
@@ -55,51 +55,51 @@ const iconDefinitions = {
     "crow": "f520",
 };
 
-export class FormattingExtender extends RE6Module {
+export class FormattingExtender extends Component {
 
     private observer: IntersectionObserver;
 
     public constructor() {
-        super([], true, false, [], "FormattingHelper");
+        super({
+            waitForDOM: true,
+        });
     }
 
     /**
      * Returns a set of default settings values
      * @returns Default settings
      */
-    protected getDefaultSettings(): Settings {
-        return {
-            enabled: true,
-            buttonsActive: [
-                { name: "Bold", icon: "bold", text: "[b]%selection%[/b]" },
-                { name: "Italic", icon: "italic", text: "[i]%selection%[/i]" },
-                { name: "Strikethrough", icon: "strikethrough", text: "[s]%selection%[/s]" },
-                { name: "Underscore", icon: "underscore", text: "[u]%selection%[/u]" },
+    public Settings = {
+        enabled: true,
+        buttonsActive: [
+            { name: "Bold", icon: "bold", text: "[b]%selection%[/b]" },
+            { name: "Italic", icon: "italic", text: "[i]%selection%[/i]" },
+            { name: "Strikethrough", icon: "strikethrough", text: "[s]%selection%[/s]" },
+            { name: "Underscore", icon: "underscore", text: "[u]%selection%[/u]" },
 
-                { name: "Spacer", icon: "spacer", text: "" },
+            { name: "Spacer", icon: "spacer", text: "" },
 
-                { name: "Heading", icon: "heading", text: "h2.%selection%" },
-                { name: "Spoiler", icon: "spoiler", text: "[spoiler]%selection%[/spoiler]" },
-                { name: "Code", icon: "code", text: "`%selection%`" },
-                { name: "Quote", icon: "quote", text: "[quote]%selection%[/quote]" },
-                { name: "Section", icon: "section", text: "[section=Title]%selection%[/section]" },
+            { name: "Heading", icon: "heading", text: "h2.%selection%" },
+            { name: "Spoiler", icon: "spoiler", text: "[spoiler]%selection%[/spoiler]" },
+            { name: "Code", icon: "code", text: "`%selection%`" },
+            { name: "Quote", icon: "quote", text: "[quote]%selection%[/quote]" },
+            { name: "Section", icon: "section", text: "[section=Title]%selection%[/section]" },
 
-                { name: "Spacer", icon: "spacer", text: "" },
+            { name: "Spacer", icon: "spacer", text: "" },
 
-                { name: "Tag", icon: "tag", text: "{{%selection%}}" },
-                { name: "Link", icon: "link", text: "\"%selection%\":" },
-            ],
-            buttonInactive: [
-                { name: "Superscript", icon: "superscript", text: "[sup]%selection%[/sup]" },
-                { name: "Color", icon: "color", text: "[color=]%selection%[/color]" },
-                { name: "Wiki", icon: "wiki", text: "[[%selection%]]" },
-                { name: "Link (Prompted)", icon: "link_prompt", text: "\"%selection%\":%prompt:Address%" },
-            ],
-        };
-    }
+            { name: "Tag", icon: "tag", text: "{{%selection%}}" },
+            { name: "Link", icon: "link", text: "\"%selection%\":" },
+        ],
+        buttonInactive: [
+            { name: "Superscript", icon: "superscript", text: "[sup]%selection%[/sup]" },
+            { name: "Color", icon: "color", text: "[color=]%selection%[/color]" },
+            { name: "Wiki", icon: "wiki", text: "[[%selection%]]" },
+            { name: "Link (Prompted)", icon: "link_prompt", text: "\"%selection%\":%prompt:Address%" },
+        ],
+    };
 
     /** Creates the Formatting Helpers for appropriate textareas */
-    public create(): void {
+    public async create() {
         super.create();
 
         Danbooru.DText.override_formatting(this.processFormattingTag);
@@ -124,8 +124,8 @@ export class FormattingExtender extends RE6Module {
 
     public regenerateButtons(): void {
         const dtextButtons: DTextButton[] = [];
-        for (const button of this.fetchSettings<ButtonDefinition[]>("buttonsActive"))
-            dtextButtons.push(ButtonDefinition.toEsixButton(button));
+        for (const button of this.Settings.buttonsActive)
+            dtextButtons.push(ButtonDefinition.toESixButton(button));
         Danbooru.DText.buttons = dtextButtons;
         this.reloadButtonToolbar();
     }
@@ -242,7 +242,7 @@ class Formatter {
 
         this.wrapper.on("e621:reload", () => {
 
-            const buttonList = this.module.fetchSettings<ButtonDefinition[]>("buttonsActive"),
+            const buttonList = this.module.Settings.buttonsActive,
                 children = this.toolbar.children().get();
             Debug.log("Formatter:Toolbar", buttonList.length);
 
@@ -292,7 +292,7 @@ class Formatter {
 
             // Redraw the inactive button drawer
             this.bdrawer.html("");
-            const buttonList = this.module.fetchSettings<ButtonDefinition[]>("buttonInactive");
+            const buttonList = this.module.Settings.buttonInactive;
             Debug.log("Formatter:Drawer", buttonList.length);
             for (const button of buttonList) {
                 const icon = ButtonDefinition.getIcon(button.icon);
@@ -496,10 +496,8 @@ class Formatter {
 
         // Prevent empty toolbar from being saved.
         if (activeData.length > 0)
-            await this.module.pushSettings({
-                "buttonsActive": activeData,
-                "buttonInactive": inactiveData,
-            });
+            this.module.Settings.buttonsActive = activeData;
+        this.module.Settings.buttonInactive = inactiveData;
 
         this.module.regenerateButtons();
     }
@@ -510,9 +508,9 @@ class Formatter {
      */
     private async createButton(config: ButtonDefinition): Promise<void> {
         config = ButtonDefinition.validate(config);
-        const inactiveButtons = this.module.fetchSettings<ButtonDefinition[]>("buttonInactive");
+        const inactiveButtons = this.module.Settings.buttonInactive;
         inactiveButtons.push(config);
-        await this.module.pushSettings("buttonInactive", inactiveButtons);
+        this.module.Settings.buttonInactive = inactiveButtons;
         this.module.regenerateButtons();
     }
 
@@ -542,7 +540,7 @@ type ButtonDefinition = {
 }
 
 namespace ButtonDefinition {
-    export function toEsixButton(value: ButtonDefinition): DTextButton {
+    export function toESixButton(value: ButtonDefinition): DTextButton {
         const icon = ButtonDefinition.getIcon(value.icon);
         if (!icon) return null;
         return {

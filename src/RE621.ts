@@ -3,6 +3,7 @@ import css from "./css/style.module.scss";
 import Assets from "./js/cache/Assets";
 
 import { ComponentList } from "./js/components/Component";
+import { FormattingExtender } from "./js/components/general/FormattingExtender";
 import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/header/HeaderButtons";
 import HeaderCustomizer from "./js/components/header/HeaderCustomizer";
@@ -40,6 +41,9 @@ export default class RE621 {
         ThemeCustomizer,
         HeaderCustomizer,
         HeaderButtons,
+
+        // General
+        FormattingExtender,
 
         // Posts
         ThumbnailEngine,
@@ -158,6 +162,9 @@ interface ComponentListAnnotated extends ComponentList {
     HeaderCustomizer?: HeaderCustomizer,
     ThemeCustomizer?: ThemeCustomizer,
     DMailHeaderButton?: HeaderButtons,
+
+    // General
+    FormattingExtender?: FormattingExtender,
 
     // Posts
     ThumbnailEngine?: ThumbnailEngine,
