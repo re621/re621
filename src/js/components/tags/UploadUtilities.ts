@@ -289,10 +289,11 @@ export class UploadUtilities extends Component {
 
         const output = $("#preview-sidebar div.upload_preview_dims").first()
             .on("re621:update", () => {
+                const data = output.data();
                 output.html([
-                    output.attr("data-width") == "-1" ? "0×0" : `${output.attr("data-width")}×${output.attr("data-height")}`,
-                    output.attr("data-type") !== "UNK" ? `${output.attr("data-type").toUpperCase()}` : undefined,
-                    output.attr("data-size") !== "-1" ? `${Util.Size.format(output.attr("data-size"))}` : undefined
+                    data.width == "-1" ? "0×0" : `${data.width}×${data.height}`,
+                    data.type !== "UNK" ? `${data.type.toUpperCase()}` : undefined,
+                    data.size !== "-1" ? `${Util.Size.format(data.size)}` : undefined
                 ].filter(n => n).join("&emsp;"));
             });
         const image = $("#preview-sidebar img.upload_preview_img").first();
