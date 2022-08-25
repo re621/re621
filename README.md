@@ -1,8 +1,18 @@
-![RE621](./assets/logo.png)
-
- [![Releases](https://img.shields.io/github/v/release/re621/re621?label=version&style=flat-square)](https://github.com/re621/re621/releases)
-[![Issues](https://img.shields.io/github/issues/re621/re621?&style=flat-square)](https://github.com/re621/re621/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/re621/re621?style=flat-square)](https://github.com/re621/re621/pulls)
+<p align="center">
+    <img src="./assets/logo.png" alt="RE621">
+    <br />
+    <span>
+        <a href="https://github.com/re621/re621/releases">
+            <img src="https://img.shields.io/github/v/release/re621/re621?label=version&style=flat-square" alt="Releases">
+        </a>
+        <a href="https://github.com/re621/re621/issues">
+            <img src="https://img.shields.io/github/issues/re621/re621?&style=flat-square" alt="Issues">
+        </a>
+        <a href="https://github.com/re621/re621/pulls">
+            <img src="https://img.shields.io/github/issues-pr/re621/re621?style=flat-square" alt="Pull Requests">
+        </a>
+    </span>
+</p>
 
 
 RE621 is a comprehensive project created to improve the basic user experience while browsing e621.net.
