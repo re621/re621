@@ -371,9 +371,9 @@ export class SubscriptionManager extends RE6Module {
                         "24": "24 hours",
                     },
                     async (data) => {
-                        data = Math.max(parseFloat(data) * Util.Time.HOUR, -1);
-                        if (data < Util.Time.HOUR && data != -1) data = Util.Time.HOUR;
-                        await instance.pushSettings("updateInterval", data);
+                        let value = Math.max(parseFloat(data) * Util.Time.HOUR, -1);
+                        if (value < Util.Time.HOUR && value != -1) value = Util.Time.HOUR;
+                        await instance.pushSettings("updateInterval", value);
                         SubscriptionManager.trigger("timer." + instance.getTrackerID());
                     }
                 ),

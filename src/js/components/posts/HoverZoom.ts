@@ -319,9 +319,19 @@ export default class HoverZoom extends Component {
 
 }
 
-enum ImageZoomMode {
+export enum ImageZoomMode {
     Disabled = 0,
     Hover = 1,
     HoldShift = 2,
     ToggleShift = 3,
+}
+export namespace ImageZoomMode {
+    export function fromString(input: number): ImageZoomMode {
+        switch (input) {
+            case 1: return ImageZoomMode.Hover;
+            case 2: return ImageZoomMode.HoldShift;
+            case 3: return ImageZoomMode.ToggleShift;
+            default: return ImageZoomMode.Disabled
+        }
+    }
 }

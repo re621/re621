@@ -132,3 +132,11 @@ export enum ImageLoadMethod {
     Sample = "sample",
     Hover = "hover",
 }
+export namespace ImageLoadMethod {
+    export function fromString(input: string): ImageLoadMethod {
+        input = input.toLowerCase();
+        for (const value of Object.values(ImageLoadMethod))
+            if (value == input) return value;
+        return ImageLoadMethod.Preview;
+    }
+}

@@ -276,7 +276,7 @@ export class Form implements PreparedStructure {
      * @param options Element configuration
      * @param changed Input change callback
      */
-    public static input(options?: InputElementOptions, changed?: InputChangeEvent): FormElement {
+    public static input(options?: InputElementOptions, changed?: InputChangeEvent<string>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -343,7 +343,7 @@ export class Form implements PreparedStructure {
      * @param options Element configuration
      * @param changed Input change callback
      */
-    public static textarea(options?: InputElementOptions, changed?: InputChangeEvent): FormElement {
+    public static textarea(options?: InputElementOptions, changed?: InputChangeEvent<string>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -478,7 +478,7 @@ export class Form implements PreparedStructure {
      * Creates a key input FormElement based on the provided parameters  
      * @param options Element configuration
      */
-    public static key(options?: ElementOptions, changed?: InputChangeEvent): FormElement {
+    public static key(options?: ElementOptions, changed?: InputChangeEvent<string>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -608,8 +608,9 @@ export class Form implements PreparedStructure {
     /**
      * Creates a file input FormElement based on the provided parameters  
      * @param options Element configuration
+     * TODO Changed function type
      */
-    public static file(options?: ElementOptions & { accept: string }, changed?: InputChangeEvent): FormElement {
+    public static file(options?: ElementOptions & { accept: string }, changed?: InputChangeEvent<unknown>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -641,7 +642,7 @@ export class Form implements PreparedStructure {
         return new FormElement($element, $input, $label);
     }
 
-    public static icon(options?: ElementOptions, content?: { [name: string]: any }, changed?: InputChangeEvent): FormElement {
+    public static icon(options?: ElementOptions, content?: { [name: string]: any }, changed?: InputChangeEvent<string>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -719,7 +720,7 @@ export class Form implements PreparedStructure {
      * @param options Element configuration
      * @param changed Input change callback
      */
-    public static button(options?: ElementOptions & { "type"?: "submit" | "button" }, changed?: InputChangeEvent): FormElement {
+    public static button(options?: ElementOptions & { "type"?: "submit" | "button" }, changed?: InputChangeEvent<true>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -772,7 +773,7 @@ export class Form implements PreparedStructure {
      * @param options Element configuration
      * @param changed Input change callback
      */
-    public static checkbox(options?: ElementOptions, changed?: InputChangeEvent): FormElement {
+    public static checkbox(options?: ElementOptions, changed?: InputChangeEvent<boolean>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         const $element = FormUtils
@@ -837,7 +838,7 @@ export class Form implements PreparedStructure {
      * @param content Select options data
      * @param changed Input change callback
      */
-    public static select(options?: ElementOptions, content?: SelectOptionSet | SelectOptionFunction, changed?: InputChangeEvent): FormElement {
+    public static select(options?: ElementOptions, content?: SelectOptionSet | SelectOptionFunction, changed?: InputChangeEvent<string>): FormElement {
         if (!options.name) options.name = Util.ID.make();
 
         let $label: JQuery<HTMLElement>;
@@ -1155,4 +1156,4 @@ type SelectOptionFunction = () => SelectOptionSet;
 type ElementInputValue = (element: JQuery<HTMLElement>) => void;
 
 type FormSubmitEvent = (values: any, form: Form) => void;
-type InputChangeEvent = (value: any, input: JQuery<HTMLElement>) => void;
+type InputChangeEvent<T> = (value: T, input: JQuery<HTMLElement>) => void;

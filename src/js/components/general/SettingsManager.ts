@@ -11,6 +11,9 @@ import { Form, FormElement } from "../../models/structure/Form";
 import Thumbnail from "../../models/structure/Thumbnail";
 import Util from "../../utilities/Util";
 import Component from "../Component";
+import { ImageZoomMode } from "../posts/HoverZoom";
+import { ImageLoadMethod } from "../posts/ThumbnailEngine";
+import { TagOrder } from "../tags/SmartAlias";
 
 export default class SettingsManager extends Component {
 
@@ -324,7 +327,9 @@ export default class SettingsManager extends Component {
                                 "sample": "Always",
                             },
                             async (data) => {
-                                ThumbnailEngine.Settings.loadMethod = data;
+                                const value = ImageLoadMethod.fromString(data);
+                                if (!value) return;
+                                ThumbnailEngine.Settings.loadMethod = value;
                             }
                         ),
                         Form.spacer(2, true),
@@ -414,6 +419,7 @@ export default class SettingsManager extends Component {
                         columns: 2,
                         width: 2,
                         wrapper: "settings-section searchable-section",
+                        tags: "thumbnail highlight visited post hide info colored counter"
                     }, [
                         Form.checkbox(
                             {
@@ -603,7 +609,9 @@ export default class SettingsManager extends Component {
                                 3: "Toggle Shift",
                             },
                             async (data) => {
-                                HoverZoom.Settings.mode = data;
+                                let value = parseInt(data);
+                                if (isNaN(value)) value = ImageZoomMode.Disabled;
+                                HoverZoom.Settings.mode = ImageZoomMode.fromString(value);
                             }
                         ),
                         Form.spacer(3, true),
@@ -841,7 +849,7 @@ export default class SettingsManager extends Component {
                             "alphabetical": "Alphabetical",
                             "grouped": "Grouped by Category",
                         },
-                        (data) => { SmartAlias.Settings.tagOrder = data; }
+                        (data) => { SmartAlias.Settings.tagOrder = TagOrder.fromString(data); }
                     ),
                     Form.spacer(3),
 

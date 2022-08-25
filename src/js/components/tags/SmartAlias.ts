@@ -818,20 +818,19 @@ interface TagAlias {
     [name: string]: string;
 }
 
-enum TagOrder {
+export enum TagOrder {
     Default = "default",
     Alphabetical = "alphabetical",
     Grouped = "grouped",
 }
 
-namespace TagOrder {
-
+export namespace TagOrder {
     export function fromString(input: string): TagOrder {
+        input = input.toLowerCase();
         for (const value of Object.values(TagOrder))
             if (value == input) return value;
         return TagOrder.Default;
     }
-
 }
 
 type ParsedTag = {
