@@ -24,10 +24,6 @@ export default class ThumbnailLike {
     public draw(): JQuery<HTMLElement> { return null; }
     public clear(): JQuery<HTMLElement> { return null; }
 
-    private static getPost(element: Element): Post {
-        return $(element).data("$post");
-    }
-
     public static getThumbnail(element: Element): ThumbnailLike {
         return $(element).data("$thumb");
     }

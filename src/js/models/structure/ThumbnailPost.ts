@@ -2,7 +2,7 @@ import Blacklist, { PostVisibility } from "../data/Blacklist";
 import Post from "../data/Post";
 import ThumbnailLike from "./ThumbnailLike";
 
-export class ThumbnailPost extends ThumbnailLike {
+export default class ThumbnailPost extends ThumbnailLike {
 
     public constructor(post: Post) {
         super(post);
