@@ -77,7 +77,7 @@ if (isDev) {
     delete metadata.downloadURL;
 
     if (process.env.INJ_TARGET == "firefox") metadata.require.push("http://localhost:7000/script.user.js");
-    else metadata.require.push(path.resolve(__dirname, "dist/script.user.js"));
+    else metadata.require.push("file://" + path.resolve(__dirname, "dist/script.user.js"));
 
     files.push({
         entry: "./bin/empty.js",
