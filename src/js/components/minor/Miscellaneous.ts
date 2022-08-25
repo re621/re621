@@ -98,10 +98,6 @@ export default class Miscellaneous extends Component {
 
         if (Page.matches(PageDefinition.upload)) {
 
-            // Switch to the simple form
-            if (Page.getQueryParameter("simple-form") && $("#post_characters").length > 0)
-                $(".the_secret_switch")[0].click();
-
             // Add a space after the tags, or autocomplete triggers
             const tags = Page.getQueryParameter("tags");
             if (tags) {
