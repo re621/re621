@@ -278,7 +278,7 @@ export class UploadUtilities extends Component {
         $("input.upload-source-input").trigger("input");
 
         function getLinkEval(link: string): string {
-            if (!/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(link)) return "invalid";
+            if (!/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/.test(link)) return "invalid";
             if (!link.startsWith("https")) return "http";
             return "";
         }
@@ -510,7 +510,6 @@ export class UploadUtilities extends Component {
                 imageURL = new URL(value);
                 if (imageURL.hostname !== "i.pximg.net") return;
             } catch (e) { return; }
-            if (!imageURL) return;
 
             // Start the loading process
             // image.attr("src", Util.DOM.getLoadingImage()); // TODO missing image
