@@ -18,7 +18,7 @@ export default class PostViewer extends Component {
     public async create() {
 
         const element = $("#image-container");
-        if (!element) return;
+        if (element.length == 0) return;
         const post = Post.fromThumbnail(element);
         PostCache.add(post);
         this.thumbnail = new ThumbnailPost(post);
@@ -31,8 +31,9 @@ export default class PostViewer extends Component {
             this.thumbnail.updateVisibility();
     }
 
-    public getViewingPost(): ThumbnailPost {
-        return this.thumbnail;
+    public getViewingPost(): Post {
+        if (this.thumbnail) return this.thumbnail.post;
+        return null;
     }
 
 }
