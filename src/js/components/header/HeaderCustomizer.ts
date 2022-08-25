@@ -289,9 +289,10 @@ export default class HeaderCustomizer extends Component {
         if (config.title !== "") $link.attr("title", this.processTabVariables(config.title));
         if (config.href !== "") $link.attr("href", encodeURI(this.processTabVariables(config.href)));
 
-        if (config.href === "/forum_topics" && this.hasForumUpdates)
+        const compareHREF = config.href.toLowerCase();
+        if (compareHREF === "/forum_topics" && this.hasForumUpdates)
             $link.addClass("tab-has-updates");
-        else if ((config.href == "/users/%userID%" || config.href == "/users/home") && !User.loggedIn) {
+        else if ((compareHREF == "/users/%userid%" || compareHREF == "/users/home") && !User.loggedIn) {
             $link
                 .attr("href", "/session/new")
                 .addClass("tab-login")
