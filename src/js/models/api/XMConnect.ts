@@ -23,7 +23,7 @@ export default class XMConnect {
      * For extensions, the domain name MUST be listed in the permissions.
      * @param details Request details
      */
-    public static xmlHttpPromise(details: XMConnectRequest): Promise<any> {
+    public static xmlHttpPromise(details: XMConnectRequest): Promise<GMxmlHttpRequestResponse> {
         const validDetails = XMConnect.validateXHRDetails(details);
         return new Promise((resolve, reject) => {
             const callbacks = {

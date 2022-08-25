@@ -1,5 +1,6 @@
 import ZestyAPI from "@re621/zestyapi";
 import css from "./css/style.module.scss";
+import Assets from "./js/cache/Assets";
 
 import { ComponentList } from "./js/components/Component";
 import SettingsManager from "./js/components/general/SettingsManager";
@@ -74,6 +75,9 @@ export default class RE621 {
             userAgent: Script.userAgent,
             debug: Debug.Connect,
         });
+
+        // Load assets
+        await Assets.init();
 
         // Initialize basic functionality
         let headLoaded: Promise<void>, bodyLoaded: Promise<void>;

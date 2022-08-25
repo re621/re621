@@ -28,11 +28,6 @@ module.exports = {
         "https://cdnjs.cloudflare.com/ajax/libs/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js",
     ],
 
-    resource: {
-        "images": "https://raw.githubusercontent.com/bitWolfy/re621/dynamic/assets/images.json",
-        "dnpcache": "https://raw.githubusercontent.com/re621/dnpcache/main/data.json",
-    },
-
     grant: [
         "GM_info",
         "GM_setValue",
