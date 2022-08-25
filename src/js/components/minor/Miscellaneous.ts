@@ -69,7 +69,8 @@ export default class Miscellaneous extends Component {
 
         // Add "Upload Superior" button
         if (Page.matches(PageDefinition.posts.view)) {
-            const post = RE621.Registry.PostViewer.getViewingPost().post;
+            const post = RE621.Registry.PostViewer.getViewingPost();
+            if (!post) return;
 
             // This should trim tags that might not be appropriate in the new version
             // Image ratio tags should also be here... but there are just too many of them
@@ -168,7 +169,9 @@ export default class Miscellaneous extends Component {
     }
 
     private addRemoveFromSetButton(): void {
-        const post = RE621.Registry.PostViewer.getViewingPost().post;
+        const post = RE621.Registry.PostViewer.getViewingPost();
+        if (!post) return;
+
         for (const link of $("div.set-nav span.set-name a").get()) {
             const $link = $(link),
                 id = parseInt($link.attr("href").replace("/post_sets/", ""));
