@@ -6,7 +6,8 @@ const metadata = require("./bin/userscript-header");
 
 const isDev = process.env.NODE_ENV == "development";
 
-const userscript = {
+const files = [];
+files.push({
     entry: "./src/RE621.ts",
     mode: isDev ? "development" : "production",
     devtool: isDev ? "inline-cheap-source-map" : isDev,
@@ -67,9 +68,29 @@ const userscript = {
         "../../ZestyAPI/dist/ZestyAPI",
     ],
     cache: true,
-};
+});
 
-const metascript = {
+if (isDev) {
+    metadata.name = "RE621 Injector";
+    metadata.version = "10.0.0";
+    delete metadata.updateURL;
+    delete metadata.downloadURL;
+
+    if (process.env.INJ_TARGET == "firefox") metadata.require.push("http://localhost:7000/script.user.js");
+    else metadata.require.push(path.resolve(__dirname, "dist/script.user.js"));
+
+    files.push({
+        entry: "./bin/empty.js",
+        mode: "production",
+        plugins: [
+            new UserscriptWebpackPlugin({ metadata }),
+        ],
+        output: {
+            filename: "injector.meta.js",
+            path: path.resolve(__dirname, "dist"),
+        },
+    });
+} else files.push({
     entry: "./bin/empty.js",
     mode: "production",
     plugins: [
@@ -93,9 +114,6 @@ const metascript = {
             }
         ]
     },
-};
-
-const files = [userscript];
-if (!isDev) files.push(metascript);
+});
 
 module.exports = files;

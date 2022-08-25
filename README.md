@@ -44,7 +44,7 @@ For bug reports, suggestions, and feature requests, head on over to the [issue t
 
 ## Building the Script
 
-The script is build with webpack.
+The script is built with webpack.
 
 * Start by cloning the repo as normal 
 * Run `npm i` to install dependencies
@@ -53,9 +53,11 @@ The script is build with webpack.
 That will create a production build of the script.  
 Artifacts are placed in the `dist` folder, which should now contain `script.user.js` and `script.meta.js`.
 
-In order to build a dev version, set `NODE_ENV` to `development`.  
+In order to build a dev version, set `NODE_ENV` environment variable to `development`.  
 The easiest way to do so is to create a `.env` file containing `NODE_ENV="development"`.  
-In the development mode, only `script.user.js` will be produced, in addition to injector scripts for both Firefox and Chrome.
+In the development mode, the `script.meta.js` file will not be produced. Instead, an injector script will be generated.
 
 An injector script loads the main script by referencing a local file.  
 This works fine in Chrome; however, in Firefox you will have to run a [TamperDAV server](https://github.com/Tampermonkey/tamperdav).
+
+By default, the Chrome version of the script is produced. In order to switch to building a Firefox version, set the `INJ_TARGET` environment variable to `firefox`.
