@@ -13,6 +13,7 @@ import QuoteTools from "./js/components/minor/QuoteTools";
 import StickyElements from "./js/components/minor/StickyElements";
 import { WikiEnhancer } from "./js/components/minor/WikiEnhancer";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
+import { CommentBlacklist } from "./js/components/posts/CommentBlacklist";
 import HoverZoom from "./js/components/posts/HoverZoom";
 import PostViewer from "./js/components/posts/PostViewer";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
@@ -46,6 +47,7 @@ export default class RE621 {
         PostViewer,
         BlacklistUI,
         HoverZoom,
+        CommentBlacklist,
 
         // Tags
         SmartAlias,
@@ -163,6 +165,7 @@ interface ComponentListAnnotated extends ComponentList {
     PostViewer?: PostViewer,
     BlacklistUI?: BlacklistUI,
     HoverZoom?: HoverZoom,
+    CommentBlacklist?: CommentBlacklist,
 
     // Tags
     SmartAlias?: SmartAlias,

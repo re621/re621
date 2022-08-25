@@ -386,6 +386,12 @@ export class Form implements PreparedStructure {
         if (options.pattern) $input.attr("pattern", options.pattern);
         if (options.required) $input.attr("required", '');
 
+        if (options.sync)
+            options.sync.base.on("settings." + options.sync.tag + "-remote", (_event, data) => {
+                if (Array.isArray(data)) $input.val(data.join("\n"));
+                else $input.val(data as any);
+            });
+
         if (changed !== undefined) {
             let timer: number;
             $input.on("input", () => {

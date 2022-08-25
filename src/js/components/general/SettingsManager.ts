@@ -247,6 +247,7 @@ export default class SettingsManager extends Component {
         const BlacklistUI = RE621.Registry.BlacklistUI;
         const ThumbnailResizeButtons = RE621.Registry.ThumbnailResizeButtons;
         const HoverZoom = RE621.Registry.HoverZoom;
+        const CommentBlacklist = RE621.Registry.CommentBlacklist;
 
         const preview = $("<div>").addClass("thumb-preview");
         RE621.API.Posts.find({ tags: ["order:random", "rating:safe", "score:>100", "-meme", "-comic", "-animated"], limit: 1 }).then((response) => {
@@ -542,6 +543,35 @@ export default class SettingsManager extends Component {
                         Form.spacer(2, true),
 
                         // TODO Whitelist
+                    ]),
+                ]),
+
+                Form.section({
+                    name: "comment-blacklist",
+                    columns: 3,
+                    width: 3,
+                }, [
+                    Form.header("Comment Blacklist", 3),
+                    Form.section({
+                        name: "section",
+                        columns: 3,
+                        width: 3,
+                        wrapper: "settings-section searchable-section",
+                        tags: "blacklist filter exclude comment hide"
+                    }, [
+                        Form.subheader("Comment Blacklist", "Comments containing the following words will be hidden from view.<br />The syntax is similar to the one used in post blacklist.", 3),
+                        Form.textarea(
+                            {
+                                name: "input",
+                                value: CommentBlacklist.Settings.filters.join("\n"),
+                                width: 3,
+                                sync: { base: CommentBlacklist, tag: "filters" },
+                            },
+                            (data: string) => {
+                                CommentBlacklist.Settings.filters = data.split("\n").filter(n => n);
+                            }
+                        ),
+                        Form.spacer(2, true),
                     ]),
                 ]),
 
