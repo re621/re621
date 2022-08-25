@@ -14,9 +14,10 @@ import { WikiEnhancer } from "./js/components/minor/WikiEnhancer";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
 import HoverZoom from "./js/components/posts/HoverZoom";
 import PostViewer from "./js/components/posts/PostViewer";
-import SmartAlias from "./js/components/posts/SmartAlias";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import ThumbnailResizeButtons from "./js/components/posts/ThumbnailResizeButtons";
+import { EditTracker } from "./js/components/tags/EditTracker";
+import SmartAlias from "./js/components/tags/SmartAlias";
 import Danbooru from "./js/models/api/Danbooru";
 import Page, { IgnoredPages, PageDefinition } from "./js/models/data/Page";
 import Script from "./js/models/data/Script";
@@ -43,7 +44,10 @@ export default class RE621 {
         PostViewer,
         BlacklistUI,
         HoverZoom,
+
+        // Tags
         SmartAlias,
+        EditTracker,
 
         // Minor
         Miscellaneous,
@@ -153,7 +157,10 @@ interface ComponentListAnnotated extends ComponentList {
     PostViewer?: PostViewer,
     BlacklistUI?: BlacklistUI,
     HoverZoom?: HoverZoom,
+
+    // Tags
     SmartAlias?: SmartAlias,
+    EditTracker?: EditTracker,
 
     // Minor
     Miscellaneous?: Miscellaneous,

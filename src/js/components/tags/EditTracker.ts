@@ -1,14 +1,16 @@
 import { PageDefinition } from "../../models/data/Page";
-import { RE6Module } from "../../old.components/RE6Module";
 import Util from "../../utilities/Util";
+import Component from "../Component";
 
-export class EditTracker extends RE6Module {
+export class EditTracker extends Component {
 
     public constructor() {
-        super(PageDefinition.posts.view);
+        super({
+            constraint: PageDefinition.posts.view,
+        });
     }
 
-    public create(): void {
+    public async create() {
 
         if ($("#post_tag_string").is(":visible")) this.listen();
         else { $("body").one("click.re621", "#post-edit-link, #side-edit-link", () => { this.listen(); }); }
