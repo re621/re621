@@ -10,7 +10,7 @@ export default class PostViewer extends Component {
 
     public constructor() {
         super({
-            constraint: PageDefinition.post,
+            constraint: PageDefinition.posts.view,
             waitForDOM: "#image-container",
         });
     }

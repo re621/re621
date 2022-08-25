@@ -6,7 +6,7 @@ import { BetterSearch } from "../posts/BetterSearch";
 export class ScriptAssistant extends RE6Module {
 
     public constructor() {
-        super(PageDefinition.search, true, false, [BetterSearch]);
+        super(PageDefinition.posts.list, true, false, [BetterSearch]);
     }
 
     public create(): void {

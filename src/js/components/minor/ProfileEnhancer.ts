@@ -5,7 +5,7 @@ export default class ProfileEnhancer extends Component {
 
     public constructor() {
         super({
-            constraint: PageDefinition.profile,
+            constraint: PageDefinition.users.view,
             waitForDOM: "body",
         });
     }

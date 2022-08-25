@@ -7,7 +7,7 @@ import { BetterSearch } from "../posts/BetterSearch";
 export class ProgressTracker extends RE6Module {
 
     public constructor() {
-        super(PageDefinition.search, true, true, [BetterSearch]);
+        super(PageDefinition.posts.list, true, true, [BetterSearch]);
     }
 
     public getDefaultSettings(): Settings {

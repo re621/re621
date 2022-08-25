@@ -13,7 +13,7 @@ export class ForumTracker extends SubscriptionTracker {
 
     protected buttonSelect = {
         major: {
-            regex: [PageDefinition.forumPost],
+            regex: [PageDefinition.forums.view],
             selector: "#c-forum-topics > #a-show > h1:first",
         }
     };

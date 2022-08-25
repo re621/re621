@@ -53,7 +53,7 @@ export class UtilDOM {
 
     public static setupSearchBox() {
 
-        if (Page.matches([PageDefinition.search, PageDefinition.post, PageDefinition.favorites]) && $("aside#sidebar").length > 0) {
+        if (Page.matches([PageDefinition.posts.list, PageDefinition.posts.view, PageDefinition.favorites]) && $("aside#sidebar").length > 0) {
             const $searchContainer = $("<div>").attr("id", "re621-search").prependTo("aside#sidebar");
             $("#search-box").appendTo($searchContainer);
             $("#mode-box").appendTo($searchContainer);

@@ -11,7 +11,7 @@ export default class QuoteTools extends Component {
 
     public constructor() {
         super({
-            constraint: [PageDefinition.post, PageDefinition.forum]
+            constraint: [PageDefinition.posts.view, PageDefinition.forums.view] // TODO Comments list?
         });
     }
 
@@ -38,7 +38,7 @@ export default class QuoteTools extends Component {
      * Handles the "Reply" button functionality
      */
     private handleQuoteButton(): void { // TODO Move to a separate module
-        if (Page.matches(PageDefinition.forum)) {
+        if (Page.matches(PageDefinition.forums.view)) {
             $(".forum-post-reply-link").each(function (index, element) {
                 const $newLink = $("<a>")
                     .attr("href", "#")
@@ -52,7 +52,7 @@ export default class QuoteTools extends Component {
                 const $parent = $(event.target).parents("article.forum-post");
                 this.quote($parent, "forum", $parent.data("forum-post-id"), $("#forum_post_body_for_"), $("a#new-response-link"));
             });
-        } else if (Page.matches(PageDefinition.post)) {
+        } else if (Page.matches(PageDefinition.posts.view)) {
             $(".comment-reply-link").each(function (index, element) {
                 const $newLink = $("<a>")
                     .attr("href", "#")
@@ -73,7 +73,7 @@ export default class QuoteTools extends Component {
      * Generates the "Copy ID" button on comments and forum posts 
      */
     private handleIDButton(): void {
-        if (Page.matches(PageDefinition.forum)) {
+        if (Page.matches(PageDefinition.forums.view)) {
             // Using li:last-of-type to put the button before the vote menu
             $(".content-menu > menu > li:last-of-type").each(function (index, element) {
                 const $copyElement = $("<a>")
@@ -88,7 +88,7 @@ export default class QuoteTools extends Component {
                 const $post = $(event.target).parents("article.forum-post");
                 XM.Util.setClipboard($post.data("forum-post-id"));
             });
-        } else if (Page.matches(PageDefinition.post)) {
+        } else if (Page.matches(PageDefinition.posts.view)) {
             $(".content-menu > menu").each(function (index, element) {
                 const $element = $(element);
 
@@ -145,10 +145,10 @@ export default class QuoteTools extends Component {
 
     /** Emulates the clicking on "New Comment" link */
     private openNewComment(): void {
-        if (Page.matches(PageDefinition.post)) {
+        if (Page.matches(PageDefinition.posts.view)) {
             $("menu#post-sections > li > a[href$=comments]")[0].click();
-            $("a.expand-comment-response")[0].click();
-        } else if (Page.matches(PageDefinition.forum)) { $("a#new-response-link")[0].click(); }
+            $("a.expand-comment-response")[0].click(); // TODO Is this necessary?
+        } else if (Page.matches(PageDefinition.forums.view)) { $("a#new-response-link")[0].click(); }
     }
 
     /*

@@ -20,7 +20,7 @@ export class JanitorEnhancements extends RE6Module {
 
     public create(): void {
 
-        if (Page.matches(PageDefinition.post)) {
+        if (Page.matches(PageDefinition.posts.view)) {
             this.cleanupRecords();
             this.decorateArtistName();
         }
@@ -46,7 +46,7 @@ export class JanitorEnhancements extends RE6Module {
     }
 
     private approvePost(): void {
-        if (!Page.matches(PageDefinition.post)) return;
+        if (!Page.matches(PageDefinition.posts.view)) return;
         $("a.approve-post-link").first()[0].click()
     }
 

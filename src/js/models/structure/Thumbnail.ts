@@ -86,7 +86,7 @@ class ThumbnailParts {
     public static renderImage(thumbnail: Thumbnail): JQuery<HTMLElement> {
 
         let query = "";
-        if (Page.matches(PageDefinition.search)) query = Page.getQueryParameter("tags");
+        if (Page.matches(PageDefinition.posts.list)) query = Page.getQueryParameter("tags");
         // else if (Page.matches(PageDefinition.favorites)) query = BetterSearch.originalTags; // TODO Fix this
 
         // Basic structure

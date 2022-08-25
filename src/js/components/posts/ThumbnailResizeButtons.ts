@@ -10,7 +10,7 @@ export default class ThumbnailResizeButtons extends Component {
 
     public constructor() {
         super({
-            constraint: [PageDefinition.search, PageDefinition.favorites],
+            constraint: [PageDefinition.posts.list, PageDefinition.favorites], // TODO Pool page?
             dependencies: ["ThumbnailEngine"],
             waitForDOM: "menu.subnav",
         });

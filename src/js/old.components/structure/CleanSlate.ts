@@ -74,7 +74,7 @@ export class CleanSlate {
         });
 
         // Clear the existing thumbnails
-        if (Page.matches([PageDefinition.search, PageDefinition.favorites]) && Util.LS.getItem("re621.bs.enabled") === "true") {
+        if (Page.matches([PageDefinition.posts.list, PageDefinition.favorites]) && Util.LS.getItem("re621.bs.enabled") === "true") {
             actions.push({
                 selector: "div.paginator menu",
                 action: () => {
@@ -88,7 +88,7 @@ export class CleanSlate {
             });
         }
 
-        if (Page.matches(PageDefinition.post)) {
+        if (Page.matches(PageDefinition.posts.view)) {
             actions.push({
                 selector: "#image-container",
                 action: () => {

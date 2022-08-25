@@ -6,14 +6,14 @@ export class WikiEnhancer extends Component {
 
     public constructor() {
         super({
-            constraint: [PageDefinition.wiki, PageDefinition.artist],
+            constraint: [PageDefinition.wiki.view, PageDefinition.artists.view],
             waitForDOM: true,
         });
     }
 
     public async create() {
 
-        const $title = Page.matches(PageDefinition.artist)
+        const $title = Page.matches(PageDefinition.artists.view)
             ? $("#a-show h1 a:first")
             : $("#wiki-page-title a:first");
         if ($title.length == 0) return;

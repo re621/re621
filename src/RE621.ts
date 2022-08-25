@@ -98,7 +98,7 @@ export default class RE621 {
                 Util.DOM.patchHeader();
             });
 
-            if (Page.matches([PageDefinition.search, PageDefinition.post, PageDefinition.favorites]))
+            if (Page.matches([PageDefinition.posts.list, PageDefinition.posts.view, PageDefinition.favorites]))
                 PageObserver.watch("section#mode-box").then((result) => {
                     if (!result) return;
                     Util.DOM.setupSearchBox();

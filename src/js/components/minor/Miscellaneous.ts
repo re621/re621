@@ -49,13 +49,13 @@ export default class Miscellaneous extends Component {
         }
 
         // Fix the forum title
-        if (Page.matches(PageDefinition.forum)) {
+        if (Page.matches(PageDefinition.forums.any)) {
             const title = /^(?:Forum - )(.+)(?: - (e621|e926))$/g.exec(document.title);
             if (title) document.title = `${title[1]} - Forum - ${title[2]}`;
         }
 
         // Minor changes to the set cover page
-        if (Page.matches(PageDefinition.set))
+        if (Page.matches(PageDefinition.sets.view))
             this.tweakSetPage();
 
         if (Page.matches(PageDefinition.changes)) {
@@ -68,7 +68,7 @@ export default class Miscellaneous extends Component {
         }
 
         // Add "Upload Superior" button
-        if (Page.matches(PageDefinition.post)) {
+        if (Page.matches(PageDefinition.posts.view)) {
             const post = RE621.Registry.PostViewer.getViewingPost().post;
 
             // This should trim tags that might not be appropriate in the new version
@@ -122,13 +122,13 @@ export default class Miscellaneous extends Component {
         }
 
         // Add a "remove from set" button
-        if (Page.matches(PageDefinition.post))
+        if (Page.matches(PageDefinition.posts.view))
             this.addRemoveFromSetButton();
     }
 
     /** Emulated clicking on "Edit" tab */
     private openEditTab(): void {
-        if (Page.matches(PageDefinition.post)) {
+        if (Page.matches(PageDefinition.posts.view)) {
             window.setTimeout(() => { $("#post-edit-link")[0].click(); }, 100);
         }
     }
@@ -159,7 +159,7 @@ export default class Miscellaneous extends Component {
     }
 
     private randomSetPost(): void {
-        if (!Page.matches(PageDefinition.set)) return;
+        if (!Page.matches(PageDefinition.sets.view)) return;
         $("#set-random-post")[0].click();
     }
 

@@ -38,7 +38,7 @@ export class PostSuggester extends RE6Module {
     private content: JQuery<HTMLElement>;
 
     public constructor() {
-        super(PageDefinition.search);
+        super(PageDefinition.posts.list);
     }
 
     protected getDefaultSettings(): Settings {
