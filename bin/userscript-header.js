@@ -39,6 +39,8 @@ module.exports = {
         "GM_setClipboard",
         "GM_getResourceText",
         "GM_xmlhttpRequest",
+        "GM_openInTab",
+        "GM_download",
     ],
 
     connect: [

@@ -82,8 +82,8 @@ export default class XMConnect {
         }
 
         if (a.headers === undefined) a.headers = {
-            "User-Agent": window["re621"]["useragent"],
-            "X-User-Agent": window["re621"]["useragent"],
+            "User-Agent": Script.userAgent,
+            "X-User-Agent": Script.userAgent,
         };
 
         if (a.onerror === undefined) a.onerror = (): void => { return; }
@@ -125,6 +125,8 @@ export default class XMConnect {
     public static browserDownload(defaults: GMDownloadDetails): void;
     public static browserDownload(a: any, b?: string, c?: boolean): void {
 
+        console.log("downloading", a, b, c, Debug.Vivaldi);
+
         // Fallback to avoid a crash in Vivaldi
         if (Debug.Vivaldi) XMConnect.download(a, b);
 
@@ -134,6 +136,8 @@ export default class XMConnect {
 
         // Workaround to SWF files not being whitelisted by default in Tampermonkey
         downloadDetails.onerror = (event): void => {
+            console.log("error", event);
+            return;
             if (event.error == "not_whitelisted")
                 XMConnect.download(a, b);
             else if (a.onerror) a.onerror(event);

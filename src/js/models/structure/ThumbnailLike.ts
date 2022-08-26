@@ -23,6 +23,7 @@ export default class ThumbnailLike {
 
     public draw(): JQuery<HTMLElement> { return null; }
     public clear(): JQuery<HTMLElement> { return null; }
+    public reset(): JQuery<HTMLElement> { return null; }
 
     public static getThumbnail(element: Element): ThumbnailLike {
         return $(element).data("$thumb");

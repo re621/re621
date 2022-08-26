@@ -35,10 +35,17 @@ body {
 
     // Sticky quick tags form
     &[sticky-edit-box=true] {
-        div#quick-edit-div {
+        #quick-edit-div,
+        .quick-tags-form {
             position: sticky;
-            top: 0;
+            top: 0.25rem;
             z-index: 400;
+        }
+        &[sticky-header=true] {
+            #quick-edit-div,
+            .quick-tags-form {
+                top: 4rem;
+            }
         }
     }
 

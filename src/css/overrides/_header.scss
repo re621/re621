@@ -46,3 +46,8 @@ header#top {
         }
     }
 }
+
+// Fix fot he notifications being layered under the sticky header
+div#notice {
+    z-index: 500;
+}

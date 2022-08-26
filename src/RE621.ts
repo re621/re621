@@ -16,6 +16,7 @@ import { WikiEnhancer } from "./js/components/minor/WikiEnhancer";
 import BlacklistUI from "./js/components/posts/BlacklistUI";
 import { CommentBlacklist } from "./js/components/posts/CommentBlacklist";
 import HoverZoom from "./js/components/posts/HoverZoom";
+import ModeExtender from "./js/components/posts/ModeExtender";
 import PostViewer from "./js/components/posts/PostViewer";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
 import ThumbnailResizeButtons from "./js/components/posts/ThumbnailResizeButtons";
@@ -52,6 +53,7 @@ export default class RE621 {
         BlacklistUI,
         HoverZoom,
         CommentBlacklist,
+        ModeExtender,
 
         // Tags
         SmartAlias,
@@ -173,6 +175,7 @@ interface ComponentListAnnotated extends ComponentList {
     BlacklistUI?: BlacklistUI,
     HoverZoom?: HoverZoom,
     CommentBlacklist?: CommentBlacklist,
+    ModeExtender?: ModeExtender,
 
     // Tags
     SmartAlias?: SmartAlias,

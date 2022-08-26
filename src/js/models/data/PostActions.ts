@@ -1,9 +1,13 @@
-import { E621 } from "../api/E621";
-import { APISet } from "../api/responses/APISet";
-import Debug from "../utility/Debug";
+import { VoteResponse } from "@re621/zestyapi/dist/responses/APIPostVote";
+import RE621 from "../../../RE621";
+import { E621 } from "../../old.components/api/E621";
+import { APISet } from "../../old.components/api/responses/APISet";
+import Debug from "../../old.components/utility/Debug";
+import Danbooru from "../api/Danbooru";
+import Post from "./Post";
 
 /** Collection of API calls related to individual posts */
-export class PostActions {
+export default class PostActions {
 
     /**
      * If the post is present in the set, removes it. Otherwise, adds it.  
@@ -82,15 +86,16 @@ export class PostActions {
      */
     public static vote(postID: number, score: number, preventUnvote = false): Promise<VoteResponse> {
         return new Promise((resolve) => {
-            E621.PostVotes.id(postID).post({ score: score, no_unvote: preventUnvote }).then(
-                (success) => {
-                    Debug.log(success);
+            RE621.API.PostVotes.vote(postID, score, preventUnvote).then(
+                (response) => {
+                    if (response.status.code !== 200 || response.data.length == 0) return null;
+                    const data = response.data[0];
                     resolve({
                         success: true,
-                        action: success[0].our_score,
-                        score: success[0].score,
-                        up: success[0].up,
-                        down: success[0].down
+                        our_score: data.our_score,
+                        score: data.score,
+                        up: data.up,
+                        down: data.down
                     })
                 },
                 (error) => {
@@ -101,18 +106,46 @@ export class PostActions {
         });
     }
 
+    public static smartVote(post: Post, score: 1 | -1): Promise<Post> {
+        const firstVote = typeof post.user_score == "undefined";
+
+        return PostActions.vote(post.id, score, firstVote).then(
+            (response) => {
+                Debug.log(response);
+
+                if (response.our_score == 0) {
+                    if (firstVote) post.user_score = score;
+                    else post.user_score = 0;
+                } else post.user_score = response.our_score;
+
+                post.score = {
+                    up: response.up || 0,
+                    down: response.down || 0,
+                    total: response.score || 0,
+                };
+                for (const one of post.$thumb)
+                    one.reset();
+
+                return post;
+            },
+            (error) => {
+                Danbooru.error("An error occurred while recording the vote");
+                console.log(error);
+                return post;
+            }
+        );
+    }
+
     /**
      * Adds the specified post to favorites
      * @param postID Post ID
      * @returns True if the operation was successful, false otherwise
      */
     public static addFavorite(postID: number): Promise<boolean> {
-        return new Promise((resolve) => {
-            E621.Favorites.post({ "post_id": postID }).then(
-                (response) => { Debug.log(response); resolve(true); },
-                (error) => { console.log(error); resolve(false); }
-            );
-        });
+        return RE621.API.Favorites.add(postID).then(
+            () => true,
+            () => false,
+        );
     }
 
     /**
@@ -121,25 +154,10 @@ export class PostActions {
      * @returns True if the operation was successful, false otherwise
      */
     public static removeFavorite(postID: number): Promise<boolean> {
-        return new Promise((resolve) => {
-            E621.Favorite.id(postID).delete().then(
-                (response) => { Debug.log(response); resolve(true); },
-                (error) => { console.log(error); resolve(false); }
-            );
-        });
+        return RE621.API.Favorites.remove(postID).then(
+            () => true,
+            () => false,
+        );
     }
 
-}
-
-interface VoteResponse {
-    /** If false, an error has occurred, and the rest of the values do not exist */
-    success: boolean;
-    /** -1 for downvote, 1 for upvote, 0 for unvote */
-    action?: -1 | 0 | 1;
-    /** Final score of the post */
-    score?: number;
-    /** Total number of upvotes */
-    up?: number;
-    /** Total number of downvotes */
-    down?: number;
 }

@@ -1,12 +1,13 @@
+import Danbooru from "../../models/api/Danbooru";
 import XM from "../../models/api/XM";
 import Blacklist from "../../models/data/Blacklist";
 import Page, { PageDefinition } from "../../models/data/Page";
+import PostActions from "../../models/data/PostActions";
 import User from "../../models/data/User";
 import { E621 } from "../../old.components/api/E621";
 import { APIPost, PostFlag, PostRating } from "../../old.components/api/responses/APIPost";
 import { ModuleController } from "../../old.components/ModuleController";
 import { Post, PostData } from "../../old.components/post/Post";
-import { PostActions } from "../../old.components/post/PostActions";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
 import Util from "../../utilities/Util";
@@ -709,10 +710,10 @@ export class BetterSearch extends RE6Module {
                         (response) => {
                             Debug.log(response);
 
-                            if (response.action == 0) {
+                            if (response.our_score == 0) {
                                 if (firstVote) post.$ref.attr("vote", "1");
                                 else post.$ref.attr("vote", "0");
-                            } else post.$ref.attr("vote", response.action);
+                            } else post.$ref.attr("vote", response.our_score);
 
                             post.score = {
                                 up: response.up || 0,
@@ -735,10 +736,10 @@ export class BetterSearch extends RE6Module {
                         (response) => {
                             Debug.log(response);
 
-                            if (response.action == 0) {
+                            if (response.our_score == 0) {
                                 if (firstVote) post.$ref.attr("vote", "1");
                                 else post.$ref.attr("vote", "0");
-                            } else post.$ref.attr("vote", response.action);
+                            } else post.$ref.attr("vote", response.our_score);
 
                             post.score = {
                                 up: response.up || 0,

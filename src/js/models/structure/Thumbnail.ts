@@ -10,10 +10,11 @@ export default class Thumbnail extends ThumbnailLike {
 
     public loaded: LoadedFileType;
 
-    public constructor(post: Post) {
+    public constructor(post: Post, push = true) {
         super(post);
         this.post = post;
-        this.post.$thumb.push(this);
+        if (push)
+            this.post.$thumb.push(this);
 
         this.$ref = $("<thumbnail>")
             .attr({
@@ -67,14 +68,17 @@ export default class Thumbnail extends ThumbnailLike {
             .html("")
             .attr({
                 rendered: false,
+                blacklisted: this.post.getBlacklistStatus(),
             });
         return this.$ref;
     }
 
-    public reset() {
+    public reset(): JQuery<HTMLElement> {
+        this.updateVisibility();
         if (this.$ref.attr("rendered") !== "true") return;
         this.loaded = undefined;
         this.draw();
+        return this.$ref;
     }
 
 }

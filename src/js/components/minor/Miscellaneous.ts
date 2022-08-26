@@ -1,6 +1,6 @@
 import RE621 from "../../../RE621";
 import Page, { PageDefinition } from "../../models/data/Page";
-import { PostActions } from "../../old.components/post/PostActions";
+import PostActions from "../../models/data/PostActions";
 import Util from "../../utilities/Util";
 import Component from "../Component";
 

@@ -1,12 +1,13 @@
 import { WikiEnhancer } from "../../components/minor/WikiEnhancer";
+import Danbooru from "../../models/api/Danbooru";
 import XM from "../../models/api/XM";
 import Blacklist from "../../models/data/Blacklist";
 import { PageDefinition } from "../../models/data/Page";
+import PostActions from "../../models/data/PostActions";
 import { E621 } from "../../old.components/api/E621";
 import { APIPost, PostFlag } from "../../old.components/api/responses/APIPost";
 import { ModuleController } from "../../old.components/ModuleController";
 import { PostData } from "../../old.components/post/Post";
-import { PostActions } from "../../old.components/post/PostActions";
 import { PostParts } from "../../old.components/post/PostParts";
 import { Settings } from "../../old.components/RE6Module";
 import Util from "../../utilities/Util";

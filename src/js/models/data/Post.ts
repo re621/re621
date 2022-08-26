@@ -1,4 +1,5 @@
 import APIPost from "@re621/zestyapi/dist/responses/APIPost";
+import PostCache from "../../cache/PostCache";
 import BlacklistUI from "../../components/posts/BlacklistUI";
 import Util from "../../utilities/Util";
 import ThumbnailLike from "../structure/ThumbnailLike";
@@ -123,6 +124,11 @@ export default class Post {
         BlacklistUI.refresh();
     }
 
+    public resetAll() {
+        for (const one of this.$thumb)
+            one.reset();
+    }
+
 
     // Static constructors
     public static fromThumbnail($element: JQuery<HTMLElement>): Post {
@@ -186,7 +192,7 @@ export default class Post {
                 down: data.score < 0 ? data.score : 0,
                 total: data.score,
             },
-            user_score: 0,
+            user_score: undefined,
             favorites: data.favCount || 0,
             is_favorited: data.isFavorited == true,
             comments: data.comments,
@@ -271,7 +277,7 @@ export default class Post {
             id: data.post.id || 0,
             flags: PostFlag.fromFlagSet(data.post.flags),
             score: data.post.score,
-            user_score: 0, // TODO
+            user_score: undefined, // TODO Infer from voting block classes
             favorites: data.post.fav_count,
             is_favorited: data.post.is_favorited,
             comments: data.post.comment_count,
@@ -387,7 +393,7 @@ export default class Post {
                 down: data.score < 0 ? data.score : 0,
                 total: data.score,
             },
-            user_score: 0,
+            user_score: undefined,
             favorites: 0,
             is_favorited: false,
             comments: 0,
@@ -484,13 +490,13 @@ export default class Post {
             id: data.id,
             flags: new Set(PostFlag.get(data)),
             score: data.score,
-            user_score: 0, // TODO Copy over
+            user_score: undefined,
             favorites: data.fav_count,
             is_favorited: data.is_favorited,
             comments: data.comment_count,
             rating: data.rating,
             uploader: data.uploader_id,
-            uploaderName: "Unknown", // TODO Copy over
+            uploaderName: "Unknown",
             approver: data.approver_id,
 
             date: {
@@ -523,7 +529,7 @@ export default class Post {
                 original: data.file.url,
                 sample: data.sample.url,
                 preview: data.preview.url,
-                size: 0,
+                size: data.file.size,
             },
 
             img: {
@@ -587,6 +593,16 @@ export default class Post {
                 return `https://static1.e621.net/data/preview/${parts[0]}/${parts[1]}/${parts[2]}.jpg`;
             }
         }
+    }
+
+    public static find($element: JQuery<HTMLElement>): Post {
+        if (!$element.is("thumbnail")) $element = $element.parents("thumbnail");
+        if ($element.length == 0) return null;
+        const postID = parseInt($element.attr("post"));
+        if (isNaN(postID) || !postID) return null;
+        const post = PostCache.get(postID);
+        if (!post) return null;
+        return post;
     }
 }
 
