@@ -74,5 +74,6 @@
         "webm",
         "xmlhttp",
         "zestyapi"
-    ]
+    ],
+    "deepscan.enable": true
 }
