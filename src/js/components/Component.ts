@@ -62,26 +62,20 @@ export default class Component {
             this.SettingsDefaults[key] = defaultValue;
             delete this.Settings[key];
 
-            // This is a hack, but I'm not sure how else I'm supposed
-            // to pass a reference to the parent object inside the
-            // dynamic getter / setter setup below.
-            // eslint-disable-next-line @typescript-eslint/no-this-alias
-            const passedThis = this;
-
             // Define custom setters and getters
             Object.defineProperty(this.Settings, key, {
-                get() {
+                get: () => {
                     // Debug.log("- fetching", passedThis.name + "." + key);
-                    return passedThis.SettingsCache[key];
+                    return this.SettingsCache[key];
                 },
-                set(newValue) {
+                set: (newValue) => {
                     // Debug.log("- setting", passedThis.name + "." + key, newValue);
                     if (JSON.stringify(newValue) == JSON.stringify(defaultValue)) {
-                        passedThis.SettingsCache[key] = defaultValue;
-                        XM.Storage.deleteValue(passedThis.name + "." + key);
+                        this.SettingsCache[key] = defaultValue;
+                        XM.Storage.deleteValue(this.name + "." + key);
                     } else {
-                        passedThis.SettingsCache[key] = newValue;
-                        XM.Storage.setValue(passedThis.name + "." + key, newValue);
+                        this.SettingsCache[key] = newValue;
+                        XM.Storage.setValue(this.name + "." + key, newValue);
                     }
                 }
             })
