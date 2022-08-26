@@ -510,7 +510,6 @@ class Formatter {
         config = ButtonDefinition.validate(config);
         const inactiveButtons = this.module.Settings.buttonInactive;
         inactiveButtons.push(config);
-        this.module.Settings.buttonInactive = inactiveButtons;
         this.module.regenerateButtons();
     }
 
