@@ -24,7 +24,7 @@ module.exports = {
     require: [
         "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js",
         "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js",
-        "https://cdn.jsdelivr.net/npm/@re621/zestyapi@0.1.5/dist/ZestyAPI.min.js",
+        "https://cdn.jsdelivr.net/npm/@re621/zestyapi@latest/dist/ZestyAPI.min.js",
         "https://cdnjs.cloudflare.com/ajax/libs/jquery.hotkeys/0.2.0/jquery.hotkeys.min.js",
     ],
 
