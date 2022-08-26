@@ -118,17 +118,14 @@ export default class XMConnect {
     }
 
     /**
-     * Alternative to the normal download method above, using GM_download method.  
-     * @param details Download details
+     * Alternative to the normal download method above, using GM_download method.
      */
     public static browserDownload(url: string, name?: string, saveAs?: boolean): void;
     public static browserDownload(defaults: GMDownloadDetails): void;
     public static browserDownload(a: any, b?: string, c?: boolean): void {
 
-        console.log("downloading", a, b, c, Debug.Vivaldi);
-
         // Fallback to avoid a crash in Vivaldi
-        if (Debug.Vivaldi) XMConnect.download(a, b);
+        if (Debug.Vivaldi) return XMConnect.download(a, b);
 
         const downloadDetails: GMDownloadDetails = typeof a === "string"
             ? { url: a, name: b, saveAs: c }
@@ -136,8 +133,6 @@ export default class XMConnect {
 
         // Workaround to SWF files not being whitelisted by default in Tampermonkey
         downloadDetails.onerror = (event): void => {
-            console.log("error", event);
-            return;
             if (event.error == "not_whitelisted")
                 XMConnect.download(a, b);
             else if (a.onerror) a.onerror(event);
@@ -309,7 +304,7 @@ export interface GMDownloadDetails {
     url: string;
 
     /** **name** - the filename - for security reasons the file extension needs to be whitelisted at Tampermonkey options page (required) */
-    name?: string;
+    name: string;
 
     /** **headers** - see GM_xmlhttpRequest for more details */
     headers?: string;

@@ -305,6 +305,7 @@ export default class HoverZoom extends Component {
         if (this.post == null) return;
         XM.Connect.browserDownload({
             url: this.post.file.original,
+            name: "file." + this.post.file.ext,
             // TODO Add this when DownloadCustomizer is implemented
             // name: DownloadCustomizer.getFileName(this.post),
             // saveAs: ModuleController.fetchSettings<boolean>(DownloadCustomizer, "confirmDownload"),

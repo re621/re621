@@ -297,6 +297,7 @@ export default class ModeExtender extends Component {
             case "download": {
                 XM.Connect.browserDownload({
                     url: this.post.file.original,
+                    name: "file." + this.post.file.ext,
                     // TODO Fix this
                     /*
                     name: DownloadCustomizer.getFileName(post),
