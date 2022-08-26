@@ -3,7 +3,7 @@ import PostCache from "../../cache/PostCache";
 import Danbooru from "../../models/api/Danbooru";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
-import Post, { PostFlag } from "../../models/data/Post";
+import Post, { PostFlag, PostRating } from "../../models/data/Post";
 import PostActions from "../../models/data/PostActions";
 import Thumbnail from "../../models/structure/Thumbnail";
 import Util from "../../utilities/Util";
@@ -248,22 +248,36 @@ export default class ModeExtender extends Component {
             .trigger("re621:clear")
             .hide();
 
+        // Special cases
         switch (mode) {
-            case "approve": {
-                this.post.flags.delete(PostFlag.Pending); // TODO Double-check this
-                // falls through
+            case ViewingMode.Approve: this.post.flags.delete(PostFlag.Pending); break;
+            case ViewingMode.RatingE: this.post.rating = PostRating.Explicit; break;
+            case ViewingMode.RatingQ: this.post.rating = PostRating.Questionable; break;
+            case ViewingMode.RatingS: this.post.rating = PostRating.Safe; break;
+            case ViewingMode.LockRating: this.post.flags.add(PostFlag.RatingLocked); break;
+            case ViewingMode.LockNote: this.post.flags.add(PostFlag.NoteLocked); break;
+            case ViewingMode.Delete: this.post.flags.add(PostFlag.Deleted); break;
+            case ViewingMode.Undelete: this.post.flags.delete(PostFlag.Deleted); break;
+            case ViewingMode.RemoveParent: {
+                this.post.rel.parent = null;
+                this.post.has.parent = false;
+                break;
             }
-            case "rating-q":
-            case "rating-s":
-            case "rating-e":
-            case "lock-rating":
-            case "lock-note":
-            case "delete":
-            case "undelete":
-            case "remove-parent":
-            case "tag-script":
-            case "add-to-set":
-            case "remove-from-set":
+        }
+
+        switch (mode) {
+            case ViewingMode.Approve:
+            case ViewingMode.RatingE:
+            case ViewingMode.RatingQ:
+            case ViewingMode.RatingS:
+            case ViewingMode.LockRating:
+            case ViewingMode.LockNote:
+            case ViewingMode.Delete:
+            case ViewingMode.Undelete:
+            case ViewingMode.RemoveParent:
+            case ViewingMode.TagScript:     // TODO Update post data
+            case ViewingMode.AddToSet:
+            case ViewingMode.RemoveFromSet:
             case "fake-click": {
 
                 // To avoid having to duplicate the functionality of every single mode,
