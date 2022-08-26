@@ -35,7 +35,7 @@ const iconDefinitions = {
     "magic": "f0d0",
     "clipboard": "f328",
     "paperclip": "f0c6",
-    "fountainpen": "f5ad",
+    "fountainpen": "f5ad",  // cspell:disable-line
     "comment": "f27a",
     "bell": "f0f3",
 
@@ -264,7 +264,7 @@ class Formatter {
 
         $("<a>")
             .html("&#x" + "f0c9")
-            .addClass("dtext-formatter-opendrawer")
+            .addClass("dtext-formatter-open-drawer")
             .attr({ "title": "Customize Buttons" })
             .appendTo(header)
             .on("click", (event) => {
@@ -274,7 +274,7 @@ class Formatter {
 
         const addButton = $("<a>")
             .html("&#x" + "f067")
-            .addClass("dtext-formatter-addbutton")
+            .addClass("dtext-formatter-add-button")
             .attr({ "title": "Add Custom Button" })
             .appendTo(header);
         this.makeForm.registerTrigger({ element: addButton });

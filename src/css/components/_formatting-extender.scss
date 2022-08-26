@@ -1,32 +1,34 @@
 div.dtext-formatter[data-drawer] {
     grid-template-columns: min-content auto min-content;
-    
+
     // Drawer open button
-    .dtext-formatter-customizer{
+    .dtext-formatter-customizer {
         display: flex;
         align-items: center;
         justify-content: center;
         padding-top: 0.5rem;
-        
+
         a {
             box-sizing: border-box;
             padding: 0.5rem 0.625rem;
             border-radius: 6px 6px 0 0;
             margin-right: 0.25rem;
             cursor: pointer;
-            
+
             @include fontawesome;
             @include nonselectable;
-            
-            &:hover { background: #ffffff15; }
+
+            &:hover {
+                background: #ffffff15;
+            }
         }
     }
-    
+
     // Highlighting draggable buttons
     .dtext-formatter-buttons a {
         border: 1px solid transparent;
     }
-    
+
     .dtext-formatter-drawer {
         display: flex;
         flex-flow: wrap;
@@ -34,7 +36,7 @@ div.dtext-formatter[data-drawer] {
         justify-content: center;
         width: 10vw;
         padding: 0.25rem;
-    
+
         a {
             display: inline-block;
             box-sizing: border-box;
@@ -42,11 +44,13 @@ div.dtext-formatter[data-drawer] {
             border-radius: 6px;
             margin: 0.25rem;
             cursor: pointer;
-            
+
             @include fontawesome;
             @include nonselectable;
-            
-            &:hover { background: #ffffff15; }
+
+            &:hover {
+                background: #ffffff15;
+            }
         }
         span {
             width: 2.125em;
@@ -55,37 +59,44 @@ div.dtext-formatter[data-drawer] {
             border-radius: 6px;
         }
     }
-    
+
     .dtext-formatter-buttons,
     .dtext-formatter-drawer {
-        
+
         &.ui-sortable-placeholder {
             display: inline-block;
             height: 1px;
         }
     }
-    
+
     // Drawer toggling styles
     &:not([data-drawer="true"]) {
         .dtext-formatter-input,
         .dtext-formatter-preview {
             grid-area: 2 / 1 / 2 / 4;
         }
-        .dtext-formatter-drawer { display: none; }
-        a.dtext-formatter-addbutton { display: none; }
+        .dtext-formatter-drawer {
+            display: none;
+        }
+        a.dtext-formatter-add-button {
+            display: none;
+        }
     }
-    
+
     &[data-drawer="true"] {
         .dtext-formatter-drawer,
         .dtext-formatter-buttons {
             // Dragging buttons causes them to disappear otherwise
             overflow: auto;
-        
-            a, span {
+
+            a,
+            span {
                 border: 1px dashed #eee;
                 cursor: grab;
             }
-            span { margin-right: 0.25rem; }
+            span {
+                margin-right: 0.25rem;
+            }
         }
     }
 }
