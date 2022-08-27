@@ -17,6 +17,9 @@ export default class LocalStorage {
         b0: "r6.blk.collapsed",
         b1: "r6.blk.off",
         b2: "r6.blk.list",
+
+        v0: "r6.ver.expires",
+        v1: "r6.ver.remote",
     }
 
     private static get = (name: string) => this.LS.getItem(name);
@@ -137,6 +140,28 @@ export default class LocalStorage {
             LocalStorage.remove(LocalStorage.Index.b0);
             LocalStorage.remove(LocalStorage.Index.b1);
             LocalStorage.remove(LocalStorage.Index.b2);
+        },
+    }
+
+    public static Version = {
+        get Expires(): number {
+            return parseInt(LocalStorage.get(LocalStorage.Index.v0)) || 0;
+        },
+        set Expires(value: number) {
+            if (value == 0) LocalStorage.remove(LocalStorage.Index.v0);
+            else LocalStorage.set(LocalStorage.Index.v0, value + "");
+        },
+        get Remote(): string {
+            return LocalStorage.get(LocalStorage.Index.v1) || "0.0.0";
+        },
+        set Remote(value: string) {
+            if (value == "0.0.0") LocalStorage.remove(LocalStorage.Index.v1);
+            else LocalStorage.set(LocalStorage.Index.v1, value);
+        },
+
+        clear() {
+            LocalStorage.remove(LocalStorage.Index.a0);
+            LocalStorage.remove(LocalStorage.Index.a1);
         },
     }
 

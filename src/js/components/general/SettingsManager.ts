@@ -7,6 +7,7 @@ import { PageDefinition } from "../../models/data/Page";
 import Post from "../../models/data/Post";
 import Script from "../../models/data/Script";
 import User from "../../models/data/User";
+import Version from "../../models/data/Version";
 import Debug from "../../models/Debug";
 import { Form, FormElement } from "../../models/structure/Form";
 import Thumbnail from "../../models/structure/Thumbnail";
@@ -120,7 +121,7 @@ export default class SettingsManager extends Component {
                         `</div>`,
                         `<div class="settings-header-update">`,
                         [
-                            `<a href="${Script.url.latest}" target="_blank" class="button btn-neutral update-notice">Checking . . .</a>`,
+                            `<a href="${Script.url.latest}" target="_blank" class="button ${Version.HasUpdate ? "btn-success" : "btn-neutral"} update-notice">${Version.HasUpdate ? "Update Available" : "Up To Date"}</a>`,
                             `<a href="${Script.url.kofi}" target="_blank"><img src="${Assets.Images.kofi}"></a>`
                         ].join("<br />\n"),
                         `</div>`,

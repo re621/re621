@@ -28,6 +28,7 @@ import Danbooru from "./js/models/api/Danbooru";
 import Page, { IgnoredPages, PageDefinition } from "./js/models/data/Page";
 import Script from "./js/models/data/Script";
 import User from "./js/models/data/User";
+import Version from "./js/models/data/Version";
 import Debug from "./js/models/Debug";
 import PageObserver from "./js/models/structure/PageObserver";
 import ErrorHandler from "./js/old.components/utility/ErrorHandler";
@@ -86,6 +87,7 @@ export default class RE621 {
         });
 
         // Load assets
+        await Version.init();
         await Assets.init();
         await AvoidPosting.init();
 
