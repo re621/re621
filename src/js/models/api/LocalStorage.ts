@@ -108,4 +108,18 @@ export default class LocalStorage {
         },
     }
 
+    /**
+     * Determines the current size of data in LocalStorage.  
+     * @see https://stackoverflow.com/a/15720835/
+     * @returns Data size, in bytes
+     */
+    public static size(): number {
+        let _lsTotal = 0, _xLen: number, _x: string;
+        for (_x in localStorage) {
+            _xLen = (((localStorage[_x].length || 0) + (_x.length || 0)) * 2);
+            _lsTotal += _xLen;
+        }
+        return _lsTotal;
+    }
+
 }

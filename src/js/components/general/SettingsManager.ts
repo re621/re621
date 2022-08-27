@@ -1,6 +1,7 @@
 import RE621 from "../../../RE621";
 import Assets from "../../cache/Assets";
 import AvoidPosting from "../../cache/AvoidPosting";
+import LocalStorage from "../../models/api/LocalStorage";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
 import Post from "../../models/data/Post";
@@ -91,7 +92,7 @@ export default class SettingsManager extends Component {
     private makeCoverSection(): FormElement {
         const componentCount = Object.keys(RE621.Registry).length,
             dnpCacheSize = AvoidPosting.size,
-            lsSize = Util.getLocalStorageSize();
+            lsSize = LocalStorage.size();
 
         return Form.section(
             { name: "cover", columns: 3, width: 3, },
@@ -112,6 +113,7 @@ export default class SettingsManager extends Component {
                                 `DNP Cache: ${dnpCacheSize ? (dnpCacheSize + ` (<a href="https://github.com/re621/dnpcache/">v${AvoidPosting.Version}</a>)`) : "<span class='color-red'>ERROR</span>"}`,
                                 `</li>`,
                             ].join("\n"),
+                            `<li><span class="fa-li"><i class="far fa${lsSize < (2 * Util.Size.Megabyte) ? "-check" : ""}-square"></i></span> LocalStorage: ${lsSize < (2 * Util.Size.Megabyte) ? Util.Size.format(lsSize) : ("<span class='color-red'>" + Util.formatK(lsSize) + "</span>")}</li>`,
                             `</ul>`,
                             `</div>`,
                         ].join("\n"),
