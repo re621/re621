@@ -6,8 +6,8 @@ import Util from "../utilities/Util";
 export default class AvoidPosting {
 
     private static baseURL = "https://cdn.jsdelivr.net/gh/re621/dnpcache@latest/dist/";
-    public static Version = LocalStorage.DNP.Version;
-    public static CreatedAt = LocalStorage.DNP.CreatedAt;
+    public static get Version() { return LocalStorage.DNP.Version; }
+    public static get CreatedAt() { return LocalStorage.DNP.CreatedAt; }
 
     private static CachedList: Set<string>;
     public static get Cache(): Set<string> {
