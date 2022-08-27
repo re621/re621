@@ -5,106 +5,138 @@ export default class LocalStorage {
 
     public static LS = XM.Window.localStorage;
 
+    private static Index = {
+        a0: "r6.ass.img.expires",
+        a1: "r6.ass.img.cache",
+
+        d0: "r6.dnp.expires",
+        d1: "r6.dnp.version",
+        d2: "r6.dnp.created",
+        d3: "r6.dnp.cache",
+
+        b0: "r6.blk.collapsed",
+        b1: "r6.blk.off",
+        b2: "r6.blk.list",
+    }
+
+    private static get = (name: string) => this.LS.getItem(name);
+    private static set = (name: string, value: string) => this.LS.setItem(name, value);
+    private static remove = (name: string) => this.LS.removeItem(name);
+
     // Image assets
     public static Assets = {
-        get ImagesExpire(): number {
-            return parseInt(LocalStorage.LS.getItem("r6.assets.img.0")) || 0;
-        },
-        set ImagesExpire(value: number) {
-            if (value == 0) LocalStorage.LS.removeItem("r6.assets.img.0");
-            else LocalStorage.LS.setItem("r6.assets.img.0", value + "");
-        },
-        get ImagesCache(): PrimitiveMap {
-            return JSON.parse(LocalStorage.LS.getItem("r6.assets.img.1") || "{}");
-        },
-        set ImagesCache(value: PrimitiveMap) {
-            const text = JSON.stringify(value);
-            if (text == "{}") LocalStorage.LS.removeItem("r6.assets.img.1");
-            else LocalStorage.LS.setItem("r6.assets.img.1", text);
+        Images: {
+            get Expires(): number {
+                return parseInt(LocalStorage.get(LocalStorage.Index.a0)) || 0;
+            },
+            set Expires(value: number) {
+                if (value == 0) LocalStorage.remove(LocalStorage.Index.a0);
+                else LocalStorage.set(LocalStorage.Index.a0, value + "");
+            },
+            get Cache(): PrimitiveMap {
+                return JSON.parse(LocalStorage.get(LocalStorage.Index.a1) || "{}");
+            },
+            set Cache(value: PrimitiveMap) {
+                const text = JSON.stringify(value);
+                if (text == "{}") LocalStorage.remove(LocalStorage.Index.a1);
+                else LocalStorage.set(LocalStorage.Index.a1, text);
+            },
+
+            clear() {
+                LocalStorage.remove(LocalStorage.Index.a0);
+                LocalStorage.remove(LocalStorage.Index.a1);
+            },
         }
     }
 
     // DNP cache
     public static DNP = {
         get Expires(): number {
-            return parseInt(LocalStorage.LS.getItem("r6.dnp.0")) || 0;
+            return parseInt(LocalStorage.get(LocalStorage.Index.d0)) || 0;
         },
         set Expires(value: number) {
-            if (value == 0) LocalStorage.LS.removeItem("r6.dnp.0");
-            else LocalStorage.LS.setItem("r6.dnp.0", value + "");
+            if (value == 0) LocalStorage.remove(LocalStorage.Index.d0);
+            else LocalStorage.set(LocalStorage.Index.d0, value + "");
         },
         get Version(): number {
-            return parseInt(LocalStorage.LS.getItem("r6.dnp.1")) || 0;
+            return parseInt(LocalStorage.get(LocalStorage.Index.d1)) || 0;
         },
         set Version(value: number) {
-            if (value == 0) LocalStorage.LS.removeItem("r6.dnp.1");
-            else LocalStorage.LS.setItem("r6.dnp.1", value + "");
+            if (value == 0) LocalStorage.remove(LocalStorage.Index.d1);
+            else LocalStorage.set(LocalStorage.Index.d1, value + "");
         },
         get CreatedAt(): number {
-            return parseInt(LocalStorage.LS.getItem("r6.dnp.2")) || 0;
+            return parseInt(LocalStorage.get(LocalStorage.Index.d2)) || 0;
         },
         set CreatedAt(value: number) {
-            if (value == 0) LocalStorage.LS.removeItem("r6.dnp.2");
-            else LocalStorage.LS.setItem("r6.dnp.2", value + "");
+            if (value == 0) LocalStorage.remove(LocalStorage.Index.d2);
+            else LocalStorage.set(LocalStorage.Index.d2, value + "");
         },
         get Cache(): Set<string> {
             let data: any;
-            try { data = JSON.parse(LocalStorage.LS.getItem("r6.dnp.3") || "[]"); }
+            try { data = JSON.parse(LocalStorage.get(LocalStorage.Index.d3) || "[]"); }
             catch (error) {
-                reset();
+                console.error("Unable to parse DNP cache (1)");
+                LocalStorage.DNP.clear();
                 return new Set();
             }
 
             if (!Array.isArray(data)) {
-                reset();
+                console.error("Unable to parse DNP cache (2)");
+                LocalStorage.DNP.clear();
                 return new Set();
             }
 
             return new Set(data);
-
-            function reset() {
-                console.error("Unable to parse DNP cache");
-                LocalStorage.LS.removeItem("r6.dnp.0");
-                LocalStorage.LS.removeItem("r6.dnp.1");
-                LocalStorage.LS.removeItem("r6.dnp.2");
-                LocalStorage.LS.removeItem("r6.dnp.3");
-            }
         },
         set Cache(value: Set<string>) {
             const text = JSON.stringify(Array.from(value));
-            if (text == "[]") LocalStorage.LS.removeItem("r6.dnp.3");
-            else LocalStorage.LS.setItem("r6.dnp.3", text);
-        }
+            if (text == "[]") LocalStorage.remove(LocalStorage.Index.d3);
+            else LocalStorage.set(LocalStorage.Index.d3, text);
+        },
+
+        clear() {
+            LocalStorage.remove(LocalStorage.Index.d0);
+            LocalStorage.remove(LocalStorage.Index.d1);
+            LocalStorage.remove(LocalStorage.Index.d2);
+            LocalStorage.remove(LocalStorage.Index.d3);
+        },
     }
 
     // Blacklist data
     public static Blacklist = {
         get Collapsed(): boolean {
-            return LocalStorage.LS.getItem("r6.blacklist.collapsed") == "true";
+            return LocalStorage.get(LocalStorage.Index.b0) == "true";
         },
         set Collapsed(value: boolean) {
-            if (!value) LocalStorage.LS.removeItem("r6.blacklist.collapsed");
-            else LocalStorage.LS.setItem("r6.blacklist.collapsed", value + "");
+            if (!value) LocalStorage.remove(LocalStorage.Index.b0);
+            else LocalStorage.set(LocalStorage.Index.b0, value + "");
         },
 
         get AllDisabled(): boolean {
-            return LocalStorage.LS.getItem("r6.blacklist.off") == "true";
+            return LocalStorage.get(LocalStorage.Index.b1) == "true";
         },
         set AllDisabled(value: boolean) {
-            if (!value) LocalStorage.LS.removeItem("r6.blacklist.off");
-            else LocalStorage.LS.setItem("r6.blacklist.off", value + "")
+            if (!value) LocalStorage.remove(LocalStorage.Index.b1);
+            else LocalStorage.set(LocalStorage.Index.b1, value + "")
         },
 
         get TagsDisabled(): string[] {
-            const value = LocalStorage.LS.getItem("r6.blacklist.list") || "[]";
+            const value = LocalStorage.get(LocalStorage.Index.b2) || "[]";
             let parsed: string[];
             try { parsed = JSON.parse(value); }
             catch (error) { return []; }
             return parsed;
         },
         set TagsDisabled(value: string[]) {
-            if (value.length == 0) LocalStorage.LS.removeItem("r6.blacklist.list");
-            else LocalStorage.LS.setItem("r6.blacklist.list", JSON.stringify(value));
+            if (value.length == 0) LocalStorage.remove(LocalStorage.Index.b2);
+            else LocalStorage.set(LocalStorage.Index.b2, JSON.stringify(value));
+        },
+
+        clear() {
+            LocalStorage.remove(LocalStorage.Index.b0);
+            LocalStorage.remove(LocalStorage.Index.b1);
+            LocalStorage.remove(LocalStorage.Index.b2);
         },
     }
 
