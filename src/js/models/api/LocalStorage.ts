@@ -5,6 +5,7 @@ export default class LocalStorage {
 
     public static LS = XM.Window.localStorage;
 
+    // Image assets
     public static Assets = {
         get ImagesExpire(): number {
             return parseInt(LocalStorage.LS.getItem("r6.assets.img.0")) || 0;
@@ -23,7 +24,60 @@ export default class LocalStorage {
         }
     }
 
-    /* Blacklist */
+    // DNP cache
+    public static DNP = {
+        get Expires(): number {
+            return parseInt(LocalStorage.LS.getItem("r6.dnp.0")) || 0;
+        },
+        set Expires(value: number) {
+            if (value == 0) LocalStorage.LS.removeItem("r6.dnp.0");
+            else LocalStorage.LS.setItem("r6.dnp.0", value + "");
+        },
+        get Version(): number {
+            return parseInt(LocalStorage.LS.getItem("r6.dnp.1")) || 0;
+        },
+        set Version(value: number) {
+            if (value == 0) LocalStorage.LS.removeItem("r6.dnp.1");
+            else LocalStorage.LS.setItem("r6.dnp.1", value + "");
+        },
+        get CreatedAt(): number {
+            return parseInt(LocalStorage.LS.getItem("r6.dnp.2")) || 0;
+        },
+        set CreatedAt(value: number) {
+            if (value == 0) LocalStorage.LS.removeItem("r6.dnp.2");
+            else LocalStorage.LS.setItem("r6.dnp.2", value + "");
+        },
+        get Cache(): Set<string> {
+            let data: any;
+            try { data = JSON.parse(LocalStorage.LS.getItem("r6.dnp.3") || "[]"); }
+            catch (error) {
+                reset();
+                return new Set();
+            }
+
+            if (!Array.isArray(data)) {
+                reset();
+                return new Set();
+            }
+
+            return new Set(data);
+
+            function reset() {
+                console.error("Unable to parse DNP cache");
+                LocalStorage.LS.removeItem("r6.dnp.0");
+                LocalStorage.LS.removeItem("r6.dnp.1");
+                LocalStorage.LS.removeItem("r6.dnp.2");
+                LocalStorage.LS.removeItem("r6.dnp.3");
+            }
+        },
+        set Cache(value: Set<string>) {
+            const text = JSON.stringify(Array.from(value));
+            if (text == "[]") LocalStorage.LS.removeItem("r6.dnp.3");
+            else LocalStorage.LS.setItem("r6.dnp.3", text);
+        }
+    }
+
+    // Blacklist data
     public static Blacklist = {
         get Collapsed(): boolean {
             return LocalStorage.LS.getItem("r6.blacklist.collapsed") == "true";

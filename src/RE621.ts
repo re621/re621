@@ -1,6 +1,7 @@
 import ZestyAPI from "@re621/zestyapi";
 import css from "./css/style.module.scss";
 import Assets from "./js/cache/Assets";
+import AvoidPosting from "./js/cache/AvoidPosting";
 
 import { ComponentList } from "./js/components/Component";
 import { FormattingExtender } from "./js/components/general/FormattingExtender";
@@ -86,6 +87,7 @@ export default class RE621 {
 
         // Load assets
         await Assets.init();
+        await AvoidPosting.init();
 
         // Initialize basic functionality
         let headLoaded: Promise<void>, bodyLoaded: Promise<void>;

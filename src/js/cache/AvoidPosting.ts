@@ -1,39 +1,67 @@
+import LocalStorage from "../models/api/LocalStorage";
 import XM from "../models/api/XM";
+import ErrorHandler from "../old.components/utility/ErrorHandler";
+import Util from "../utilities/Util";
 
-export class AvoidPosting {
+export default class AvoidPosting {
 
-    private static cache: Set<string>;
-    private static version: number;
-    private static date: Date;
+    private static baseURL = "https://cdn.jsdelivr.net/gh/re621/dnpcache@latest/dist/";
+    public static Version = LocalStorage.DNP.Version;
+    public static CreatedAt = LocalStorage.DNP.CreatedAt;
 
-    /**
-     * Returns the set containing cached items.  
-     * Loads the data from local storage if necessary.
-     */
-    private static getCache(): Set<string> {
-        if (typeof this.cache === "undefined") {
-            const resource = JSON.parse(XM.Storage.getResourceText("dnpcache"));
-            if (!resource) return new Set();
-            this.cache = new Set<string>(resource.data);
-            this.version = resource.version;
-            this.date = new Date(resource.date);
+    private static CachedList: Set<string>;
+    public static get Cache(): Set<string> {
+        if (!this.CachedList) this.CachedList = LocalStorage.DNP.Cache;
+        return new Set(this.CachedList);
+    }
+    public static get size(): number {
+        return this.Cache.size;
+    }
+    public static has(value: string): boolean {
+        return this.Cache.has(value);
+    }
+
+    public static async init() {
+
+        if (LocalStorage.DNP.Expires > Util.Time.now(true)) return;
+        try {
+            // Version data
+            const versionData = await XM.Connect.xmlHttpPromise({
+                url: this.baseURL + "meta.json?now=" + Util.Time.now(true),
+                method: "GET",
+            });
+
+            let json: any;
+            try { json = JSON.parse(versionData.responseText); }
+            catch (error) { return passTime(); }
+
+            if (!json.version || json.version < this.Version)
+                return passTime();
+
+            // DNP data
+            const dnpData = await XM.Connect.xmlHttpPromise({
+                url: this.baseURL + "data.json?now=" + Util.Time.now(true),
+                method: "GET",
+            });
+
+            try { json = JSON.parse(dnpData.responseText); }
+            catch (error) { return passTime(); }
+
+            if (!json.data || !Array.isArray) return passTime();
+
+            LocalStorage.DNP.Version = json.version || 0;
+            LocalStorage.DNP.CreatedAt = json.from || 0;
+            LocalStorage.DNP.Cache = new Set(json.data);
+            passTime();
+
+        } catch (error) {
+            ErrorHandler.write("[AvoidPosting] Failed to load assets", error);
+            return passTime();
         }
-        return this.cache;
-    }
 
-    /** Returns the number of items in the cache */
-    public static size(): number {
-        return this.getCache().size;
-    }
-
-    /** Returns true if the parameter is present in cache */
-    public static has(tag: string): boolean {
-        return this.getCache().has(tag);
-    }
-
-    /** Returns the timestamp for the last time cache was updated */
-    public static getUpdateTime(): number {
-        return parseInt(window.localStorage.getItem("re621.dnpcache.update")) || 0;
+        function passTime() {
+            LocalStorage.DNP.Expires = Util.Time.now() + Util.Time.DAY;
+        }
     }
 
 }

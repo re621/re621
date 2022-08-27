@@ -1,6 +1,6 @@
 import RE621 from "../../../RE621";
 import Assets from "../../cache/Assets";
-import { AvoidPosting } from "../../cache/AvoidPosting";
+import AvoidPosting from "../../cache/AvoidPosting";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
 import Post from "../../models/data/Post";
@@ -90,7 +90,7 @@ export default class SettingsManager extends Component {
 
     private makeCoverSection(): FormElement {
         const componentCount = Object.keys(RE621.Registry).length,
-            dnpCacheSize = AvoidPosting.size(),
+            dnpCacheSize = AvoidPosting.size,
             lsSize = Util.getLocalStorageSize();
 
         return Form.section(
@@ -106,8 +106,12 @@ export default class SettingsManager extends Component {
                             `<div>`,
                             `<ul class="fa-ul">`,
                             `<li><span class="fa-li"><i class="far fa${componentCount > 0 ? "-check" : ""}-square"></i></span> Running ${componentCount > 0 ? componentCount : "<span class='color-red'>0</span>"} components</li>`,
-                            `<li><span class="fa-li"><i class="far fa${dnpCacheSize > 0 ? "-check" : ""}-square"></i></span> DNP Cache: ${dnpCacheSize ? dnpCacheSize : "<span class='color-red'>ERROR</span>"}<li>`,
-                            `<li><span class="fa-li"><i class="far fa${lsSize < 5242880 ? "-check" : ""}-square"></i></span> LocalStorage: ${lsSize < 5242880 ? Util.formatK(lsSize) : ("<span class='color-red'>" + Util.formatK(lsSize) + "</span>")}</li>`,
+                            [
+                                `<li>`,
+                                `<span class="fa-li"><i class="far fa${dnpCacheSize > 0 ? "-check" : ""}-square"></i></span>`,
+                                `DNP Cache: ${dnpCacheSize ? (dnpCacheSize + ` (<a href="https://github.com/re621/dnpcache/">v${AvoidPosting.Version}</a>)`) : "<span class='color-red'>ERROR</span>"}`,
+                                `</li>`,
+                            ].join("\n"),
                             `</ul>`,
                             `</div>`,
                         ].join("\n"),

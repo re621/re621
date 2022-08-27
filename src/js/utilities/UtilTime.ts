@@ -8,10 +8,19 @@ export enum UtilTime {
     YEAR = 365 * UtilTime.DAY,
 }
 
+class UtilTimeStorage {
+    public static cachedNow: number;
+}
+
 export namespace UtilTime {
 
     /** Returns current timestamp. Alias for `new Date().getTime();` */
-    export function now(): number {
+    export function now(cached = false): number {
+        if (cached) {
+            if (UtilTimeStorage.cachedNow) return UtilTimeStorage.cachedNow;
+            UtilTimeStorage.cachedNow = UtilTime.now();
+            return UtilTimeStorage.cachedNow;
+        }
         return new Date().getTime();
     }
 

@@ -1,5 +1,5 @@
 import RE621 from "../../../RE621";
-import { AvoidPosting } from "../../cache/AvoidPosting";
+import AvoidPosting from "../../cache/AvoidPosting";
 import Page, { PageDefinition } from "../../models/data/Page";
 import { TagCategory } from "../../old.components/api/responses/APITag";
 import { TagCache } from "../../old.components/cache/TagCache";
