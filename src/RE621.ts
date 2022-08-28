@@ -106,6 +106,7 @@ export default class RE621 {
 
             bodyLoaded = PageObserver.watch("body").then(() => {
                 Debug.log("+ BODY is ready");
+                $("body").attr("re621", Script.version);
                 Danbooru.Utility.disableShortcuts(true);
                 Util.DOM.setupDialogContainer(); // TODO Move to the dialog class
                 User.init();
