@@ -44,8 +44,8 @@ module.exports = {
     ],
 
     connect: [
-        "api.github.com",
         "static1.e621.net",
+        "re621.bitwolfy.com",
         "*",
     ],
 

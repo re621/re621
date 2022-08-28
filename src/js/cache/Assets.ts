@@ -8,7 +8,7 @@ import Util from "../utilities/Util";
 // TODO Fetch from the matching version of the script?
 export default class Assets {
 
-    private static ImagesURL = "https://cdn.jsdelivr.net/gh/re621/re621@main/assets/images.json";
+    private static ImagesURL = "https://re621.bitwolfy.com/cache/images/2.0.1"; // TODO Version this properly
     private static ImagesCache: ImageCache;
     public static get Images(): ImageCache {
         if (!this.ImagesCache)
