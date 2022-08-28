@@ -8,11 +8,16 @@
             width: 100%;
             text-align: center;
             margin-bottom: 0.25rem;
+            white-space: nowrap;
         }
     }
 
     .settings-header-info {
         grid-column: span 3;
+    }
+    img[src="undefined"] {
+        visibility: hidden;
+        width: 0;
     }
 }
 
