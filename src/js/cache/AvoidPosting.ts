@@ -5,7 +5,7 @@ import Util from "../utilities/Util";
 
 export default class AvoidPosting {
 
-    private static baseURL = "https://cdn.jsdelivr.net/gh/re621/dnpcache@latest/dist/";
+    private static baseURL = "https://re621.bitwolfy.com/cache/dnp/";
     public static get Version() { return LocalStorage.DNP.Version; }
     public static get CreatedAt() { return LocalStorage.DNP.CreatedAt; }
 
@@ -27,7 +27,7 @@ export default class AvoidPosting {
         try {
             // Version data
             const versionData = await XM.Connect.xmlHttpPromise({
-                url: this.baseURL + "meta.json?now=" + Util.Time.now(true),
+                url: this.baseURL + "version/",
                 method: "GET",
             });
 
@@ -40,7 +40,7 @@ export default class AvoidPosting {
 
             // DNP data
             const dnpData = await XM.Connect.xmlHttpPromise({
-                url: this.baseURL + "data.json?now=" + Util.Time.now(true),
+                url: this.baseURL,
                 method: "GET",
             });
 
