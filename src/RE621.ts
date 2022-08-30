@@ -2,6 +2,7 @@ import ZestyAPI from "@re621/zestyapi";
 import css from "./css/style.module.scss";
 import Assets from "./js/cache/Assets";
 import AvoidPosting from "./js/cache/AvoidPosting";
+import AwardData from "./js/cache/AwardData";
 
 import { ComponentList } from "./js/components/Component";
 import { FormattingExtender } from "./js/components/general/FormattingExtender";
@@ -9,6 +10,7 @@ import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/header/HeaderButtons";
 import HeaderCustomizer from "./js/components/header/HeaderCustomizer";
 import ThemeCustomizer from "./js/components/header/ThemeCustomizer";
+import Awardments from "./js/components/minor/Awardments";
 import Miscellaneous from "./js/components/minor/Miscellaneous";
 import ProfileEnhancer from "./js/components/minor/ProfileEnhancer";
 import QuoteTools from "./js/components/minor/QuoteTools";
@@ -63,6 +65,7 @@ export default class RE621 {
         UploadUtilities,
 
         // Minor
+        Awardments,
         Miscellaneous,
         ProfileEnhancer,
         QuoteTools,
@@ -90,6 +93,7 @@ export default class RE621 {
         await Version.init();
         await Assets.init();
         await AvoidPosting.init();
+        await AwardData.init();
 
         // Initialize basic functionality
         let headLoaded: Promise<void>, bodyLoaded: Promise<void>;
@@ -188,6 +192,7 @@ interface ComponentListAnnotated extends ComponentList {
     UploadUtilities?: UploadUtilities,
 
     // Minor
+    Awardments?: Awardments,
     Miscellaneous?: Miscellaneous,
     ProfileEnhancer?: ProfileEnhancer,
     QuoteTools?: QuoteTools,

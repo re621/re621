@@ -1,0 +1,39 @@
+$colors-list: (
+    "orange": #ffc966,
+    "purple": #b88acb,
+
+    "posts": #4f81f1,
+    "tags": #b33e3e,
+);
+
+.name-rank {
+    position: relative;
+    awards {
+        display: flex;
+        justify-content: space-evenly;
+        font-size: 16px;
+        position: absolute;
+        right: 0;
+        bottom: 2px;
+
+        award {
+            margin: 0 0.2rem;
+            text-shadow: 0 0 8px #00000080;
+
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+
+            @each $name,
+            $color in $colors-list {
+                &.color-#{$name} {
+                    color: $color;
+                }
+            }
+        }
+
+    }
+}

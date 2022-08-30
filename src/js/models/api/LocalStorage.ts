@@ -20,6 +20,9 @@ export default class LocalStorage {
 
         v0: "r6.ver.expires",
         v1: "r6.ver.remote",
+
+        w0: "r6.awr.expires",
+        w1: "r6.awr.cache",
     }
 
     private static get = (name: string) => this.LS.getItem(name);
@@ -143,6 +146,7 @@ export default class LocalStorage {
         },
     }
 
+    // Version cache
     public static Version = {
         get Expires(): number {
             return parseInt(LocalStorage.get(LocalStorage.Index.v0)) || 0;
@@ -162,6 +166,30 @@ export default class LocalStorage {
         clear() {
             LocalStorage.remove(LocalStorage.Index.a0);
             LocalStorage.remove(LocalStorage.Index.a1);
+        },
+    }
+
+    // Award data
+    public static Award = {
+        get Expires(): number {
+            return parseInt(LocalStorage.get(LocalStorage.Index.w0)) || 0;
+        },
+        set Expires(value: number) {
+            if (value == 0) LocalStorage.remove(LocalStorage.Index.w0);
+            else LocalStorage.set(LocalStorage.Index.w0, value + "");
+        },
+        get Cache(): PrimitiveMap {
+            return JSON.parse(LocalStorage.get(LocalStorage.Index.w1) || "{}");
+        },
+        set Cache(value: PrimitiveMap) {
+            const text = JSON.stringify(value);
+            if (text == "{}") LocalStorage.remove(LocalStorage.Index.w1);
+            else LocalStorage.set(LocalStorage.Index.w1, text);
+        },
+
+        clear() {
+            LocalStorage.remove(LocalStorage.Index.w0);
+            LocalStorage.remove(LocalStorage.Index.w1);
         },
     }
 
