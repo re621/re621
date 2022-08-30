@@ -1,3 +1,4 @@
+import DownloadCustomizer from "../../components/downloader/DownloadCustomizer";
 import Danbooru from "../../models/api/Danbooru";
 import XM from "../../models/api/XM";
 import Blacklist from "../../models/data/Blacklist";
@@ -11,7 +12,6 @@ import { Post, PostData } from "../../old.components/post/Post";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
 import Util from "../../utilities/Util";
-import { DownloadCustomizer } from "../post/DownloadCustomizer";
 
 
 export class BetterSearch extends RE6Module {
@@ -695,7 +695,7 @@ export class BetterSearch extends RE6Module {
                     XM.Connect.browserDownload({
                         url: post.file.original,
                         name: DownloadCustomizer.getFileName(post),
-                        saveAs: ModuleController.fetchSettings<boolean>(DownloadCustomizer, "confirmDownload"),
+                        // saveAs: ModuleController.fetchSettings<boolean>(DownloadCustomizer, "confirmDownload"),
                     });
                     break;
                 }

@@ -42,7 +42,7 @@ export default class SettingsManager extends Component {
 
                 this.makeGeneralSection(),
                 this.makeThumbnailSection(),
-
+                this.makeDownloadSection(),
                 this.makeUploadSection(),
                 this.makeUtilitySection(),
             ]
@@ -666,6 +666,86 @@ export default class SettingsManager extends Component {
                 ]),
             ]
         )
+    }
+
+    private makeDownloadSection(): FormElement {
+
+        const DownloadCustomizer = RE621.Registry.DownloadCustomizer;
+
+        return Form.section(
+            {
+                name: "download",
+                columns: 1,
+                width: 3,
+            },
+            [
+                Form.header("Downloads", 3),
+                // Download Customizer
+                Form.section({
+                    name: "customizer",
+                    columns: 3,
+                    width: 3,
+                    wrapper: "settings-section searchable-section",
+                    tags: "download customizer"
+                }, [
+                    Form.header("Download Customizer"),
+                    Form.div({ value: `<div class="notice float-right">Download individual files</div>`, width: 2 }),
+
+                    Form.text("<b>File name</b>"),
+                    Form.input(
+                        {
+                            value: DownloadCustomizer.Settings.template,
+                            width: 2,
+                            sync: { base: DownloadCustomizer, tag: "template" },
+                        },
+                        async (data) => {
+                            // TODO Validation
+                            DownloadCustomizer.Settings.template = data;
+                        }
+                    ),
+
+                    Form.section({ columns: 3, width: 3 }, [
+                        Form.div({ value: `<div class="notice unmargin">The following variables can be used:</div>`, width: 3 }),
+                        Form.copy({ value: "%postid%", label: "Post ID" }),
+                        Form.copy({ value: "%artist%", label: "Artist" }),
+                        Form.copy({ value: "%copyright%", label: "Copyright" }),
+                        Form.copy({ value: "%character%", label: "Characters" }),
+                        Form.copy({ value: "%species%", label: "Species" }),
+                        Form.copy({ value: "%meta%", label: "Meta" }),
+                        Form.copy({ value: "%tags%", label: "General" }),
+                        Form.copy({ value: "%md5%", label: "MD5" }),
+                    ]),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: DownloadCustomizer.Settings.confirmDownload,
+                            label: `<b>Confirm Downloads</b><br />Show the "Save As" dialog for every file.<br />Requires "Download Mode" to be set to "Browser API" in script manager settings`,
+                            width: 3,
+                            sync: { base: DownloadCustomizer, tag: "confirmDownload" },
+                        },
+                        async (data) => {
+                            DownloadCustomizer.Settings.confirmDownload = data;
+                        }
+                    ),
+                    Form.spacer(3),
+
+                    Form.checkbox(
+                        {
+                            value: DownloadCustomizer.Settings.downloadSamples,
+                            label: `<b>Download Samples</b><br />Download the sampled (800px) images instead of the full original versions`,
+                            width: 3,
+                            sync: { base: DownloadCustomizer, tag: "downloadSample" },
+                        },
+                        async (data) => {
+                            DownloadCustomizer.Settings.downloadSamples = data;
+                        }
+                    ),
+                    Form.spacer(3),
+                ]),
+                Form.spacer(3),
+
+            ]);
     }
 
     private makeUploadSection(): FormElement {

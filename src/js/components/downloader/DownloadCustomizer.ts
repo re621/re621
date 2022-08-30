@@ -1,44 +1,44 @@
+import RE621 from "../../../RE621";
 import XM from "../../models/api/XM";
 import { PageDefinition } from "../../models/data/Page";
-import { ModuleController } from "../../old.components/ModuleController";
 import { Post, PostData } from "../../old.components/post/Post";
 import { PostParts } from "../../old.components/post/PostParts";
-import { RE6Module, Settings } from "../../old.components/RE6Module";
-import { MassDownloader } from "../downloader/MassDownloader";
+import { MassDownloader } from "../../old.modules/downloader/MassDownloader";
+import Component from "../Component";
 
 /**
  * Renames the files to a user-readable scheme for download
  */
-export class DownloadCustomizer extends RE6Module {
+export default class DownloadCustomizer extends Component {
 
     private post: Post;
 
     public constructor() {
-        super(PageDefinition.posts.view, true);
-        this.registerHotkeys(
-            { keys: "hotkeyDownload", fnct: this.hotkeyDownload },
-        );
+        super({
+            constraint: PageDefinition.posts.view,
+            waitForDOM: true,
+        });
     }
 
-    /**
-     * Returns a set of default settings values
-     * @returns Default settings
-     */
-    protected getDefaultSettings(): Settings {
-        return {
-            enabled: true,
-            template: "%postid%-%artist%-%copyright%-%character%-%species%",
-            confirmDownload: false,
-            downloadSamples: false,
-            hotkeyDownload: "",
-        };
-    }
+    public Settings = {
+        enabled: true,
+
+        template: "%postid%-%artist%-%copyright%-%character%-%species%",
+        confirmDownload: false,
+        downloadSamples: false,
+
+        hotkeyDownload: "",
+    };
+
+    public Keybinds = [
+        { keys: "hotkeyDownload", response: this.hotkeyDownload },
+    ];
 
     /**
      * Creates the module's structure.  
      * Should be run immediately after the constructor finishes.
      */
-    public create(): void {
+    public async create() {
         super.create();
 
         this.post = Post.getViewingPost();
@@ -50,7 +50,7 @@ export class DownloadCustomizer extends RE6Module {
         const link = $("<a>")
             .attr({
                 id: "image-custom-download-file",
-                href: this.fetchSettings<boolean>("downloadSamples") ? this.post.file.sample : this.post.file.original,
+                href: this.Settings.downloadSamples ? this.post.file.sample : this.post.file.original,
                 download: this.parseTemplate(),
             })
             .html("Download")
@@ -61,9 +61,9 @@ export class DownloadCustomizer extends RE6Module {
                 event.stopImmediatePropagation();
                 link.attr("loading", "true");
                 XM.Connect.browserDownload({
-                    url: this.fetchSettings<boolean>("downloadSamples") ? this.post.file.sample : this.post.file.original,
+                    url: this.Settings.downloadSamples ? this.post.file.sample : this.post.file.original,
                     name: link.attr("download"),
-                    saveAs: this.fetchSettings<boolean>("confirmDownload"),
+                    saveAs: this.Settings.confirmDownload,
                     onload: () => { link.removeAttr("loading"); }
                 });
             });
@@ -90,7 +90,7 @@ export class DownloadCustomizer extends RE6Module {
     /** Creates a download link with the saved template */
     public refreshDownloadLink(): void {
         $("#image-custom-download-file").attr({
-            href: this.fetchSettings<boolean>("downloadSamples") ? this.post.file.sample : this.post.file.original,
+            href: this.Settings.downloadSamples ? this.post.file.sample : this.post.file.original,
             download: this.parseTemplate(),
         });
     }
@@ -111,7 +111,7 @@ export class DownloadCustomizer extends RE6Module {
      * @returns string Download link
      */
     private parseTemplate(ext?: string): string {
-        return DownloadCustomizer.getFileName(this.post, this.fetchSettings("template"), ext);
+        return DownloadCustomizer.getFileName(this.post, this.Settings.template, ext);
     }
 
     /**
@@ -119,7 +119,7 @@ export class DownloadCustomizer extends RE6Module {
      * @returns string Download link
      */
     public static getFileName(post: PostData, template?: string, ext?: string): string {
-        if (!template) template = ModuleController.fetchSettings<string>(DownloadCustomizer, "template");
+        if (!template) template = RE621.Registry.DownloadCustomizer.Settings.template;
 
         // No, I don't know why some modules use this method instead of going straight to MassDownloader
 

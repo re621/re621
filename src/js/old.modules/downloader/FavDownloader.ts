@@ -1,13 +1,12 @@
+import RE621 from "../../../RE621";
 import Page, { PageDefinition } from "../../models/data/Page";
 import { DownloadQueue } from "../../old.components/api/DownloadQueue";
 import { E621 } from "../../old.components/api/E621";
 import { APIPost } from "../../old.components/api/responses/APIPost";
-import { ModuleController } from "../../old.components/ModuleController";
 import { Post, PostData } from "../../old.components/post/Post";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
 import Util from "../../utilities/Util";
-import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BetterSearch } from "../posts/BetterSearch";
 import { MassDownloader } from "./MassDownloader";
 
@@ -170,7 +169,7 @@ export class FavDownloader extends RE6Module {
         this.batchOverSize = false;
 
         // Fetch DownloadCustomizer settings
-        const downloadSamples = ModuleController.fetchSettings<boolean>(DownloadCustomizer, "downloadSamples");
+        const downloadSamples = RE621.Registry.DownloadCustomizer.Settings.downloadSamples;
 
         // Add post data to the queue
         let queuedPost: PostData;

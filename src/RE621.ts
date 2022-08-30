@@ -4,6 +4,7 @@ import Assets from "./js/cache/Assets";
 import AvoidPosting from "./js/cache/AvoidPosting";
 
 import { ComponentList } from "./js/components/Component";
+import DownloadCustomizer from "./js/components/downloader/DownloadCustomizer";
 import { FormattingExtender } from "./js/components/general/FormattingExtender";
 import SettingsManager from "./js/components/general/SettingsManager";
 import HeaderButtons from "./js/components/header/HeaderButtons";
@@ -61,6 +62,9 @@ export default class RE621 {
         SmartAlias,
         EditTracker,
         UploadUtilities,
+
+        // Downloader
+        DownloadCustomizer,
 
         // Minor
         Miscellaneous,
@@ -186,6 +190,9 @@ interface ComponentListAnnotated extends ComponentList {
     SmartAlias?: SmartAlias,
     EditTracker?: EditTracker,
     UploadUtilities?: UploadUtilities,
+
+    // Downloader
+    DownloadCustomizer?: DownloadCustomizer,
 
     // Minor
     Miscellaneous?: Miscellaneous,

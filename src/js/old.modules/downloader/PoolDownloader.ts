@@ -1,15 +1,14 @@
+import RE621 from "../../../RE621";
 import Page, { PageDefinition } from "../../models/data/Page";
 import { DownloadQueue } from "../../old.components/api/DownloadQueue";
 import { E621 } from "../../old.components/api/E621";
 import { APIPool } from "../../old.components/api/responses/APIPool";
 import { APIPost } from "../../old.components/api/responses/APIPost";
 import { APIPostGroup } from "../../old.components/api/responses/APIPostGroup";
-import { ModuleController } from "../../old.components/ModuleController";
 import { PostData } from "../../old.components/post/Post";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
 import Util from "../../utilities/Util";
-import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { MassDownloader } from "./MassDownloader";
 
 export class PoolDownloader extends RE6Module {
@@ -202,7 +201,7 @@ export class PoolDownloader extends RE6Module {
             this.batchOverSize = false;
 
             // Fetch DownloadCustomizer settings
-            const downloadSamples = ModuleController.fetchSettings<boolean>(DownloadCustomizer, "downloadSamples");
+            const downloadSamples = RE621.Registry.DownloadCustomizer.Settings.downloadSamples;
 
             // Add post data from the chunks to the queue
             dataChunks.forEach((chunk) => {

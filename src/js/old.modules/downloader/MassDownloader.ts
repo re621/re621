@@ -1,12 +1,11 @@
+import RE621 from "../../../RE621";
 import { PageDefinition } from "../../models/data/Page";
 import { DownloadQueue } from "../../old.components/api/DownloadQueue";
-import { ModuleController } from "../../old.components/ModuleController";
 import { Post, PostData } from "../../old.components/post/Post";
 import { PostSet, PostSortType } from "../../old.components/post/PostSet";
 import { RE6Module, Settings } from "../../old.components/RE6Module";
 import Debug from "../../old.components/utility/Debug";
 import Util from "../../utilities/Util";
-import { DownloadCustomizer } from "../post/DownloadCustomizer";
 import { BetterSearch } from "../posts/BetterSearch";
 
 export class MassDownloader extends RE6Module {
@@ -226,7 +225,7 @@ export class MassDownloader extends RE6Module {
         this.downloadOverSize = false;
 
         // Fetch DownloadCustomizer settings
-        const downloadSamples = ModuleController.fetchSettings<boolean>(DownloadCustomizer, "downloadSamples");
+        const downloadSamples = RE621.Registry.DownloadCustomizer.Settings.downloadSamples;
 
         // Iterate over selected images and add them to the queue
         for (const post of postList.sort(PostSortType.SizeAsc).values()) {
