@@ -255,7 +255,7 @@ export default class SettingsManager extends Component {
     private makeThumbnailSection(): FormElement {
         const ThumbnailEngine = RE621.Registry.ThumbnailEngine;
         const BlacklistUI = RE621.Registry.BlacklistUI;
-        const ThumbnailResizeButtons = RE621.Registry.ThumbnailResizeButtons;
+        const ThumbnailResizer = RE621.Registry.ThumbnailResizer;
         const HoverZoom = RE621.Registry.HoverZoom;
         const CommentBlacklist = RE621.Registry.CommentBlacklist;
 
@@ -491,13 +491,13 @@ export default class SettingsManager extends Component {
                 }, [
                     Form.checkbox(
                         {
-                            name: "thumbnailResizeButtons",
-                            value: ThumbnailResizeButtons.Settings.enabled,
+                            name: "thumbnailResizer",
+                            value: ThumbnailResizer.Settings.enabled,
                             label: '<b>Thumbnail Rescaling Buttons</b><br />Resize the images using the - and + buttons in the top right',
                             width: 3,
                         },
                         (data) => {
-                            ThumbnailResizeButtons.Settings.enabled = data;
+                            ThumbnailResizer.Settings.enabled = data;
                         }
                     ),
                     Form.spacer(3, true),
