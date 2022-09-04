@@ -12,7 +12,7 @@ export default class ThumbnailResizeButtons extends Component {
         super({
             constraint: [PageDefinition.posts.list, PageDefinition.favorites], // TODO Pool page?
             dependencies: ["ThumbnailEngine"],
-            waitForDOM: "menu.subnav",
+            waitForDOM: "#posts-container",
         });
 
 
@@ -32,11 +32,10 @@ export default class ThumbnailResizeButtons extends Component {
             title: "Increase Image Size",
             tabClass: "float-right",
             onClick: () => {
-                const cur = ThumbnailEngine.Settings.imageWidth;
-                ThumbnailEngine.Settings.imageWidth = Math.min(450, cur + 100);
-                disableResizeButton(this.increase, this.decrease);
+                ThumbnailEngine.Settings.imageWidth = Math.min($("#posts-container").innerWidth(), ThumbnailEngine.Settings.imageWidth + 100);
+                this.disableResizeButton(ThumbnailEngine.Settings.imageWidth);
             },
-        }, "nav#nav menu.subnav")
+        }, "nav#nav menu.subnav");
 
         this.decrease = Util.DOM.addSettingsButton({
             id: "subnav-button-decrease",
@@ -44,22 +43,20 @@ export default class ThumbnailResizeButtons extends Component {
             title: "Decrease Image Size",
             tabClass: "float-right",
             onClick: () => {
-                const cur = ThumbnailEngine.Settings.imageWidth;
-                ThumbnailEngine.Settings.imageWidth = Math.max(150, cur - 100);
-                disableResizeButton(this.increase, this.decrease);
+                ThumbnailEngine.Settings.imageWidth = Math.max(150, ThumbnailEngine.Settings.imageWidth - 100);
+                this.disableResizeButton(ThumbnailEngine.Settings.imageWidth);
             },
-        }, "nav#nav menu:last-child")
+        }, "nav#nav menu:last-child");
 
-        function disableResizeButton(increase: JQuery<HTMLElement>, decrease: JQuery<HTMLElement>) {
-            const cur = ThumbnailEngine.Settings.imageWidth;
-            increase.toggleClass("resize-disabled", cur >= 450);
-            decrease.toggleClass("resize-disabled", cur <= 150);
-        }
-
-        disableResizeButton(this.increase, this.decrease);
+        this.disableResizeButton(ThumbnailEngine.Settings.imageWidth);
         ThumbnailEngine.on("settings.imageWidth", () => {
-            disableResizeButton(this.increase, this.decrease);
+            this.disableResizeButton(ThumbnailEngine.Settings.imageWidth);
         });
+    }
+
+    private disableResizeButton(cur: number) {
+        this.increase.toggleClass("resize-disabled", cur >= $("#posts-container").innerWidth());
+        this.decrease.toggleClass("resize-disabled", cur <= 150);
     }
 
     public async destroy() {
