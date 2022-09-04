@@ -20,7 +20,7 @@ import HoverZoom from "./js/components/posts/HoverZoom";
 import ModeExtender from "./js/components/posts/ModeExtender";
 import PostViewer from "./js/components/posts/PostViewer";
 import ThumbnailEngine from "./js/components/posts/ThumbnailEngine";
-import ThumbnailResizeButtons from "./js/components/posts/ThumbnailResizeButtons";
+import ThumbnailResizer from "./js/components/posts/ThumbnailResizer";
 import { EditTracker } from "./js/components/tags/EditTracker";
 import SmartAlias from "./js/components/tags/SmartAlias";
 import { UploadUtilities } from "./js/components/tags/UploadUtilities";
@@ -50,7 +50,7 @@ export default class RE621 {
 
         // Posts
         ThumbnailEngine,
-        ThumbnailResizeButtons,
+        ThumbnailResizer,
         PostViewer,
         BlacklistUI,
         HoverZoom,
@@ -175,7 +175,7 @@ interface ComponentListAnnotated extends ComponentList {
 
     // Posts
     ThumbnailEngine?: ThumbnailEngine,
-    ThumbnailResizeButtons?: ThumbnailResizeButtons,
+    ThumbnailResizer?: ThumbnailResizer,
     PostViewer?: PostViewer,
     BlacklistUI?: BlacklistUI,
     HoverZoom?: HoverZoom,

@@ -3,7 +3,7 @@ import { PageDefinition } from "../../models/data/Page";
 import Util from "../../utilities/Util";
 import Component from "../Component";
 
-export default class ThumbnailResizeButtons extends Component {
+export default class ThumbnailResizer extends Component {
 
     private increase: JQuery<HTMLElement>;
     private decrease: JQuery<HTMLElement>;
