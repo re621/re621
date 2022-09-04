@@ -1,0 +1,11 @@
+#subnav-button-increase,
+#subnav-button-decrease {
+    &.resize-disabled {
+        pointer-events: none;
+        cursor: default;
+
+        i {
+            color: #666666;
+        }
+    }
+}
