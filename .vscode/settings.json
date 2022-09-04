@@ -49,6 +49,7 @@
         "postid",
         "pximg",
         "qedit",
+        "Resizer",
         "scrollbars",
         "sidekiq",
         "smartalias",
