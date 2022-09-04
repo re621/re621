@@ -495,6 +495,10 @@ export default class SettingsManager extends Component {
                             value: ThumbnailResizer.Settings.enabled,
                             label: '<b>Thumbnail Rescaling Buttons</b><br />Resize the images using the - and + buttons in the top right',
                             width: 3,
+                            sync: {
+                                base: ThumbnailResizer,
+                                tag: "enabled",
+                            },
                         },
                         (data) => {
                             ThumbnailResizer.Settings.enabled = data;
