@@ -101,7 +101,7 @@ thumbnail {
 
         span::before {
             content: " ";
-            font-family: 'Font Awesome 5 Free';
+            @include FontAwesomeFamily;
             font-weight: 900;
         }
 
@@ -262,7 +262,7 @@ thumbnail[sound=true] {
 
         &::before {
             content: unicode("f027");
-            font-family: "Font Awesome 5 Free";
+            @include FontAwesomeFamily;
             font-weight: 900;
         }
     }

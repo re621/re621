@@ -158,7 +158,7 @@ form-section>form-input {
 
             &:before {
                 content: unicode("f12a");
-                font-family: 'Font Awesome 5 Free';
+                @include FontAwesomeFamily;
                 font-weight: 900;
                 color: coral;
             }
@@ -196,7 +196,7 @@ form-section>form-input {
             padding: 0.125rem 0.25rem;
             outline: 0;
 
-            font-family: 'Font Awesome 5 Free';
+            @include FontAwesomeFamily;
             font-weight: 900;
 
             border: 1px dashed #666666;
@@ -218,7 +218,7 @@ form-section>form-input {
         /* to hide the checkbox itself */
         input[type=checkbox]+label:before {
             content: unicode("f0c8");
-            font-family: "Font Awesome 5 Free";
+            @include FontAwesomeFamily;
             display: inline-block;
             letter-spacing: 10px;
             cursor: pointer;
