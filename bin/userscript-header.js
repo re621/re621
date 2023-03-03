@@ -19,6 +19,7 @@ module.exports = {
     match: [
         "https://e621.net/*",
         "https://e926.net/*",
+        "http://localhost:3000/*",
     ],
 
     require: [
