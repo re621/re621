@@ -22,26 +22,11 @@ export class UtilDOM {
      */
     public static patchHeader(): void {
 
-        const $menuContainer = $("nav#nav");
-        const $menuMain = $("menu.main");
-
-        if ($("#nav").find("menu").length < 2) {
-            $("<menu>")
-                .addClass("subnav")
-                .appendTo($menuContainer);
-        } else $("#nav menu").last().addClass("subnav");
-
-        // Replace the logo in menu.main with a separate element
-        $("<menu>")
-            .addClass("logo")
-            .html(`<a href="/">${Page.getSiteName()}</a>`)
-            .prependTo($menuContainer);
-        $menuMain.find("#nav-e").remove();
-
         // Add a section for re621 settings buttons
+        $("#nav").addClass("re621-nav")
         $("<menu>")
             .addClass("extra")
-            .insertAfter($menuMain);
+            .insertAfter("#nav menu.main");
     }
 
     /** Sets up a container to load modals into */
